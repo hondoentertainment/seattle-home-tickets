@@ -117,7 +117,7 @@ export function SiteNav() {
           </button>
         </div>
 
-        <nav aria-label="Primary" className="flex gap-2 overflow-x-auto lg:hidden">
+        <nav aria-label="Primary" className="flex w-full gap-2 lg:hidden">
           {PRIMARY.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -125,7 +125,7 @@ export function SiteNav() {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-[13px] font-semibold ${
+                className={`inline-flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-full px-1.5 text-center text-[13px] font-semibold ${
                   active ? "bg-accent text-background" : "bg-card text-muted"
                 }`}
               >

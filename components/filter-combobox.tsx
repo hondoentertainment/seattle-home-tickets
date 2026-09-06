@@ -145,7 +145,7 @@ export function FilterCombobox<T extends string>({
               setActive(0);
               setOpen(true);
             }}
-            className="h-11 min-w-0 flex-1 rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            className="h-11 min-w-0 flex-1 truncate rounded-xl border border-card-border bg-background px-3.5 text-sm text-foreground outline-none ring-accent/40 placeholder:truncate placeholder:text-muted focus:ring-2"
           />
           <button
             type="button"

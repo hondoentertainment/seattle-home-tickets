@@ -204,7 +204,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
 
   const filterPanel = (
       <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-        <div className="flex flex-col gap-2.5 md:flex-row md:items-stretch">
+        <div className="flex flex-col gap-2.5 md:flex-row md:items-center">
           <SearchBox
             value={draftQ}
             onChange={setDraftQ}
@@ -252,7 +252,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 setFiltersOpen(false);
               }
             }}
-            className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
+            className={`inline-flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-full border px-2 text-xs font-medium sm:flex-none sm:px-3 ${
               filtersOpen || extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
                 : "border-card-border bg-card text-muted"
@@ -265,7 +265,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               Holiday games
             </span>
           ) : null}
-          <span className="ml-auto text-xs text-muted">
+          <span className="hidden text-xs text-muted sm:ml-auto sm:inline">
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
         </div>
@@ -649,7 +649,7 @@ function ToggleChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
+      className={`inline-flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-full border px-2 text-xs font-medium sm:flex-none sm:px-3 ${
         active ? "border-gold bg-gold/15 text-gold" : "border-card-border bg-card text-muted"
       }`}
     >

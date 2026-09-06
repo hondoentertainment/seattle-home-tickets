@@ -85,7 +85,7 @@ export function QuantityPicker({
           if (open) setOpen(false);
           else openList();
         }}
-        className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-card-border bg-card px-3.5 py-2 text-left outline-none ring-accent/40 hover:border-accent/40 focus:ring-2 md:min-w-[11.5rem]"
+        className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-card-border bg-card px-3.5 py-2 text-left outline-none ring-accent/40 hover:border-accent/40 focus:ring-2 md:h-11 md:min-w-[11.5rem] md:py-0"
       >
         <span>
           <span className="block text-[10px] font-medium uppercase leading-none tracking-[0.16em] text-muted">

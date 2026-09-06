@@ -116,7 +116,7 @@ export function SearchBox({
             }}
             onFocus={() => setOpen(true)}
             placeholder="Search team, opponent, venue…"
-            className="h-11 w-full rounded-xl border border-card-border bg-card px-3 text-[13px] text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            className="h-11 w-full truncate rounded-xl border border-card-border bg-card px-3.5 text-[13px] text-foreground outline-none ring-accent/40 placeholder:truncate placeholder:text-muted focus:ring-2"
           />
         </label>
         <button
