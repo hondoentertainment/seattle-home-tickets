@@ -1,0 +1,49 @@
+name: Daily catalog refresh
+
+on:
+  schedule:
+    # 07:00 PDT (UTC-7). GitHub cron is UTC-only; this is 06:00 PST.
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Regenerate games from the published seed
+        run: python3 scripts/generate-games.py
+
+      - name: Confirm catalog matches the generator
+        run: |
+          if ! git diff --exit-code -- data/games.json; then
+            echo "data/games.json drifted from scripts/generate-games.py."
+            echo "This job does not invent dates or scrape live schedules."
+            echo "Commit a regenerated catalog after editing the seed script."
+            exit 1
+          fi
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build

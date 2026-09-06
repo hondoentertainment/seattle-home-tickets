@@ -40,6 +40,14 @@ export function useExplorerState() {
     [apply],
   );
 
+  const commitQ = useCallback(
+    (value: string) => {
+      setDraftQ(value);
+      apply((prev) => (prev.q === value ? prev : { ...prev, q: value }));
+    },
+    [apply],
+  );
+
   useEffect(() => {
     if (hydrated.current) return;
     hydrated.current = true;
@@ -88,7 +96,7 @@ export function useExplorerState() {
 
   const viewState = useMemo(() => ({ ...state, q: draftQ }), [state, draftQ]);
 
-  return { state: viewState, persisted: state, draftQ, setDraftQ, apply, patch };
+  return { state: viewState, persisted: state, draftQ, setDraftQ, commitQ, apply, patch };
 }
 
 export function toggleListValue<T extends string>(values: readonly T[], value: T): T[] {

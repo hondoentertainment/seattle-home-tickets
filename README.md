@@ -4,6 +4,9 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 
 - **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, shortlist
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
+- **Teams (`/teams`)** — color monogram tiles (college tiles print the sport)
+- **Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals
+- **Promos (`/promotions`)** — calendar of tagged holiday / special homes
 - **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
 
 Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on About, not the calendar.
@@ -64,16 +67,23 @@ Check **Interested** on any row. Selection is stored in `localStorage` and in th
 
 Combine freely (also persisted in the URL):
 
-- Search across team, opponent, venue, sport, special tags
-- Sport chips, team multi-select, venue chips, month chips
-- Category: Men / Women / Open (derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
+- Search with autocomplete; **Enter** applies the highlighted suggestion (or the typed query immediately). Team / sport / venue hits become filter chips; opponent and tag hits become a text query
+- Sport, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** applies the highlighted option
+- Ticket quantity is a styled 1–19 listbox (arrows + Enter)
+- Month chips and category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
 - Optional date range
 - Selected only
-- Holiday / special browsing lives on [`/holidays`](/holidays); Home tucks a “See holiday games” link at the end of the filter row and a Holiday / special toggle inside Filters
+- Holiday / special browsing lives only on [`/holidays`](/holidays). Home does not have a holiday toggle.
 
 ## Holiday / special games
 
-Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. Showcase cards, a badge key, and holiday-only browsing live on **Holidays**. Home keeps a “See holiday games” link; matching rows still show badges.
+Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. Showcase cards, a badge key, and holiday-only browsing live on **Holidays**. The **Promos** calendar lists the same tagged nights by month. Matching rows still show badges on Home.
+
+## Daily refresh
+
+A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM Pacific Daylight Time** (`cron: 0 14 * * *`, which is 6:00 AM Pacific Standard Time) and on `workflow_dispatch`. It regenerates `data/games.json` from `scripts/generate-games.py`, fails if the committed catalog drifted, then lints and builds.
+
+The generator is a **published-date seed**, not a scraper. The job does not invent conference basketball dates or bump `asOf` just because the clock moved.
 
 ## Local development
 
