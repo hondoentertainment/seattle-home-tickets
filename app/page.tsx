@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { GamesExplorer } from "@/components/games-explorer";
 import { catalog } from "@/lib/catalog";
 
@@ -30,7 +31,9 @@ export default function Home() {
       </header>
 
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
-        <GamesExplorer />
+        <Suspense fallback={<p className="text-sm text-muted">Loading the slate…</p>}>
+          <GamesExplorer />
+        </Suspense>
       </main>
 
       <footer className="border-t border-card-border/80">

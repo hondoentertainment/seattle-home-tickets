@@ -37,7 +37,13 @@
       "estPricePairUsd": 190,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Boeing Apple Cup.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": [
+        "Labor Day weekend",
+        "Apple Cup",
+        "Rivalry"
+      ]
     },
     {
       "id": "mariners-mlb-20260906",
@@ -53,7 +59,11 @@
       "estPricePairUsd": 76,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": [
+        "Labor Day weekend"
+      ]
     },
     {
       "id": "fc-nwsl-20260906",
@@ -69,7 +79,11 @@
       "estPricePairUsd": 72,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "ReignFC.com single-match tickets / 2026 schedule (as of 2026-09-06)",
-      "season": "2026 NWSL regular season (remaining homes)"
+      "season": "2026 NWSL regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": [
+        "Labor Day weekend"
+      ]
     },
     {
       "id": "mariners-mlb-20260908",
@@ -85,7 +99,9 @@
       "estPricePairUsd": 56,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260909",
@@ -101,7 +117,9 @@
       "estPricePairUsd": 64,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20260909",
@@ -117,7 +135,9 @@
       "estPricePairUsd": 370,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260910",
@@ -133,7 +153,9 @@
       "estPricePairUsd": 60,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20260910",
@@ -149,7 +171,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20260910",
@@ -165,7 +189,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-men's-soccer-20260911",
@@ -181,7 +207,9 @@
       "estPricePairUsd": 30,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-football-20260912",
@@ -197,7 +225,9 @@
       "estPricePairUsd": 90,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-nwsl-20260912",
@@ -213,7 +243,9 @@
       "estPricePairUsd": 76,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "ReignFC.com single-match tickets / 2026 schedule (as of 2026-09-06)",
-      "season": "2026 NWSL regular season (remaining homes)"
+      "season": "2026 NWSL regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20260913",
@@ -229,7 +261,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20260913",
@@ -245,7 +279,11 @@
       "estPricePairUsd": 40,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "falcons-ncaa-volleyball-20260917",
@@ -261,7 +299,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "storm-wnba-20260917",
@@ -277,7 +317,9 @@
       "estPricePairUsd": 144,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Regular season ends Sep 23 at home; playoffs not listed.",
       "source": "Storm.wnba.com 2026 regular-season schedule; Climate Pledge Arena listings",
-      "season": "2026 WNBA regular season (remaining homes)"
+      "season": "2026 WNBA regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20260919",
@@ -293,7 +335,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-football-20260919",
@@ -309,7 +353,9 @@
       "estPricePairUsd": 70,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-pre-20260919",
@@ -325,7 +371,11 @@
       "estPricePairUsd": 96,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Preseason.",
       "source": "NHL.com/Kraken 2026-27 preseason schedule (Jun 24, 2026)",
-      "season": "2026-27 NHL preseason"
+      "season": "2026-27 NHL preseason",
+      "gender": "men",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "mariners-mlb-20260922",
@@ -341,7 +391,9 @@
       "estPricePairUsd": 72,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20260923",
@@ -357,7 +409,9 @@
       "estPricePairUsd": 96,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "storm-wnba-20260923",
@@ -373,7 +427,9 @@
       "estPricePairUsd": 84,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Regular season ends Sep 23 at home; playoffs not listed.",
       "source": "Storm.wnba.com 2026 regular-season schedule; Climate Pledge Arena listings",
-      "season": "2026 WNBA regular season (remaining homes)"
+      "season": "2026 WNBA regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260923",
@@ -389,7 +445,9 @@
       "estPricePairUsd": 80,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-pre-20260924",
@@ -405,7 +463,9 @@
       "estPricePairUsd": 90,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Preseason.",
       "source": "NHL.com/Kraken 2026-27 preseason schedule (Jun 24, 2026)",
-      "season": "2026-27 NHL preseason"
+      "season": "2026-27 NHL preseason",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260924",
@@ -421,7 +481,9 @@
       "estPricePairUsd": 64,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-nwsl-20260925",
@@ -437,7 +499,9 @@
       "estPricePairUsd": 68,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "ReignFC.com single-match tickets / 2026 schedule (as of 2026-09-06)",
-      "season": "2026 NWSL regular season (remaining homes)"
+      "season": "2026 NWSL regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260925",
@@ -453,7 +517,9 @@
       "estPricePairUsd": 72,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-men's-soccer-20260925",
@@ -469,7 +535,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20260926",
@@ -485,7 +553,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20260926",
@@ -501,7 +571,9 @@
       "estPricePairUsd": 104,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260926",
@@ -517,7 +589,9 @@
       "estPricePairUsd": 84,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-football-20260926",
@@ -533,7 +607,9 @@
       "estPricePairUsd": 140,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Kickoff window announced ~12 days prior.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "mariners-mlb-20260927",
@@ -549,7 +625,9 @@
       "estPricePairUsd": 68,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. 2026 regular season ends Sep 27 at T-Mobile Park; no remaining homes after that.",
       "source": "MLB.com / CBS Sports / Baseball-Reference 2026 Mariners schedule (as of 2026-09-06)",
-      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)"
+      "season": "2026 MLB regular season (remaining homes; season ends Sep 27)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20261001",
@@ -565,7 +643,9 @@
       "estPricePairUsd": 92,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-nwsl-20261002",
@@ -581,7 +661,9 @@
       "estPricePairUsd": 70,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "ReignFC.com single-match tickets / 2026 schedule (as of 2026-09-06)",
-      "season": "2026 NWSL regular season (remaining homes)"
+      "season": "2026 NWSL regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261002",
@@ -597,7 +679,9 @@
       "estPricePairUsd": 36,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-men's-soccer-20261002",
@@ -613,7 +697,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20261003",
@@ -629,7 +715,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261004",
@@ -645,7 +733,9 @@
       "estPricePairUsd": 290,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261004",
@@ -661,7 +751,9 @@
       "estPricePairUsd": 36,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261004",
@@ -677,7 +769,9 @@
       "estPricePairUsd": 250,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261006",
@@ -693,7 +787,9 @@
       "estPricePairUsd": 260,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261008",
@@ -709,7 +805,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20261008",
@@ -725,7 +823,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-football-20261009",
@@ -741,7 +841,9 @@
       "estPricePairUsd": 170,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261010",
@@ -757,7 +859,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-men's-soccer-20261010",
@@ -773,7 +877,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20261011",
@@ -789,7 +895,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261011",
@@ -805,7 +913,11 @@
       "estPricePairUsd": 390,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "huskies-ncaa-men's-soccer-20261014",
@@ -821,7 +933,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261016",
@@ -837,7 +951,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20261017",
@@ -853,7 +969,9 @@
       "estPricePairUsd": 88,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261018",
@@ -869,7 +987,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261020",
@@ -885,7 +1005,9 @@
       "estPricePairUsd": 190,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261022",
@@ -901,7 +1023,9 @@
       "estPricePairUsd": 176,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261024",
@@ -917,7 +1041,9 @@
       "estPricePairUsd": 196,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261025",
@@ -933,7 +1059,9 @@
       "estPricePairUsd": 440,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "uw-mbb-exh-20261025",
@@ -949,7 +1077,9 @@
       "estPricePairUsd": 44,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Exhibition. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261028",
@@ -965,7 +1095,9 @@
       "estPricePairUsd": 280,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20261028",
@@ -981,7 +1113,9 @@
       "estPricePairUsd": 90,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261029",
@@ -997,7 +1131,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-men's-soccer-20261030",
@@ -1013,7 +1149,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 men's soccer schedule",
-      "season": "2026 NCAA men's soccer (remaining fall homes)"
+      "season": "2026 NCAA men's soccer (remaining fall homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261030",
@@ -1029,7 +1167,9 @@
       "estPricePairUsd": 36,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-women's-soccer-20261030",
@@ -1045,7 +1185,9 @@
       "estPricePairUsd": 36,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 women's soccer schedule",
-      "season": "2026 NCAA women's soccer (remaining fall homes)"
+      "season": "2026 NCAA women's soccer (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261031",
@@ -1061,7 +1203,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261101",
@@ -1077,7 +1221,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "fc-nwsl-20261101",
@@ -1093,7 +1239,9 @@
       "estPricePairUsd": 84,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck.",
       "source": "ReignFC.com single-match tickets / 2026 schedule (as of 2026-09-06)",
-      "season": "2026 NWSL regular season (remaining homes)"
+      "season": "2026 NWSL regular season (remaining homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261102",
@@ -1109,7 +1257,9 @@
       "estPricePairUsd": 350,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "uw-mbb-20261102",
@@ -1125,7 +1275,9 @@
       "estPricePairUsd": 56,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261104",
@@ -1141,7 +1293,9 @@
       "estPricePairUsd": 210,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261106",
@@ -1157,7 +1311,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261106",
@@ -1173,7 +1329,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261107",
@@ -1189,7 +1347,9 @@
       "estPricePairUsd": 290,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "fc-mls-20261107",
@@ -1205,7 +1365,12 @@
       "estPricePairUsd": 170,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Decision Day regular-season finale.",
       "source": "SoundersFC / MLS 2026 schedule; Ticketmaster home listings (updated after original Nov 2025 release)",
-      "season": "2026 MLS regular season (remaining homes through Decision Day)"
+      "season": "2026 MLS regular season (remaining homes through Decision Day)",
+      "gender": "men",
+      "specialTags": [
+        "Decision Day",
+        "Rivalry"
+      ]
     },
     {
       "id": "su-mbb-20261107",
@@ -1221,7 +1386,11 @@
       "estPricePairUsd": 36,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Homecoming.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": [
+        "Homecoming"
+      ]
     },
     {
       "id": "huskies-ncaa-football-20261107",
@@ -1237,7 +1406,11 @@
       "estPricePairUsd": 220,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Homecoming / Purple Reign. Kickoff TBA.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": [
+        "Homecoming"
+      ]
     },
     {
       "id": "seahawks-nfl-20261108",
@@ -1253,7 +1426,9 @@
       "estPricePairUsd": 280,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-volleyball-20261108",
@@ -1269,7 +1444,9 @@
       "estPricePairUsd": 64,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoHuskies.com 2026 volleyball schedule",
-      "season": "2026 NCAA volleyball (remaining fall homes)"
+      "season": "2026 NCAA volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "uw-mbb-20261109",
@@ -1285,7 +1462,9 @@
       "estPricePairUsd": 44,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261111",
@@ -1301,7 +1480,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261112",
@@ -1317,7 +1498,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-volleyball-20261114",
@@ -1333,7 +1516,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026 women's volleyball schedule (Jul 29, 2026)",
-      "season": "2026 NCAA D-II volleyball (remaining fall homes)"
+      "season": "2026 NCAA D-II volleyball (remaining fall homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261114",
@@ -1349,7 +1534,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261118",
@@ -1365,7 +1552,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261119",
@@ -1381,7 +1570,11 @@
       "estPricePairUsd": 270,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "uw-mbb-20261119",
@@ -1397,7 +1590,9 @@
       "estPricePairUsd": 52,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "huskies-ncaa-football-20261121",
@@ -1413,7 +1608,9 @@
       "estPricePairUsd": 260,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Salute to Service / Senior Day. Kickoff TBA.",
       "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)"
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261123",
@@ -1429,7 +1626,11 @@
       "estPricePairUsd": 180,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "kraken-nhl-20261125",
@@ -1445,7 +1646,11 @@
       "estPricePairUsd": 220,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261125",
@@ -1461,7 +1666,11 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "kraken-nhl-20261128",
@@ -1477,7 +1686,12 @@
       "estPricePairUsd": 300,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Thanksgiving week",
+        "Rivalry"
+      ]
     },
     {
       "id": "su-mbb-20261128",
@@ -1493,7 +1707,11 @@
       "estPricePairUsd": 40,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261129",
@@ -1509,7 +1727,11 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "uw-mbb-20261129",
@@ -1525,7 +1747,11 @@
       "estPricePairUsd": 56,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": [
+        "Thanksgiving week"
+      ]
     },
     {
       "id": "kraken-nhl-20261201",
@@ -1541,7 +1767,9 @@
       "estPricePairUsd": 230,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261201",
@@ -1557,7 +1785,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20261203",
@@ -1573,7 +1803,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261203",
@@ -1589,7 +1821,9 @@
       "estPricePairUsd": 224,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20261203",
@@ -1605,7 +1839,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20261205",
@@ -1621,7 +1857,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20261205",
@@ -1637,7 +1875,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261205",
@@ -1653,7 +1893,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261206",
@@ -1669,7 +1911,9 @@
       "estPricePairUsd": 184,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261207",
@@ -1685,7 +1929,9 @@
       "estPricePairUsd": 420,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "uw-mbb-20261208",
@@ -1701,7 +1947,9 @@
       "estPricePairUsd": 52,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261210",
@@ -1717,7 +1965,9 @@
       "estPricePairUsd": 236,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261212",
@@ -1733,7 +1983,9 @@
       "estPricePairUsd": 190,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261212",
@@ -1749,7 +2001,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261212",
@@ -1765,7 +2019,9 @@
       "estPricePairUsd": 20,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261213",
@@ -1781,7 +2037,9 @@
       "estPricePairUsd": 270,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261215",
@@ -1797,7 +2055,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "uw-wbb-20261217",
@@ -1813,7 +2073,9 @@
       "estPricePairUsd": 40,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Only dated 2026-27 home as of early Sep 2026. Big Ten homes not dated \u2014 omitted.",
       "source": "Wikipedia / GoHuskies 2026-27 WBB listings",
-      "season": "2026-27 NCAA women's basketball (dated homes only)"
+      "season": "2026-27 NCAA women's basketball (dated homes only)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "redhawks-ncaa-women's-basketball-20261218",
@@ -1829,7 +2091,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only.",
-      "season": "2026-27 NCAA women's basketball (published non-conference homes)"
+      "season": "2026-27 NCAA women's basketball (published non-conference homes)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261219",
@@ -1845,7 +2109,11 @@
       "estPricePairUsd": 90,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Seattle Holiday Classic (shared ticket with UW vs Baylor).",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": [
+        "Holiday Classic"
+      ]
     },
     {
       "id": "uw-mbb-20261219",
@@ -1861,7 +2129,11 @@
       "estPricePairUsd": 150,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Seattle Holiday Classic; ticket includes SU vs WSU. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": [
+        "Holiday Classic"
+      ]
     },
     {
       "id": "kraken-nhl-20261222",
@@ -1877,7 +2149,9 @@
       "estPricePairUsd": 170,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "su-mbb-20261222",
@@ -1893,7 +2167,9 @@
       "estPricePairUsd": 32,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "seahawks-nfl-20261225",
@@ -1909,7 +2185,12 @@
       "estPricePairUsd": 500,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeks 17 (at CAR) and 18 (at LAR) are away \u2014 no additional published homes.",
       "source": "Seahawks.com 2026 schedule release; ESPN NFL team schedule",
-      "season": "2026 NFL regular season (all published home games)"
+      "season": "2026 NFL regular season (all published home games)",
+      "gender": "men",
+      "specialTags": [
+        "Christmas",
+        "Rivalry"
+      ]
     },
     {
       "id": "uw-mbb-20261228",
@@ -1925,7 +2206,9 @@
       "estPricePairUsd": 64,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Tip times TBA. Big Ten homes omitted until dated.",
       "source": "GoHuskies.com 2026-27 non-conference schedule (Aug 25, 2026). Big Ten dates not yet published \u2014 omitted.",
-      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)"
+      "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20261229",
@@ -1941,7 +2224,9 @@
       "estPricePairUsd": 200,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270102",
@@ -1957,7 +2242,11 @@
       "estPricePairUsd": 204,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "New Year's"
+      ]
     },
     {
       "id": "kraken-nhl-20270103",
@@ -1973,7 +2262,11 @@
       "estPricePairUsd": 276,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "kraken-nhl-20270105",
@@ -1989,7 +2282,9 @@
       "estPricePairUsd": 240,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270107",
@@ -2005,7 +2300,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270109",
@@ -2021,7 +2318,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270109",
@@ -2037,7 +2336,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270112",
@@ -2053,7 +2354,9 @@
       "estPricePairUsd": 244,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270114",
@@ -2069,7 +2372,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270116",
@@ -2085,7 +2390,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270116",
@@ -2101,7 +2408,9 @@
       "estPricePairUsd": 172,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270118",
@@ -2117,7 +2426,11 @@
       "estPricePairUsd": 180,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "MLK Day"
+      ]
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270128",
@@ -2133,7 +2446,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270130",
@@ -2149,7 +2464,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270130",
@@ -2165,7 +2482,9 @@
       "estPricePairUsd": 28,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270131",
@@ -2181,7 +2500,9 @@
       "estPricePairUsd": 216,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270203",
@@ -2197,7 +2518,9 @@
       "estPricePairUsd": 250,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270213",
@@ -2213,7 +2536,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270213",
@@ -2229,7 +2554,9 @@
       "estPricePairUsd": 190,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270215",
@@ -2245,7 +2572,11 @@
       "estPricePairUsd": 236,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Presidents Day"
+      ]
     },
     {
       "id": "kraken-nhl-20270217",
@@ -2261,7 +2592,9 @@
       "estPricePairUsd": 200,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270218",
@@ -2277,7 +2610,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270218",
@@ -2293,7 +2628,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-women's-basketball-20270220",
@@ -2309,7 +2646,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue.",
       "source": "SPUFalcons.com 2026-27 women's basketball schedule",
-      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II women's basketball (published homes with listed opponents)",
+      "gender": "women",
+      "specialTags": []
     },
     {
       "id": "falcons-ncaa-men's-basketball-20270220",
@@ -2325,7 +2664,9 @@
       "estPricePairUsd": 24,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. General reserved seating at a D-II venue. GNAC home from official 2026-27 schedule page.",
       "source": "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)",
-      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)"
+      "season": "2026-27 NCAA D-II men's basketball (published homes with listed opponents)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270222",
@@ -2341,7 +2682,9 @@
       "estPricePairUsd": 290,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270227",
@@ -2357,7 +2700,9 @@
       "estPricePairUsd": 220,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270311",
@@ -2373,7 +2718,9 @@
       "estPricePairUsd": 230,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270313",
@@ -2389,7 +2736,11 @@
       "estPricePairUsd": 310,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": [
+        "Rivalry"
+      ]
     },
     {
       "id": "kraken-nhl-20270315",
@@ -2405,7 +2756,9 @@
       "estPricePairUsd": 192,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270319",
@@ -2421,7 +2774,9 @@
       "estPricePairUsd": 280,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270321",
@@ -2437,7 +2792,9 @@
       "estPricePairUsd": 236,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270323",
@@ -2453,7 +2810,9 @@
       "estPricePairUsd": 284,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270325",
@@ -2469,7 +2828,9 @@
       "estPricePairUsd": 184,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270330",
@@ -2485,7 +2846,9 @@
       "estPricePairUsd": 180,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     },
     {
       "id": "kraken-nhl-20270403",
@@ -2501,7 +2864,9 @@
       "estPricePairUsd": 240,
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Assumes lower-bowl / 200-level style inventory, not club or cheapest upper deck. Weeknight homes generally 6:40 PM PT per club; times can flex for national TV.",
       "source": "Wikipedia 2026\u201327 Seattle Kraken season; Sports Brackets / NHL schedule release (Jul 2026). Finland Global Series excluded.",
-      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)"
+      "season": "2026-27 NHL regular season (Seattle homes only; Finland Global Series omitted)",
+      "gender": "men",
+      "specialTags": []
     }
   ]
 }

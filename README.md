@@ -1,6 +1,6 @@
 # Seattle Home Tickets
 
-A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates for **two seats**. Search, filter, and sort the slate in the browser — no auth, no live ticket API.
+A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates for **two seats**. Search, filter, sort, shortlist, and share the slate in the browser — no auth, no live ticket API.
 
 Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes.
 
@@ -32,6 +32,44 @@ The header stats show:
 - How many events are visible after filters
 - The **sum of pair estimates** if you bought every visible game
 - The average pair estimate on screen
+
+## Ticket links
+
+Each game’s detail panel (click the team name, or **Details** on mobile) links out to check live prices:
+
+- Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, plus venue Ticketmaster where useful)
+- Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats
+
+Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. No affiliate parameters.
+
+## Weather
+
+Client-side [Open-Meteo](https://open-meteo.com/) forecast for Seattle (47.6062, −122.3321), no API key. About 16 days of daily high/low, precip chance, and wind. Dates beyond that window show **climatology** (“typical for that month in Seattle”), labeled as not a live forecast.
+
+Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer Stadium) treat weather as a go/wear decision. Indoor venues (Climate Pledge, Alaska Airlines Arena, Redhawk Center, Royal Brougham) still show a travel-day note.
+
+## Travel
+
+Venue profiles live in [`data/venues.json`](data/venues.json): address, neighborhood, transit (Link / bus), parking, rideshare, and Seattle traffic caveats. Surfaced in the same detail panel as tickets and weather.
+
+## Shortlist and sharing
+
+Check **Interested** on any row. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same shortlist. **Copy summary** writes markdown with date, matchup, venue, pair estimate, weather blurb, travel one-liner, and ticket links. If the URL gets too long, share falls back to ids-only.
+
+## Filters
+
+Combine freely (also persisted in the URL):
+
+- Search across team, opponent, venue, sport, special tags
+- Sport chips, team multi-select, venue chips, month chips
+- Category: Men / Women / Open (derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
+- Optional date range
+- Holiday / special only
+- Selected only
+
+## Holiday / special games
+
+Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. A showcase sits at the top of the page; matching rows get badges.
 
 ## Local development
 

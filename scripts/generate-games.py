@@ -609,6 +609,80 @@ for iso, opp, t, each in [
         )
     )
 
+MEN_SPORTS = {
+    "MLB",
+    "NFL",
+    "NHL",
+    "MLS",
+    "NCAA Football",
+    "NCAA Men's Basketball",
+    "NCAA Men's Soccer",
+}
+WOMEN_SPORTS = {
+    "NWSL",
+    "WNBA",
+    "NCAA Women's Basketball",
+    "NCAA Women's Soccer",
+    "NCAA Volleyball",
+}
+
+
+def special_tags(g: dict) -> list[str]:
+    iso = g["date"]
+    tags: list[str] = []
+    if iso <= "2026-09-07":
+        tags.append("Labor Day weekend")
+    if "2026-11-22" <= iso <= "2026-11-29":
+        tags.append("Thanksgiving week")
+    if iso == "2026-12-25":
+        tags.append("Christmas")
+    if iso in {"2026-12-31", "2027-01-01", "2027-01-02"}:
+        tags.append("New Year's")
+    if iso == "2027-01-18":
+        tags.append("MLK Day")
+    if iso == "2027-02-15":
+        tags.append("Presidents Day")
+    if "Apple Cup" in g["priceNotes"] or (
+        g["team"] == "Washington Huskies"
+        and g["sport"] == "NCAA Football"
+        and "Washington State" in g["opponent"]
+    ):
+        tags.append("Apple Cup")
+    if "Homecoming" in g["priceNotes"]:
+        tags.append("Homecoming")
+    if "Holiday Classic" in g.get("priceNotes", "") and "Climate Pledge" in g.get("venue", ""):
+        tags.append("Holiday Classic")
+    if "Decision Day" in g["priceNotes"]:
+        tags.append("Decision Day")
+    rival_pairs = {
+        ("Seattle Seahawks", "San Francisco 49ers"),
+        ("Seattle Seahawks", "Los Angeles Rams"),
+        ("Seattle Kraken", "Vancouver Canucks"),
+        ("Seattle Kraken", "Edmonton Oilers"),
+        ("Seattle Sounders FC", "Los Angeles FC"),
+        ("Washington Huskies", "Washington State"),
+    }
+    if (g["team"], g["opponent"]) in rival_pairs:
+        tags.append("Rivalry")
+    # unique preserve order
+    seen: set[str] = set()
+    out: list[str] = []
+    for tag in tags:
+        if tag not in seen:
+            seen.add(tag)
+            out.append(tag)
+    return out
+
+
+for g in games:
+    if g["sport"] in MEN_SPORTS:
+        g["gender"] = "men"
+    elif g["sport"] in WOMEN_SPORTS:
+        g["gender"] = "women"
+    else:
+        g["gender"] = "open"
+    g["specialTags"] = special_tags(g)
+
 games.sort(key=lambda g: (g["date"], g["timePt"], g["team"]))
 
 payload = {
@@ -646,3 +720,5 @@ from collections import Counter
 
 print(Counter(g["team"] for g in games))
 print(Counter(g["sport"] for g in games))
+print(Counter(g["gender"] for g in games))
+print(Counter(tag for g in games for tag in g["specialTags"]))

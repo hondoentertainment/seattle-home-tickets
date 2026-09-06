@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-games": "python3 scripts/generate-games.py"
   },
   "dependencies": {
     "@tanstack/react-table": "^9.2.4",

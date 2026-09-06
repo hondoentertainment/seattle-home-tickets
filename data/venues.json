@@ -1,0 +1,90 @@
+{
+  "T-Mobile Park": {
+    "name": "T-Mobile Park",
+    "address": "1250 1st Ave S, Seattle, WA 98134",
+    "neighborhood": "SoDo",
+    "indoor": false,
+    "transit": "Link 1 Line to Stadium Station; short walk north. Many 7/124 buses on 1st Ave S.",
+    "parking": "Official lots south and west of the park fill early and run $30–60 on weekends. Street parking in SoDo is scarce after first pitch.",
+    "rideshare": "Preferred pickup is usually Occidental Ave S / Edgar Martinez Dr. Expect surge after extras innings.",
+    "traffic": "I-5/I-90 downtown exits back up 45–75 minutes before first pitch on Friday/Saturday nights. Leave extra time from the Eastside.",
+    "officialTickets": "https://www.mlb.com/mariners/tickets"
+  },
+  "Lumen Field": {
+    "name": "Lumen Field",
+    "address": "800 Occidental Ave S, Seattle, WA 98134",
+    "neighborhood": "SoDo",
+    "indoor": false,
+    "transit": "Link 1 Line to Stadium Station (south gates) or International District/Chinatown (north). Sounder on some Sunday NFL kickoffs.",
+    "parking": "Event lots around Occidental and the train yard are expensive and sell out for Seahawks. Soccer is easier but still pricey.",
+    "rideshare": "Drop-off on Occidental Ave S or 1st Ave S. After NFL games, walk a block north before requesting a car.",
+    "traffic": "Seahawks Sundays: treat I-5, SR-99, and the West Seattle Bridge as delayed. Sounders/Reign nights are lighter but still congested in SoDo.",
+    "officialTickets": "https://www.ticketmaster.com/lumen-field-tickets-seattle/venue/328429"
+  },
+  "Climate Pledge Arena": {
+    "name": "Climate Pledge Arena",
+    "address": "334 1st Ave N, Seattle, WA 98109",
+    "neighborhood": "Seattle Center / Uptown",
+    "indoor": true,
+    "transit": "Link 1 Line to Seattle Center Station (via the Monorail from Westlake) or RapidRide D / several Metro routes to Seattle Center.",
+    "parking": "Seattle Center garages (5th Ave N, Mercer) are closest; they fill for Kraken weekend games. Uptown street parking is timed and enforced.",
+    "rideshare": "Mercer St and 1st Ave N are the usual zones. After games, walk toward Queen Anne Ave to avoid the Mercer jam.",
+    "traffic": "Indoor venue — weather is a travel-day issue. Mercer St is the bottleneck. From the Eastside, SR-520 + I-5 can add 20+ minutes at 5–7 p.m.",
+    "officialTickets": "https://climatepledgearena.com/tickets/"
+  },
+  "Husky Stadium": {
+    "name": "Husky Stadium",
+    "address": "3800 Montlake Blvd NE, Seattle, WA 98195",
+    "neighborhood": "Montlake / University of Washington",
+    "indoor": false,
+    "transit": "Link 1 Line to University of Washington Station; pedestrian bridge to the stadium. Game-day shuttles sometimes run from campus lots.",
+    "parking": "Campus lots and E-12/E-1 require pre-paid gameday permits. Neighborhood parking in Montlake is restricted.",
+    "rideshare": "Montlake Blvd NE and Walla Walla Rd NE. After the game, walk toward the Link station rather than waiting at the curb.",
+    "traffic": "Montlake Blvd and the SR-520 ramps jam 90 minutes before kickoff. Light rail is usually faster than driving from downtown.",
+    "officialTickets": "https://gohuskies.com/sports/football/tickets"
+  },
+  "Alaska Airlines Arena": {
+    "name": "Alaska Airlines Arena at Hec Edmundson Pavilion",
+    "address": "3870 Montlake Blvd NE, Seattle, WA 98195",
+    "neighborhood": "University of Washington",
+    "indoor": true,
+    "transit": "Link 1 Line to University of Washington Station; short campus walk to Hec Ed.",
+    "parking": "Padelford and Central campus garages. Evening enforcement is real on weeknights.",
+    "rideshare": "Montlake Blvd NE or Pend Oreille Rd NE. Indoor venue — plan for rain on the walk from Link.",
+    "traffic": "Campus evening classes plus a hoops game can clog Montlake. Link avoids most of it.",
+    "officialTickets": "https://gohuskies.com/sports/mens-basketball/tickets"
+  },
+  "Husky Soccer Stadium": {
+    "name": "Husky Soccer Stadium",
+    "address": "University of Washington, Seattle, WA 98195",
+    "neighborhood": "University of Washington",
+    "indoor": false,
+    "transit": "Link 1 Line to University of Washington Station; 10–15 minute campus walk.",
+    "parking": "Limited lots near the IMA / soccer complex. Overflow uses general campus garages.",
+    "rideshare": "Walla Walla Rd NE or near the IMA building.",
+    "traffic": "Weeknight 7:30 starts overlap with campus traffic. Easier than football Saturdays.",
+    "officialTickets": "https://gohuskies.com/sports/mens-soccer/tickets"
+  },
+  "Redhawk Center": {
+    "name": "Redhawk Center",
+    "address": "12th Ave & E Columbia St, Seattle, WA 98122",
+    "neighborhood": "First Hill / Seattle University",
+    "indoor": true,
+    "transit": "Many Metro routes on Madison, Broadway, and 12th Ave. No Link station at the door — closest is Capitol Hill or Pioneer Square plus a bus/walk.",
+    "parking": "Campus garage on 12th Ave / Columbia is the reliable option. Street parking on First Hill is short-term.",
+    "rideshare": "12th Ave or E Columbia St.",
+    "traffic": "First Hill is dense but games rarely gridlock like SoDo. Allow extra time for Madison St construction detours.",
+    "officialTickets": "https://goseattleu.com/tickets"
+  },
+  "Royal Brougham Pavilion": {
+    "name": "Royal Brougham Pavilion",
+    "address": "3414 3rd Ave W, Seattle, WA 98119",
+    "neighborhood": "Queen Anne (Seattle Pacific)",
+    "indoor": true,
+    "transit": "Metro 3/4/13 and RapidRide D (walk from Uptown). No Link station nearby.",
+    "parking": "Campus lots around 3rd Ave W. Neighborhood streets are permit-heavy at night.",
+    "rideshare": "3rd Ave W at W Dravus St or W Nickerson St.",
+    "traffic": "Nickerson / Fremont Bridge backups at rush hour. Leave extra time from the Eastside via 99 or I-5 + 45th.",
+    "officialTickets": "https://spufalcons.com/sports/2026/8/6/spu-athletics-ticket-page.aspx"
+  }
+}
