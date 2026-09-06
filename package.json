@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate-games": "python3 scripts/generate-games.py"
+    "generate-games": "python3 scripts/generate-games.py",
+    "refresh-stamp": "python3 scripts/write-refresh-stamp.py",
+    "refresh-prices": "python3 scripts/refresh-prices.py"
   },
   "dependencies": {
     "@tanstack/react-table": "^9.2.4",

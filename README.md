@@ -81,9 +81,27 @@ Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week
 
 ## Daily refresh
 
-A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM Pacific Daylight Time** (`cron: 0 14 * * *`, which is 6:00 AM Pacific Standard Time) and on `workflow_dispatch`. It regenerates `data/games.json` from `scripts/generate-games.py`, fails if the committed catalog drifted, then lints and builds.
+A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles** and on `workflow_dispatch`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
 
-The generator is a **published-date seed**, not a scraper. The job does not invent conference basketball dates or bump `asOf` just because the clock moved.
+GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick).
+
+What it **does**:
+
+- Regenerates `data/games.json` from `scripts/generate-games.py` (published-date seed)
+- Runs `scripts/refresh-prices.py` (stub — live marketplace scrapes are not implemented)
+- Writes `data/refresh.json` (`lastChecked`, `catalogAsOf`, whether the seed matched)
+- Lints and builds
+- If the catalog drifted from the seed: opens a PR (`chore/catalog-seed-drift`) for review
+- If the catalog matched: commits the last-checked stamp to `main` so Vercel redeploys and the footer updates
+
+What it **does not**:
+
+- Scrape official or secondary ticket sites for live prices
+- Invent unpublished conference basketball dates
+- Bump `games.json` `asOf` just because the clock moved
+- Pull standings or promo calendars
+
+The site shows **last checked** under the nav and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 
