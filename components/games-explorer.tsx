@@ -7,7 +7,7 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FilterCombobox } from "@/components/filter-combobox";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
@@ -242,6 +242,16 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             type="button"
             aria-expanded={filtersOpen}
             onClick={() => setFiltersOpen((open) => !open)}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowDown" && !filtersOpen) {
+                event.preventDefault();
+                setFiltersOpen(true);
+              }
+              if (event.key === "Escape" && filtersOpen) {
+                event.preventDefault();
+                setFiltersOpen(false);
+              }
+            }}
             className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
               filtersOpen || extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
@@ -567,18 +577,40 @@ function ChipRow<T extends string>({
   onToggle: (value: T) => void;
   render?: (value: T) => string;
 }) {
+  const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  function moveFocus(index: number, delta: number) {
+    const next = (index + delta + options.length) % options.length;
+    buttonRefs.current[next]?.focus();
+  }
+
   return (
     <div>
       <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">{label}</p>
-      <div className="flex flex-wrap gap-2">
-        {options.map((option) => {
+      <div className="flex flex-wrap gap-2" role="group" aria-label={label}>
+        {options.map((option, index) => {
           const active = selected.includes(option);
           return (
             <button
               key={option}
               type="button"
+              ref={(node) => {
+                buttonRefs.current[index] = node;
+              }}
               aria-pressed={active}
               onClick={() => onToggle(option)}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                  event.preventDefault();
+                  moveFocus(index, 1);
+                } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                  event.preventDefault();
+                  moveFocus(index, -1);
+                } else if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onToggle(option);
+                }
+              }}
               className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                 active
                   ? "border-accent bg-accent/15 text-accent"

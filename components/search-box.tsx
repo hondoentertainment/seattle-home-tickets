@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { composingKey } from "@/lib/listbox-keys";
 import { searchSuggestions, type SearchSuggestion } from "@/lib/suggestions";
 
 export function SearchBox({
@@ -18,6 +19,7 @@ export function SearchBox({
   const [active, setActive] = useState(-1);
   const list = useMemo(() => searchSuggestions(value), [value]);
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const listId = useId();
   const highlight = active >= 0 && active < list.length ? active : -1;
@@ -43,59 +45,97 @@ export function SearchBox({
     else onCommit(item.label);
     setOpen(false);
     setActive(-1);
+    inputRef.current?.focus();
   }
 
-  function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      if (!list.length) return;
-      setOpen(true);
-      setActive((index) => (index < 0 ? 0 : (index + 1) % list.length));
+  function apply() {
+    if (open && highlight >= 0 && list[highlight]) {
+      choose(list[highlight]);
       return;
     }
-    if (event.key === "ArrowUp") {
+    onCommit(value);
+    setOpen(false);
+    setActive(-1);
+  }
+
+  function onKeyDown(event: React.KeyboardEvent) {
+    if (composingKey(event)) return;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       if (!list.length) return;
-      setOpen(true);
-      setActive((index) => (index < 0 ? list.length - 1 : (index - 1 + list.length) % list.length));
+      if (!open) {
+        setOpen(true);
+        setActive(event.key === "ArrowDown" ? 0 : list.length - 1);
+        return;
+      }
+      setActive((index) => {
+        if (index < 0) return event.key === "ArrowDown" ? 0 : list.length - 1;
+        const delta = event.key === "ArrowDown" ? 1 : -1;
+        return (index + delta + list.length) % list.length;
+      });
       return;
     }
+
     if (event.key === "Enter") {
       event.preventDefault();
-      if (open && highlight >= 0 && list[highlight]) choose(list[highlight]);
-      else onCommit(value);
-      setOpen(false);
+      if (!open && list.length) {
+        setOpen(true);
+        return;
+      }
+      apply();
       return;
     }
+
     if (event.key === "Escape") {
+      if (!open) return;
+      event.preventDefault();
       setOpen(false);
       setActive(-1);
     }
   }
 
   return (
-    <div ref={rootRef} className="relative min-w-0 flex-1">
-      <label className="block">
-        <span className="sr-only">Search team, opponent, venue, sport</span>
-        <input
-          type="search"
-          role="combobox"
-          aria-expanded={showList}
-          aria-controls={listId}
-          aria-autocomplete="list"
-          aria-activedescendant={showList && highlight >= 0 ? `${listId}-${highlight}` : undefined}
-          value={value}
-          onChange={(event) => {
-            onChange(event.target.value);
-            setActive(-1);
-            setOpen(true);
+    <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
+      <div className="flex gap-2">
+        <label className="min-w-0 flex-1">
+          <span className="sr-only">Search team, opponent, venue, sport</span>
+          <input
+            ref={inputRef}
+            type="search"
+            role="combobox"
+            aria-expanded={showList}
+            aria-controls={listId}
+            aria-autocomplete="list"
+            aria-activedescendant={showList && highlight >= 0 ? `${listId}-${highlight}` : undefined}
+            value={value}
+            onChange={(event) => {
+              onChange(event.target.value);
+              setActive(-1);
+              setOpen(true);
+            }}
+            onFocus={() => setOpen(true)}
+            placeholder="Search team, opponent, venue, sport"
+            className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+          />
+        </label>
+        <button
+          type="button"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => {
+            if (!open && list.length) {
+              setOpen(true);
+              inputRef.current?.focus();
+              return;
+            }
+            apply();
+            inputRef.current?.focus();
           }}
-          onFocus={() => setOpen(true)}
-          onKeyDown={onKeyDown}
-          placeholder="Search team, opponent, venue, sport"
-          className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
-        />
-      </label>
+          className="shrink-0 rounded-xl border border-accent/40 bg-accent/15 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-accent outline-none ring-accent/40 hover:bg-accent/25 focus:ring-2"
+        >
+          Select
+        </button>
+      </div>
       {showList ? (
         <ul
           id={listId}
@@ -112,6 +152,7 @@ export function SearchBox({
                 type="button"
                 role="option"
                 aria-selected={index === highlight}
+                tabIndex={-1}
                 onMouseEnter={() => setActive(index)}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => choose(item)}
