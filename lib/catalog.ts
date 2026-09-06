@@ -30,3 +30,42 @@ export const GENDER_LABELS = {
   women: "Women",
   open: "Open / other",
 } as const;
+
+const HOLIDAY_PRIORITY = [
+  "Christmas",
+  "Holiday Classic",
+  "Apple Cup",
+  "Homecoming",
+  "Thanksgiving week",
+  "New Year's",
+  "Decision Day",
+  "Labor Day weekend",
+];
+
+export function isHolidayGame(game: { specialTags: string[] }): boolean {
+  return game.specialTags.length > 0;
+}
+
+export function featuredHolidayGames(limit = 6) {
+  return [...catalog.games.filter(isHolidayGame)]
+    .sort((a, b) => {
+      const ap = Math.min(...a.specialTags.map((tag) => HOLIDAY_PRIORITY.indexOf(tag)).filter((n) => n >= 0), 99);
+      const bp = Math.min(...b.specialTags.map((tag) => HOLIDAY_PRIORITY.indexOf(tag)).filter((n) => n >= 0), 99);
+      return ap - bp || a.date.localeCompare(b.date);
+    })
+    .slice(0, limit);
+}
+
+export const HOLIDAY_TAG_BLURBS: Record<string, string> = {
+  Christmas: "Games on December 25.",
+  "Holiday Classic": "Seattle Holiday Classic at Climate Pledge Arena (UW vs Baylor and Seattle U vs WSU).",
+  "Apple Cup": "Washington vs Washington State football.",
+  Homecoming: "Labeled homecoming nights on the published slate.",
+  "Thanksgiving week": "Homes during Thanksgiving week (Sun–Sun around the holiday).",
+  "New Year's": "New Year’s Eve / Day and the adjacent weekend.",
+  "Decision Day": "MLS Decision Day.",
+  "Labor Day weekend": "Homes on Labor Day weekend.",
+  "MLK Day": "Homes on Martin Luther King Jr. Day.",
+  "Presidents Day": "Homes on Presidents Day.",
+  Rivalry: "Selected rivalry matchups (Hawks–49ers/Rams, Kraken–Canucks/Oilers, Sounders–LAFC, Apple Cup).",
+};

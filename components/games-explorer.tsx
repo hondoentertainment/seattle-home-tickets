@@ -7,6 +7,7 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
@@ -18,6 +19,7 @@ import {
   allTeams,
   allVenues,
   catalog,
+  featuredHolidayGames,
   monthLabel,
 } from "@/lib/catalog";
 import { filterGames } from "@/lib/filter-games";
@@ -36,8 +38,9 @@ const features = tableFeatures({
 const helper = createColumnHelper<typeof features, Game>();
 const EMPTY_GAMES: Game[] = [];
 
-export function GamesExplorer() {
+export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holidays" }) {
   const { state, draftQ, setDraftQ, apply, patch } = useExplorerState();
+  const holidayOnly = variant === "holidays" || state.holidayOnly;
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const [copied, setCopied] = useState<string | null>(null);
@@ -70,30 +73,12 @@ export function GamesExplorer() {
 
   const selected = useMemo(() => new Set(state.ids), [state.ids]);
   const filtered = useMemo(
-    () => filterGames(catalog.games, state, draftQ),
-    [state, draftQ],
+    () => filterGames(catalog.games, { ...state, holidayOnly }, draftQ),
+    [state, draftQ, holidayOnly],
   );
 
-  const holidayGames = useMemo(() => {
-    const tagged = catalog.games.filter((game) => game.specialTags.length > 0);
-    const priority = [
-      "Christmas",
-      "Holiday Classic",
-      "Apple Cup",
-      "Homecoming",
-      "Thanksgiving week",
-      "New Year's",
-      "Decision Day",
-      "Labor Day weekend",
-    ];
-    return [...tagged]
-      .sort((a, b) => {
-        const ap = Math.min(...a.specialTags.map((tag) => priority.indexOf(tag)).filter((n) => n >= 0), 99);
-        const bp = Math.min(...b.specialTags.map((tag) => priority.indexOf(tag)).filter((n) => n >= 0), 99);
-        return ap - bp || a.date.localeCompare(b.date);
-      })
-      .slice(0, 6);
-  }, []);
+  const holidayGames = useMemo(() => featuredHolidayGames(6), []);
+  const holidayCount = catalog.games.filter((game) => game.specialTags.length > 0).length;
 
   const columns = useMemo(
     () =>
@@ -216,24 +201,7 @@ export function GamesExplorer() {
     setTimeout(() => setCopied(null), 2000);
   }
 
-  return (
-    <section className="space-y-6 pb-24">
-      <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
-
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        <StatCard label="Events" value={filtered.length.toString()} hint={`${catalog.games.length} total`} />
-        <StatCard
-          label="Est. total"
-          value={formatUsd(groupTotal)}
-          hint={qtyEstimateLabel(state.qty)}
-        />
-        <StatCard
-          label="Avg game"
-          value={filtered.length ? formatUsd(Math.round(groupTotal / filtered.length)) : "—"}
-          hint={qtyEstimateLabel(state.qty)}
-        />
-      </div>
-
+  const filterPanel = (
       <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="block min-w-0 flex-1">
@@ -250,12 +218,18 @@ export function GamesExplorer() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <ToggleChip
-            active={state.holidayOnly}
-            onClick={() => patch({ holidayOnly: !state.holidayOnly })}
-          >
-            Holiday
-          </ToggleChip>
+          {variant === "home" ? (
+            <Link
+              href="/holidays"
+              className="rounded-full border border-gold/40 px-3 py-1.5 text-xs font-medium text-gold hover:bg-gold/10"
+            >
+              See holiday games
+            </Link>
+          ) : (
+            <span className="rounded-full border border-gold/40 bg-gold/15 px-3 py-1.5 text-xs font-medium text-gold">
+              Holiday games
+            </span>
+          )}
           <ToggleChip
             active={state.selectedOnly}
             onClick={() => patch({ selectedOnly: !state.selectedOnly })}
@@ -284,7 +258,7 @@ export function GamesExplorer() {
             Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
           </button>
           <span className="ml-auto text-xs text-muted">
-            {filtered.length} of {catalog.games.length}
+            {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
         </div>
 
@@ -352,6 +326,20 @@ export function GamesExplorer() {
           </div>
         ) : null}
       </div>
+  );
+
+  return (
+    <section className="space-y-4 pb-24">
+      {variant === "holidays" ? (
+        <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
+      ) : null}
+      {filterPanel}
+      <p className="text-xs text-muted">
+        {filtered.length} events · {formatUsd(groupTotal)} {qtyEstimateLabel(state.qty)}
+        {filtered.length
+          ? ` · avg ${formatUsd(Math.round(groupTotal / filtered.length))}`
+          : ""}
+      </p>
 
       <div className="hidden overflow-hidden rounded-2xl border border-card-border bg-card/70 md:block">
         <div className="overflow-x-auto">
@@ -554,16 +542,6 @@ function EmptyGames({ onClear }: { onClear: () => void }) {
       >
         Clear filters
       </button>
-    </div>
-  );
-}
-
-function StatCard({ label, value, hint }: { label: string; value: string; hint: string }) {
-  return (
-    <div className="rounded-2xl border border-card-border bg-card p-4">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted">{label}</p>
-      <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{value}</p>
-      <p className="mt-1 text-xs text-muted">{hint}</p>
     </div>
   );
 }

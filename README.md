@@ -2,7 +2,8 @@
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates for **two seats**. Search, filter, sort, shortlist, and share the slate in the browser — no auth, no live ticket API.
 
-- **Home (`/`)** — holiday showcase, filters, searchable/sortable grid, shortlist
+- **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, shortlist
+- **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
 
 Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on About, not the calendar.
@@ -67,12 +68,12 @@ Combine freely (also persisted in the URL):
 - Sport chips, team multi-select, venue chips, month chips
 - Category: Men / Women / Open (derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
 - Optional date range
-- Holiday / special only
 - Selected only
+- Holiday / special browsing lives on [`/holidays`](/holidays)
 
 ## Holiday / special games
 
-Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. A showcase sits at the top of the page; matching rows get badges.
+Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. Showcase cards, a badge key, and holiday-only browsing live on **Holidays**. Home keeps a “See holiday games” link; matching rows still show badges.
 
 ## Local development
 
