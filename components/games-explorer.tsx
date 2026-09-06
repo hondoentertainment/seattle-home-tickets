@@ -20,7 +20,7 @@ import {
   catalog,
   monthLabel,
 } from "@/lib/catalog";
-import { formatGameDate, formatUsd, parseIsoDate } from "@/lib/format";
+import { formatGameDate, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
 import {
@@ -427,7 +427,7 @@ export function GamesExplorer() {
                             <div className="mt-1 flex flex-wrap gap-1">
                               {row.original.specialTags.map((tag) => (
                                 <span key={tag} className="rounded-full bg-gold/15 px-1.5 py-0.5 text-[10px] text-gold">
-                                  {tag}
+                                  {formatSpecialTag(tag)}
                                 </span>
                               ))}
                             </div>
@@ -495,7 +495,9 @@ export function GamesExplorer() {
                 </button>
               </div>
               {game.specialTags.length ? (
-                <p className="mt-2 text-xs text-gold">{game.specialTags.join(" · ")}</p>
+                <p className="mt-2 text-xs text-gold">
+                  {game.specialTags.map(formatSpecialTag).join(" · ")}
+                </p>
               ) : null}
               <h2 className="mt-1 text-base font-semibold text-foreground">
                 {game.team} vs {game.opponent}

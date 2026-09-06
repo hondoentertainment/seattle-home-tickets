@@ -23,3 +23,21 @@ export function formatGameDate(iso: string): string {
 export function parseIsoDate(iso: string): number {
   return Date.parse(`${iso}T12:00:00Z`);
 }
+
+const SPECIAL_TAG_LABELS: Record<string, string> = {
+  Christmas: "🎄 Christmas",
+  "Holiday Classic": "Holiday Classic",
+  "New Year's": "New Year's",
+  "Thanksgiving week": "Thanksgiving week",
+  "Labor Day weekend": "Labor Day weekend",
+  "Apple Cup": "Apple Cup",
+  Homecoming: "Homecoming",
+  "MLK Day": "MLK Day",
+  "Presidents Day": "Presidents Day",
+  "Decision Day": "Decision Day",
+  Rivalry: "Rivalry",
+};
+
+export function formatSpecialTag(tag: string): string {
+  return SPECIAL_TAG_LABELS[tag] ?? tag;
+}

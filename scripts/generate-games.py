@@ -630,13 +630,13 @@ WOMEN_SPORTS = {
 def special_tags(g: dict) -> list[str]:
     iso = g["date"]
     tags: list[str] = []
-    if iso <= "2026-09-07":
+    if "2026-09-05" <= iso <= "2026-09-07":
         tags.append("Labor Day weekend")
     if "2026-11-22" <= iso <= "2026-11-29":
         tags.append("Thanksgiving week")
     if iso == "2026-12-25":
         tags.append("Christmas")
-    if iso in {"2026-12-31", "2027-01-01", "2027-01-02"}:
+    if iso in {"2026-12-31", "2027-01-01", "2027-01-02", "2027-01-03"}:
         tags.append("New Year's")
     if iso == "2027-01-18":
         tags.append("MLK Day")

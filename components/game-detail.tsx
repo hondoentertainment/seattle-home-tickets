@@ -1,5 +1,5 @@
 import { GENDER_LABELS, venueFor } from "@/lib/catalog";
-import { formatGameDate, formatUsd } from "@/lib/format";
+import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
 import { ticketLinks } from "@/lib/tickets";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
@@ -52,7 +52,7 @@ export function GameDetail({
         <div className="mt-3 flex flex-wrap gap-1.5">
           {game.specialTags.map((tag) => (
             <span key={tag} className="rounded-full bg-gold/15 px-2 py-0.5 text-xs text-gold">
-              {tag}
+              {formatSpecialTag(tag)}
             </span>
           ))}
         </div>

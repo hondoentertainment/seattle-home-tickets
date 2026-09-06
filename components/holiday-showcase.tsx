@@ -1,4 +1,4 @@
-import { formatGameDate, formatUsd } from "@/lib/format";
+import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
 import type { Game } from "@/lib/types";
 
 export function HolidayShowcase({
@@ -25,7 +25,9 @@ export function HolidayShowcase({
             onClick={() => onOpen(game)}
             className="rounded-2xl border border-gold/25 bg-gold/8 p-4 text-left transition hover:border-gold/50"
           >
-            <p className="text-xs font-medium text-gold">{game.specialTags.join(" · ")}</p>
+            <p className="text-xs font-medium text-gold">
+              {game.specialTags.map(formatSpecialTag).join(" · ")}
+            </p>
             <p className="mt-1 font-semibold text-foreground">
               {game.team} vs {game.opponent}
             </p>
