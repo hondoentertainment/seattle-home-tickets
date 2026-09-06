@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { formatGameDate, formatUsd } from "@/lib/format";
 import { catalogStats } from "@/lib/stats";
 import type { StatRow } from "@/lib/stats";
 
 export const metadata: Metadata = {
-  title: "Stats — Seattle Home Tickets",
-  description: "Counts and unofficial mid-tier ticket totals for published Seattle home games.",
+  title: "Ticket Stats — Seattle Home Tickets",
+  description:
+    "Catalog ticket counts and unofficial mid-tier estimate totals for published Seattle home games — not on-field W–L.",
 };
 
 export default function StatsPage() {
@@ -15,14 +17,20 @@ export default function StatsPage() {
     <div className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Snapshot</p>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-        Stats
+        Ticket Stats
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Tallies from the published catalog only
+        Ticket and catalog estimates only — not team W–L or conference tables. Tallies from the
+        published catalog only
         {stats.dateFrom && stats.dateTo
           ? ` (${formatGameDate(stats.dateFrom)} – ${formatGameDate(stats.dateTo)})`
           : ""}
-        . Ticket dollars use unofficial mid-tier estimates at qty 2. Not a live market feed.
+        . Ticket dollars use unofficial mid-tier estimates at qty 2. Not a live market feed. For
+        W–L and conference tables see{" "}
+        <Link href="/standings" className="text-accent hover:underline">
+          Standings
+        </Link>
+        .
       </p>
 
       <dl className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

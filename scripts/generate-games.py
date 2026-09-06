@@ -622,6 +622,143 @@ for iso, opp, t, each in [
         )
     )
 
+# --- High school football: remaining published homes only (as of 2026-09-06) ---
+HS = "Estimated general-admission HS ticket (not a reserved-box seat). Seattle Public Schools Metro football is digital-only (~$7–12). Private schools similar. Not a live quote."
+odea_src = "ODea.org 2026 varsity football schedule (odea.org/athletics/fall-sports/football)"
+ballard_src = "Ballard High School athletics (ballardhs.seattleschools.org) football schedule, updated as of 2026-09-04"
+ec_src = "EastsideCatholic.org athletics football schedule (2026-27 varsity)"
+roos_src = "MaxPreps Roosevelt 2026-27 football schedule at a glance (WIAA partner; vs Eastside Catholic Sep 18)"
+rb_src = "EastsideCatholic.org lists Oct 30 at Southeast Athletic Complex vs Rainier Beach (Rainier Beach home)"
+bel_src = "MaxPreps Bellevue 2026-27 football schedule at a glance; High School on SI Bellevue varsity schedule"
+
+for iso, opp, venue, t, each, src, extra in [
+    ("2026-09-25", "Rainier Beach", "West Seattle Stadium", "7:00 PM", 12, odea_src, ""),
+    ("2026-10-02", "Seattle Prep", "West Seattle Stadium", "7:00 PM", 12, odea_src, ""),
+    ("2026-10-09", "Lincoln (Seattle)", "West Seattle Stadium", "7:00 PM", 12, odea_src, " Homecoming."),
+    ("2026-10-29", "West Seattle", "West Seattle Stadium", "7:00 PM", 12, odea_src, " Senior Night."),
+]:
+    games.append(
+        game(
+            "O'Dea Fighting Irish",
+            "HS Football",
+            iso,
+            opp,
+            venue,
+            t,
+            "NFHS Network",
+            each,
+            HS + extra,
+            src,
+            "2026 WIAA 3A Metro football (published remaining O'Dea homes at West Seattle Stadium)",
+            slug=f"odea-hs-fb-{iso.replace('-', '')}",
+        )
+    )
+
+for iso, opp, venue, t, extra in [
+    ("2026-09-11", "O'Dea", "West Seattle Stadium", "7:00 PM", ""),
+    ("2026-09-18", "Chief Sealth", "Northwest Athletic Complex", "7:00 PM", ""),
+    ("2026-09-25", "Bishop Blanchet", "Northwest Athletic Complex", "7:00 PM", " Homecoming."),
+    ("2026-10-01", "Rainier Beach", "Southeast Athletic Complex", "7:00 PM", ""),
+    ("2026-10-16", "West Seattle", "Northwest Athletic Complex", "7:00 PM", ""),
+    ("2026-10-22", "Seattle Prep", "West Seattle Stadium", "7:00 PM", ""),
+    ("2026-10-31", "Roosevelt", "Northwest Athletic Complex", "12:00 PM", ""),
+]:
+    games.append(
+        game(
+            "Ballard Beavers",
+            "HS Football",
+            iso,
+            opp,
+            venue,
+            t,
+            "NFHS Network",
+            8,
+            HS + extra,
+            ballard_src,
+            "2026 WIAA 3A Metro football (Ballard remaining homes from the official school schedule)",
+            slug=f"ballard-hs-fb-{iso.replace('-', '')}",
+        )
+    )
+
+games.append(
+    game(
+        "Roosevelt Roughriders",
+        "HS Football",
+        "2026-09-18",
+        "Eastside Catholic",
+        "Northwest Athletic Complex",
+        "7:00 PM",
+        "NFHS Network",
+        8,
+        HS,
+        roos_src,
+        "2026 WIAA 3A Metro football (only remaining Roosevelt home dated on MaxPreps as of Sep 6)",
+        slug="roosevelt-hs-fb-20260918",
+    )
+)
+
+for iso, opp, extra in [
+    ("2026-09-11", "Seattle Prep", ""),
+    ("2026-09-25", "Chief Sealth", " Homecoming / Future Crusader Night."),
+    ("2026-10-09", "Ballard", ""),
+    ("2026-10-16", "O'Dea", " Senior Night."),
+]:
+    games.append(
+        game(
+            "Eastside Catholic Crusaders",
+            "HS Football",
+            iso,
+            opp,
+            "Eastside Catholic School",
+            "7:00 PM",
+            "NFHS Network",
+            12,
+            HS + extra,
+            ec_src,
+            "2026 WIAA 3A Metro football (published remaining homes on the Eastside Catholic campus in Sammamish)",
+            slug=f"eastside-catholic-hs-fb-{iso.replace('-', '')}",
+        )
+    )
+
+games.append(
+    game(
+        "Rainier Beach Vikings",
+        "HS Football",
+        "2026-10-30",
+        "Eastside Catholic",
+        "Southeast Athletic Complex",
+        "7:00 PM",
+        "NFHS Network",
+        8,
+        HS,
+        rb_src,
+        "2026 WIAA 3A Metro football (only remaining Rainier Beach home cross-listed on a published opponent schedule)",
+        slug="rainier-beach-hs-fb-20261030",
+    )
+)
+
+for iso, opp in [
+    ("2026-09-18", "Lynden Christian"),
+    ("2026-10-02", "Hazen"),
+    ("2026-10-16", "Issaquah"),
+]:
+    games.append(
+        game(
+            "Bellevue Wolverines",
+            "HS Football",
+            iso,
+            opp,
+            "Bellevue High School Stadium",
+            "7:00 PM",
+            "NFHS Network",
+            10,
+            HS,
+            bel_src,
+            "2026 WIAA 3A/4A KingCo football (published remaining Bellevue homes)",
+            slug=f"bellevue-hs-fb-{iso.replace('-', '')}",
+        )
+    )
+
 MEN_SPORTS = {
     "MLB",
     "NFL",
@@ -630,6 +767,8 @@ MEN_SPORTS = {
     "NCAA Football",
     "NCAA Men's Basketball",
     "NCAA Men's Soccer",
+    "HS Football",
+    "HS Men's Basketball",
 }
 WOMEN_SPORTS = {
     "NWSL",
@@ -637,7 +776,12 @@ WOMEN_SPORTS = {
     "NCAA Women's Basketball",
     "NCAA Women's Soccer",
     "NCAA Volleyball",
+    "HS Women's Basketball",
+    "PWHL",
 }
+# Touring / exhibit sports at Seattle venues. Include a game only when a
+# published upcoming date + venue exists — do not invent. Gender is open.
+EXHIBITION_SPORTS = {"Exhibition", "Touring"}
 
 
 def special_tags(g: dict) -> list[str]:
@@ -677,6 +821,8 @@ def special_tags(g: dict) -> list[str]:
     }
     if (g["team"], g["opponent"]) in rival_pairs:
         tags.append("Rivalry")
+    if g["sport"] in EXHIBITION_SPORTS:
+        tags.append("Exhibition / Touring")
     # unique preserve order
     seen: set[str] = set()
     out: list[str] = []
@@ -692,6 +838,8 @@ for g in games:
         g["gender"] = "men"
     elif g["sport"] in WOMEN_SPORTS:
         g["gender"] = "women"
+    elif g["sport"] in EXHIBITION_SPORTS:
+        g["gender"] = "open"
     else:
         g["gender"] = "open"
     g["specialTags"] = special_tags(g)
@@ -701,7 +849,7 @@ games.sort(key=lambda g: (g["date"], g["timePt"], g["team"]))
 payload = {
     "asOf": AS_OF,
     "timezone": "America/Los_Angeles",
-    "scope": "Seattle-area HOME games only. Away games and the Kraken Finland Global Series are excluded. Undated Big Ten basketball homes are omitted rather than invented.",
+    "scope": "Seattle-area HOME games only, including large high-school football homes with published dates and venues. Away games, the Kraken Finland Global Series, unpublished HS conference/playoff brackets, and undated college basketball homes are excluded rather than invented. Touring / exhibit sports are included only when a Seattle venue date is published and still upcoming.",
     "priceDisclaimer": "All prices are unofficial mid-tier estimates for TWO seats researched as of early September 2026. They are not live marketplace quotes, face values, or a recommendation to buy. Always confirm on official club / Ticketmaster / secondary sites.",
     "sources": [
         "MLB.com, CBS Sports, Baseball-Reference — Mariners 2026",
@@ -713,6 +861,11 @@ payload = {
         "GoHuskies.com football, MBB, WBB, volleyball, soccer 2026/26-27",
         "GoSeattleU.com 2026-27 basketball non-conference schedules",
         "SPUFalcons.com 2026 volleyball and 2026-27 basketball schedules",
+        "ODea.org 2026 varsity football schedule",
+        "Ballard High School athletics football schedule (as of 2026-09-04)",
+        "EastsideCatholic.org 2026-27 varsity football schedule",
+        "MaxPreps (WIAA partner) Roosevelt / Bellevue 2026-27 football schedule pages",
+        "Seattle Public Schools digital athletic tickets / Metro League HomeTown box office",
     ],
     "omissions": [
         "Kraken vs Carolina, Nov 12, 2026 at Veikkaus Arena (Helsinki) — not a Seattle home",
@@ -721,6 +874,14 @@ payload = {
         "UW women's basketball conference homes (opponents named, dates unpublished)",
         "SPU basketball tournament placeholders (GNAC / NCAA) without a listed opponent",
         "Completed 2026 homes before the remaining-season window except where the club slate is specified as full-season (Seahawks, Kraken)",
+        "Garfield, Nathan Hale, Issaquah remaining 2026 football homes — MaxPreps 26-27 pages list week-1 results only; later dates unpublished",
+        "O'Dea / Metro playoff and Gridiron XXXI (Husky Stadium Dec 5) placeholders without a listed opponent",
+        "2026-27 high-school basketball homes — winter slates not dated yet",
+        "Harlem Globetrotters 100 Year Tour at Climate Pledge Arena, Feb 1, 2026 — already played",
+        "Harlem Globetrotters accesso ShoWare Center (Kent), Jan 30, 2026 — already played and not a Seattle city venue",
+        "PWHL Seattle Torrent 2026–27 Climate Pledge homes — league schedule unpublished as of Sep 6, 2026",
+        "Monster Jam / other motorsports — no published Seattle-city sports date in the remaining window",
+        "FIFA World Cup 2026 at Lumen Field — tournament already completed",
     ],
     "games": games,
 }

@@ -7,9 +7,12 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/holidays", label: "Holidays" },
   { href: "/teams", label: "Teams" },
-  { href: "/stats", label: "Stats" },
+  { href: "/standings", label: "Standings" },
+  { href: "/stats", label: "Ticket Stats" },
   { href: "/promotions", label: "Promotions" },
-  { href: "/about", label: "About" },
+  { href: "/venues", label: "Venues" },
+  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "FAQ" },
 ] as const;
 
 export function SiteNav() {
