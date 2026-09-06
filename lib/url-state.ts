@@ -57,6 +57,10 @@ function encodeList(values: string[]): string | null {
   return values.map((value) => encodeURIComponent(value)).join(",");
 }
 
+export function explorerStateKey(state: ExplorerState): string {
+  return explorerStateToParams(state).toString();
+}
+
 export function explorerStateToParams(state: ExplorerState): URLSearchParams {
   const params = new URLSearchParams();
   if (state.q) params.set("q", state.q);

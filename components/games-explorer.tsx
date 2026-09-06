@@ -7,8 +7,7 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
 import {
@@ -20,18 +19,12 @@ import {
   catalog,
   monthLabel,
 } from "@/lib/catalog";
+import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
-import {
-  EMPTY_STATE,
-  explorerStateToParams,
-  parseExplorerState,
-  readStoredIds,
-  shareUrl,
-  writeStoredIds,
-  type ExplorerState,
-} from "@/lib/url-state";
+import { EMPTY_STATE, shareUrl } from "@/lib/url-state";
+import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
 const features = tableFeatures({
@@ -41,31 +34,8 @@ const features = tableFeatures({
 const helper = createColumnHelper<typeof features, Game>();
 const EMPTY_GAMES: Game[] = [];
 
-function matchesSearch(game: Game, query: string): boolean {
-  if (!query) return true;
-  const haystack = [
-    game.team,
-    game.opponent,
-    game.venue,
-    game.sport,
-    game.tv,
-    game.season,
-    game.specialTags.join(" "),
-  ]
-    .join(" ")
-    .toLowerCase();
-  return haystack.includes(query);
-}
-
 export function GamesExplorer() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const state = useMemo(
-    () => parseExplorerState(new URLSearchParams(searchParams.toString())),
-    [searchParams],
-  );
-
+  const { state, draftQ, setDraftQ, apply, patch } = useExplorerState();
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const [copied, setCopied] = useState<string | null>(null);
@@ -76,53 +46,10 @@ export function GamesExplorer() {
           state.teams.length ||
           state.venues.length ||
           state.months.length ||
-          state.genders.length ||
           state.from ||
           state.to,
       ),
   );
-  const [draftQ, setDraftQ] = useState(state.q);
-  const [urlQ, setUrlQ] = useState(state.q);
-  if (state.q !== urlQ) {
-    const wasSynced = draftQ === urlQ;
-    setUrlQ(state.q);
-    if (wasSynced) setDraftQ(state.q);
-  }
-
-  const replaceState = useCallback(
-    (next: ExplorerState) => {
-      const query = explorerStateToParams(next).toString();
-      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-      writeStoredIds(next.ids);
-    },
-    [pathname, router],
-  );
-
-  const patch = useCallback(
-    (partial: Partial<ExplorerState>) => {
-      replaceState({ ...state, ...partial });
-    },
-    [replaceState, state],
-  );
-
-  useEffect(() => {
-    if (draftQ === state.q) return;
-    const timer = window.setTimeout(() => {
-      patch({ q: draftQ });
-    }, 250);
-    return () => window.clearTimeout(timer);
-  }, [draftQ, state.q, patch]);
-
-  useEffect(() => {
-    if (searchParams.get("ids")) return;
-    const stored = readStoredIds();
-    if (stored.length) {
-      const params = explorerStateToParams({ ...state, ids: stored });
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-    // Hydrate shortlist from localStorage once when the URL has no ids.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -139,27 +66,11 @@ export function GamesExplorer() {
     };
   }, []);
 
-  const normalizedQuery = draftQ.trim().toLowerCase();
-  const selected = useMemo(
-    () => new Set(state.ids),
-    [state.ids],
+  const selected = useMemo(() => new Set(state.ids), [state.ids]);
+  const filtered = useMemo(
+    () => filterGames(catalog.games, state, draftQ),
+    [state, draftQ],
   );
-
-  const filtered = useMemo(() => {
-    return catalog.games.filter((game) => {
-      if (!matchesSearch(game, normalizedQuery)) return false;
-      if (state.sports.length && !state.sports.includes(game.sport)) return false;
-      if (state.teams.length && !state.teams.includes(game.team)) return false;
-      if (state.venues.length && !state.venues.includes(game.venue)) return false;
-      if (state.months.length && !state.months.includes(game.date.slice(0, 7))) return false;
-      if (state.genders.length && !state.genders.includes(game.gender)) return false;
-      if (state.from && game.date < state.from) return false;
-      if (state.to && game.date > state.to) return false;
-      if (state.holidayOnly && game.specialTags.length === 0) return false;
-      if (state.selectedOnly && !selected.has(game.id)) return false;
-      return true;
-    });
-  }, [normalizedQuery, state, selected]);
 
   const holidayGames = useMemo(() => {
     const tagged = catalog.games.filter((game) => game.specialTags.length > 0);
@@ -266,23 +177,23 @@ export function GamesExplorer() {
     (state.to ? 1 : 0);
 
   function toggleId(id: string) {
-    const next = selected.has(id) ? state.ids.filter((item) => item !== id) : [...state.ids, id];
-    patch({ ids: next });
+    apply((prev) => ({
+      ...prev,
+      ids: prev.ids.includes(id) ? prev.ids.filter((item) => item !== id) : [...prev.ids, id],
+    }));
   }
 
   function toggleList(key: "sports" | "teams" | "venues" | "months", value: string) {
-    const current = state[key];
-    patch({
-      [key]: current.includes(value) ? current.filter((item) => item !== value) : [...current, value],
-    });
+    apply((prev) => ({ ...prev, [key]: toggleListValue(prev[key], value) }));
   }
 
   function toggleGender(value: Gender) {
-    patch({
-      genders: state.genders.includes(value)
-        ? state.genders.filter((item) => item !== value)
-        : [...state.genders, value],
-    });
+    apply((prev) => ({ ...prev, genders: toggleListValue(prev.genders, value) }));
+  }
+
+  function clearFilters() {
+    setDraftQ("");
+    apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids }));
   }
 
   async function copyShareLink() {
@@ -412,7 +323,7 @@ export function GamesExplorer() {
               selected={state.venues}
               onToggle={(value) => toggleList("venues", value)}
             />
-            <MultiSelect
+            <ChipRow
               label="Teams"
               options={allTeams}
               selected={state.teams}
@@ -420,7 +331,7 @@ export function GamesExplorer() {
             />
             <button
               type="button"
-              onClick={() => replaceState({ ...EMPTY_STATE, ids: state.ids })}
+              onClick={clearFilters}
               className="rounded-full border border-card-border px-3 py-1.5 text-xs text-foreground hover:border-accent/50"
             >
               Clear filters
@@ -490,7 +401,7 @@ export function GamesExplorer() {
           </table>
         </div>
         {filtered.length === 0 ? (
-          <EmptyGames onClear={() => replaceState({ ...EMPTY_STATE, ids: state.ids })} />
+          <EmptyGames onClear={clearFilters} />
         ) : null}
       </div>
 
@@ -519,7 +430,7 @@ export function GamesExplorer() {
           </button>
         </div>
         {filtered.length === 0 ? (
-          <EmptyGames onClear={() => replaceState({ ...EMPTY_STATE, ids: state.ids })} />
+          <EmptyGames onClear={clearFilters} />
         ) : null}
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
@@ -710,48 +621,5 @@ function ToggleChip({
     >
       {children}
     </button>
-  );
-}
-
-function MultiSelect({
-  label,
-  options,
-  selected,
-  onToggle,
-}: {
-  label: string;
-  options: string[];
-  selected: string[];
-  onToggle: (value: string) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        className="text-xs font-semibold uppercase tracking-wider text-muted hover:text-foreground"
-      >
-        {label} {selected.length ? `(${selected.length} selected)` : "(multi-select)"} {open ? "▴" : "▾"}
-      </button>
-      {open ? (
-        <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {options.map((option) => (
-            <label
-              key={option}
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-card-border bg-background px-3 py-2 text-sm"
-            >
-              <input
-                type="checkbox"
-                checked={selected.includes(option)}
-                onChange={() => onToggle(option)}
-                className="accent-accent"
-              />
-              <span>{option}</span>
-            </label>
-          ))}
-        </div>
-      ) : null}
-    </div>
   );
 }
