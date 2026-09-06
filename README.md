@@ -22,14 +22,14 @@ Seeded from official and league schedules researched **as of 6 September 2026**.
 | UW Men’s Basketball | Published 2026-27 non-conference homes + Seattle Holiday Classic. **No invented Big Ten dates** |
 | UW Women’s Basketball | Dated homes only (Santa Clara, Dec 17) |
 | UW Volleyball / M+W Soccer | Remaining 2026 fall homes |
-| Seattle U M/W Basketball | Published non-conference homes (+ Holiday Classic for men) |
+| Seattle U M/W Basketball | Men: published non-conference homes + Holiday Classic. Women: all dated 2026-27 homes including WCC |
 | SPU Volleyball + Basketball | Remaining 2026 VB homes and published 2026-27 basketball homes with listed opponents |
 
 Away games are excluded. If a conference basketball slate was not dated yet, it was omitted rather than invented.
 
 ## Prices
 
-Every row has `estPriceEachUsd` (and a stored pair field) for mid-tier seats (not cheapest upper deck, not club). The UI defaults to **2 tickets** and scales displayed prices as `estPriceEachUsd × quantity` (1–10). Quantity lives in the URL (`qty=`) and `localStorage`. These are **unofficial estimates**. They will be wrong the moment inventory moves. Always buy from official club / Ticketmaster / authorized sellers.
+Every row has `estPriceEachUsd` (and a stored pair field) for mid-tier seats (not cheapest upper deck, not club). The UI defaults to **2 tickets** and scales displayed prices as `estPriceEachUsd × quantity` (1–19). Quantity lives in the URL (`qty=`) and `localStorage`. These are **unofficial estimates**. They will be wrong the moment inventory moves. Always buy from official club / Ticketmaster / authorized sellers.
 
 The header stats show:
 
@@ -69,7 +69,7 @@ Combine freely (also persisted in the URL):
 - Category: Men / Women / Open (derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
 - Optional date range
 - Selected only
-- Holiday / special browsing lives on [`/holidays`](/holidays)
+- Holiday / special browsing lives on [`/holidays`](/holidays); Home tucks a “See holiday games” link at the end of the filter row and a Holiday / special toggle inside Filters
 
 ## Holiday / special games
 

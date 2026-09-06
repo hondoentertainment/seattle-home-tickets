@@ -1,5 +1,5 @@
 export const MIN_QTY = 1;
-export const MAX_QTY = 10;
+export const MAX_QTY = 19;
 export const DEFAULT_QTY = 2;
 
 export function clampQty(value: unknown): number {

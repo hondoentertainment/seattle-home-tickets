@@ -496,16 +496,25 @@ for iso, opp, venue, each, extra, slug in [
         )
     )
 
-# --- Seattle U Women's Basketball published non-con homes ---
-su_w_src = "GoSeattleU.com 2026-27 WBB schedule. WCC homes are dated but listed separately; including published non-con homes only."
-for iso, opp, each in [
-    ("2026-11-06", "UC Riverside", 14),
-    ("2026-11-18", "Pacific Lutheran", 10),
-    ("2026-11-25", "Weber State", 14),
-    ("2026-11-29", "Montana", 14),
-    ("2026-12-05", "North Texas", 16),
-    ("2026-12-12", "Lewis & Clark", 10),
-    ("2026-12-18", "Portland State", 14),
+# --- Seattle U Women's Basketball published homes (non-con + dated WCC) ---
+su_w_src = "GoSeattleU.com 2026-27 WBB schedule (Sep 1, 2026). WCC homes are dated."
+for iso, opp, each, extra in [
+    ("2026-11-06", "UC Riverside", 14, ""),
+    ("2026-11-18", "Pacific Lutheran", 10, ""),
+    ("2026-11-25", "Weber State", 14, ""),
+    ("2026-11-29", "Montana", 14, ""),
+    ("2026-12-05", "North Texas", 16, ""),
+    ("2026-12-12", "Lewis & Clark", 10, ""),
+    ("2026-12-18", "Portland State", 14, ""),
+    ("2027-01-07", "Denver", 16, " WCC."),
+    ("2027-01-09", "San Diego", 16, " WCC."),
+    ("2027-01-21", "San Francisco", 16, " WCC."),
+    ("2027-01-23", "Pepperdine", 16, " WCC."),
+    ("2027-01-30", "Saint Mary's", 18, " WCC."),
+    ("2027-02-11", "Santa Clara", 16, " WCC."),
+    ("2027-02-13", "LMU", 16, " WCC."),
+    ("2027-02-20", "Portland", 16, " WCC / I-5 rival."),
+    ("2027-02-27", "Pacific", 16, " WCC regular-season home finale."),
 ]:
     games.append(
         game(
@@ -517,9 +526,9 @@ for iso, opp, each in [
             "TBD",
             "WCC Network/TBD",
             each,
-            COLLEGE,
+            COLLEGE + extra,
             su_w_src,
-            "2026-27 NCAA women's basketball (published non-conference homes)",
+            "2026-27 NCAA women's basketball (all published dated homes, including WCC)",
         )
     )
 
@@ -553,12 +562,14 @@ for iso, opp, t, each in [
     )
 
 # --- SPU Men's Basketball published homes with confirmed opponents ---
-spu_m_src = "SPUFalcons.com 2026-27 men's basketball schedule (GNAC homes)"
+spu_m_src = "SPUFalcons.com 2026-27 men's basketball schedule (verified Sep 6, 2026)"
 for iso, opp, t, each in [
     ("2026-12-03", "Central Washington", "7:30 PM", 12),
     ("2026-12-05", "Northwest Nazarene", "2:00 PM", 12),
-    ("2027-01-07", "Western Oregon", "7:00 PM", 12),
-    ("2027-01-09", "Simon Fraser", "4:15 PM", 12),
+    ("2026-12-19", "Western Colorado", "3:00 PM", 10),
+    ("2027-01-07", "Saint Martin's", "7:00 PM", 12),
+    ("2027-01-09", "Western Oregon", "4:15 PM", 12),
+    ("2027-01-28", "Simon Fraser", "5:15 PM", 12),
     ("2027-01-30", "Western Washington", "4:15 PM", 14),
     ("2027-02-13", "MSU Billings", "2:00 PM", 12),
     ("2027-02-18", "Alaska Fairbanks", "5:15 PM", 12),
@@ -581,10 +592,12 @@ for iso, opp, t, each in [
     )
 
 # --- SPU Women's Basketball published homes with confirmed opponents ---
-spu_w_src = "SPUFalcons.com 2026-27 women's basketball schedule"
+spu_w_src = "SPUFalcons.com 2026-27 women's basketball schedule (verified Sep 6, 2026)"
 for iso, opp, t, each in [
     ("2026-12-03", "Central Washington", "5:15 PM", 12),
     ("2026-12-05", "Northwest Nazarene", "4:15 PM", 12),
+    ("2026-12-12", "George Fox", "3:00 PM", 10),
+    ("2026-12-19", "Edmonds College", "12:30 PM", 10),
     ("2027-01-09", "MSU Billings", "2:00 PM", 12),
     ("2027-01-14", "Western Washington", "7:00 PM", 14),
     ("2027-01-16", "Simon Fraser", "2:00 PM", 12),
@@ -704,9 +717,9 @@ payload = {
     "omissions": [
         "Kraken vs Carolina, Nov 12, 2026 at Veikkaus Arena (Helsinki) — not a Seattle home",
         "Seahawks Weeks 17–18 (at Carolina, at Rams) — road games",
-        "UW / Seattle U Big Ten or WCC basketball homes without published dates",
+        "UW / Seattle U men's basketball conference homes without published dates (Big Ten / WCC weekly windows only)",
         "UW women's basketball conference homes (opponents named, dates unpublished)",
-        "SPU basketball homes whose opponents were not listed on the public schedule page",
+        "SPU basketball tournament placeholders (GNAC / NCAA) without a listed opponent",
         "Completed 2026 homes before the remaining-season window except where the club slate is specified as full-season (Seahawks, Kraken)",
     ],
     "games": games,
