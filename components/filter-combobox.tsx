@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 export function FilterCombobox<T extends string>({
   label,
@@ -19,6 +19,7 @@ export function FilterCombobox<T extends string>({
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const listId = useId();
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -72,6 +73,11 @@ export function FilterCombobox<T extends string>({
   const highlight = visible.length ? Math.min(active, visible.length - 1) : 0;
   const showList = open && visible.length > 0;
 
+  useLayoutEffect(() => {
+    if (!showList) return;
+    optionRefs.current[highlight]?.scrollIntoView({ block: "nearest" });
+  }, [highlight, showList]);
+
   return (
     <div ref={rootRef} className="space-y-2">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted">{label}</p>
@@ -123,6 +129,9 @@ export function FilterCombobox<T extends string>({
                 <li key={option} role="presentation">
                   <button
                     type="button"
+                    ref={(node) => {
+                      optionRefs.current[index] = node;
+                    }}
                     role="option"
                     aria-selected={index === highlight}
                     onMouseEnter={() => setActive(index)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
 
 export function QuantityPicker({
@@ -13,7 +13,13 @@ export function QuantityPicker({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(value);
   const rootRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<Partial<Record<number, HTMLButtonElement | null>>>({});
   const listId = useId();
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    optionRefs.current[active]?.scrollIntoView({ block: "nearest" });
+  }, [active, open]);
 
   useEffect(() => {
     function onPointerDown(event: PointerEvent) {
@@ -102,6 +108,9 @@ export function QuantityPicker({
               <li key={qty} role="presentation">
                 <button
                   type="button"
+                  ref={(node) => {
+                    optionRefs.current[qty] = node;
+                  }}
                   role="option"
                   aria-selected={selected}
                   onMouseEnter={() => setActive(qty)}
