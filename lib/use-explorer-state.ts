@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   explorerStateKey,
   explorerStateToParams,
@@ -13,9 +13,14 @@ import {
   type ExplorerState,
 } from "@/lib/url-state";
 
+function writeLocation(query: string) {
+  const next = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+  const current = `${window.location.pathname}${window.location.search}`;
+  if (current === next) return;
+  window.history.replaceState(window.history.state, "", next);
+}
+
 export function useExplorerState() {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const urlKey = searchParams.toString();
 
@@ -56,18 +61,22 @@ export function useExplorerState() {
     writeStoredQty(state.qty);
     if (query === lastWritten.current) return;
     lastWritten.current = query;
-    startTransition(() => {
-      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-    });
-  }, [state, pathname, router]);
+    writeLocation(query);
+  }, [state]);
 
   useEffect(() => {
-    if (urlKey === lastWritten.current) return;
-    lastWritten.current = urlKey;
-    const incoming = parseExplorerState(new URLSearchParams(urlKey));
-    setState(incoming);
-    setDraftQ(incoming.q);
-  }, [urlKey]);
+    const onPop = () => {
+      const incoming = window.location.search.startsWith("?")
+        ? window.location.search.slice(1)
+        : window.location.search;
+      lastWritten.current = incoming;
+      const parsed = parseExplorerState(new URLSearchParams(incoming));
+      setState(parsed);
+      setDraftQ(parsed.q);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   useEffect(() => {
     if (draftQ === state.q) return;
