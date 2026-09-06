@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { FIELD_TRIGGER } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 import { QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
 
@@ -85,17 +86,12 @@ export function QuantityPicker({
           if (open) setOpen(false);
           else openList();
         }}
-        className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-card-border bg-card px-3.5 py-2 text-left outline-none ring-accent/40 hover:border-accent/40 focus:ring-2 md:h-11 md:min-w-[11.5rem] md:py-0"
+        className={`${FIELD_TRIGGER} md:min-w-[11.5rem]`}
       >
-        <span>
-          <span className="block text-[10px] font-medium uppercase leading-none tracking-[0.16em] text-muted">
-            Tickets
-          </span>
-          <span className="mt-0.5 block text-[15px] font-semibold leading-tight text-foreground">
-            {value} {qtyNoun(value)}
-          </span>
+        <span className="truncate text-sm font-semibold leading-5 text-foreground">
+          {value} {qtyNoun(value)}
         </span>
-        <span className="text-xs text-accent" aria-hidden>
+        <span className="text-sm leading-5 text-muted" aria-hidden>
           {open ? "▴" : "▾"}
         </span>
       </button>
@@ -122,7 +118,7 @@ export function QuantityPicker({
                   onMouseEnter={() => setActive(qty)}
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={() => choose(qty)}
-                  className={`flex w-full items-center justify-between px-3 py-2 text-sm ${
+                  className={`flex w-full items-center justify-between px-3.5 py-2 text-sm leading-5 ${
                     highlighted ? "bg-accent/15 text-foreground" : "text-foreground"
                   }`}
                 >

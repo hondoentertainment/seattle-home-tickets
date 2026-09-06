@@ -23,6 +23,7 @@ import {
   featuredHolidayGames,
   monthLabel,
 } from "@/lib/catalog";
+import { FIELD_INPUT, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
@@ -279,7 +280,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.from}
                   onChange={(event) => patch({ from: event.target.value })}
-                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className={FIELD_INPUT}
                 />
               </label>
               <label className="block">
@@ -288,7 +289,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.to}
                   onChange={(event) => patch({ to: event.target.value })}
-                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className={FIELD_INPUT}
                 />
               </label>
             </div>
@@ -419,7 +420,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <select
             value={currentSort.id}
             onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
-            className="h-11 w-full rounded-xl border border-card-border bg-card px-3 text-foreground"
+            className={FIELD_INPUT}
           >
             <option value="date">Date</option>
             <option value="team">Team</option>
@@ -433,7 +434,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <button
             type="button"
             onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
-            className="inline-flex h-11 min-w-11 items-center justify-center rounded-xl border border-card-border bg-card px-3"
+            className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
           >
             {currentSort.desc ? "Desc" : "Asc"}
           </button>
