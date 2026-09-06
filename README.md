@@ -2,7 +2,10 @@
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates for **two seats**. Search, filter, sort, shortlist, and share the slate in the browser — no auth, no live ticket API.
 
-Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes.
+- **Home (`/`)** — holiday showcase, filters, searchable/sortable grid, shortlist
+- **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
+
+Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on About, not the calendar.
 
 ## What’s on the grid
 

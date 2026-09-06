@@ -57,13 +57,15 @@ export function GameDetail({
           ))}
         </div>
       ) : null}
-      <p className="mt-3 text-xs leading-5 text-muted">{game.priceNotes}</p>
+      {game.priceNotes ? (
+        <details className="mt-3 text-xs leading-5 text-muted">
+          <summary className="cursor-pointer text-foreground hover:text-accent">Estimate note</summary>
+          <p className="mt-2">{game.priceNotes}</p>
+        </details>
+      ) : null}
 
       <section className="mt-5 space-y-2">
-        <h3 className="text-sm font-semibold text-foreground">Check live prices</h3>
-        <p className="text-xs text-muted">
-          Marketplace links are search URLs for this matchup and date — not reserved inventory.
-        </p>
+        <h3 className="text-sm font-semibold text-foreground">Tickets</h3>
         <div className="flex flex-wrap gap-2">
           {links.map((link) => (
             <a
@@ -85,7 +87,12 @@ export function GameDetail({
 
       <section className="mt-5 space-y-2">
         <h3 className="text-sm font-semibold text-foreground">
-          Weather {venue?.indoor ? "(travel day — indoor venue)" : "(outdoor venue)"}
+          Weather
+          {venue ? (
+            <span className="ml-2 text-xs font-normal text-muted">
+              {venue.indoor ? "Indoor · travel day" : "Outdoor"}
+            </span>
+          ) : null}
         </h3>
         {weather ? (
           <p className="text-sm text-muted">

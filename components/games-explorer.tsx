@@ -69,6 +69,18 @@ export function GamesExplorer() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const [copied, setCopied] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(
+    () =>
+      Boolean(
+        state.sports.length ||
+          state.teams.length ||
+          state.venues.length ||
+          state.months.length ||
+          state.genders.length ||
+          state.from ||
+          state.to,
+      ),
+  );
 
   const replaceState = useCallback(
     (next: ExplorerState) => {
@@ -229,6 +241,14 @@ export function GamesExplorer() {
   const selectedGames = catalog.games.filter((game) => selected.has(game.id));
   const openGame = catalog.games.find((game) => game.id === openId) ?? null;
   const currentSort = table.state.sorting[0] ?? { id: "date", desc: false };
+  const extraFilterCount =
+    state.sports.length +
+    state.teams.length +
+    state.venues.length +
+    state.months.length +
+    (state.genders.includes("open") ? 1 : 0) +
+    (state.from ? 1 : 0) +
+    (state.to ? 1 : 0);
 
   function toggleId(id: string) {
     const next = selected.has(id) ? state.ids.filter((item) => item !== id) : [...state.ids, id];
@@ -268,119 +288,130 @@ export function GamesExplorer() {
     <section className="space-y-6 pb-24">
       <HolidayShowcase games={holidayGames} onOpen={(game) => setOpenId(game.id)} />
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        <StatCard label="Events" value={filtered.length.toString()} hint={`${catalog.games.length} total`} />
+        <StatCard label="Pair total" value={formatUsd(pairTotal)} hint="Visible estimates" />
         <StatCard
-          label="Visible events"
-          value={filtered.length.toString()}
-          hint={`${catalog.games.length} published homes`}
-        />
-        <StatCard
-          label="If you bought every visible pair"
-          value={formatUsd(pairTotal)}
-          hint="Sum of estimated pair prices"
-        />
-        <StatCard
-          label="Avg. pair on screen"
+          label="Avg pair"
           value={filtered.length ? formatUsd(Math.round(pairTotal / filtered.length)) : "—"}
-          hint="Unofficial mid-tier average"
+          hint="On screen"
         />
       </div>
 
-      <div className="space-y-4 rounded-2xl border border-card-border bg-card/80 p-4 sm:p-5">
-        <div className="grid gap-3 lg:grid-cols-[1fr_auto_auto] lg:items-end">
-          <label className="block">
-            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">
-              Search team, opponent, venue, sport
-            </span>
-            <input
-              type="search"
-              value={state.q}
-              onChange={(event) => patch({ q: event.target.value })}
-              placeholder="Kraken, Lumen, volleyball…"
-              className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
-            />
-          </label>
-          <label className="block">
-            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
-            <input
-              type="date"
-              value={state.from}
-              onChange={(event) => patch({ from: event.target.value })}
-              className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
-            />
-          </label>
-          <label className="block">
-            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
-            <input
-              type="date"
-              value={state.to}
-              onChange={(event) => patch({ to: event.target.value })}
-              className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
-            />
-          </label>
-        </div>
-
-        <ChipRow
-          label="Sport"
-          options={allSports}
-          selected={state.sports}
-          onToggle={(value) => toggleList("sports", value)}
-        />
-        <ChipRow
-          label="Month"
-          options={allMonths}
-          selected={state.months}
-          onToggle={(value) => toggleList("months", value)}
-          render={(value) => monthLabel(value)}
-        />
-        <ChipRow
-          label="Category"
-          options={["men", "women", "open"] as Gender[]}
-          selected={state.genders}
-          onToggle={(value) => toggleGender(value)}
-          render={(value) => GENDER_LABELS[value]}
-        />
-        <ChipRow
-          label="Venue"
-          options={allVenues}
-          selected={state.venues}
-          onToggle={(value) => toggleList("venues", value)}
-        />
-
-        <MultiSelect
-          label="Teams"
-          options={allTeams}
-          selected={state.teams}
-          onToggle={(value) => toggleList("teams", value)}
-        />
+      <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
+        <label className="block">
+          <span className="sr-only">Search team, opponent, venue, sport</span>
+          <input
+            type="search"
+            value={state.q}
+            onChange={(event) => patch({ q: event.target.value })}
+            placeholder="Search team, opponent, venue, sport"
+            className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+          />
+        </label>
 
         <div className="flex flex-wrap items-center gap-2">
           <ToggleChip
             active={state.holidayOnly}
             onClick={() => patch({ holidayOnly: !state.holidayOnly })}
           >
-            Holiday / special only
+            Holiday
           </ToggleChip>
           <ToggleChip
             active={state.selectedOnly}
             onClick={() => patch({ selectedOnly: !state.selectedOnly })}
           >
-            Selected only
+            Selected
           </ToggleChip>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
-          <p>
-            Showing {filtered.length} of {catalog.games.length}
-          </p>
+          {(["men", "women"] as const).map((value) => (
+            <ToggleChip
+              key={value}
+              active={state.genders.includes(value)}
+              onClick={() => toggleGender(value)}
+            >
+              {GENDER_LABELS[value]}
+            </ToggleChip>
+          ))}
           <button
             type="button"
-            onClick={() => replaceState({ ...EMPTY_STATE, ids: state.ids })}
-            className="rounded-full border border-card-border px-3 py-1.5 text-foreground hover:border-accent/50"
+            aria-expanded={filtersOpen}
+            onClick={() => setFiltersOpen((open) => !open)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
+              filtersOpen || extraFilterCount
+                ? "border-accent/50 bg-accent/10 text-accent"
+                : "border-card-border text-muted"
+            }`}
           >
-            Clear filters
+            Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
           </button>
+          <span className="ml-auto text-xs text-muted">
+            {filtered.length} of {catalog.games.length}
+          </span>
         </div>
+
+        {filtersOpen ? (
+          <div className="space-y-4 border-t border-card-border/70 pt-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
+                <input
+                  type="date"
+                  value={state.from}
+                  onChange={(event) => patch({ from: event.target.value })}
+                  className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
+                <input
+                  type="date"
+                  value={state.to}
+                  onChange={(event) => patch({ to: event.target.value })}
+                  className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                />
+              </label>
+            </div>
+            <ChipRow
+              label="Sport"
+              options={allSports}
+              selected={state.sports}
+              onToggle={(value) => toggleList("sports", value)}
+            />
+            <ChipRow
+              label="Month"
+              options={allMonths}
+              selected={state.months}
+              onToggle={(value) => toggleList("months", value)}
+              render={(value) => monthLabel(value)}
+            />
+            <ChipRow
+              label="Category"
+              options={["men", "women", "open"] as Gender[]}
+              selected={state.genders}
+              onToggle={(value) => toggleGender(value)}
+              render={(value) => GENDER_LABELS[value]}
+            />
+            <ChipRow
+              label="Venue"
+              options={allVenues}
+              selected={state.venues}
+              onToggle={(value) => toggleList("venues", value)}
+            />
+            <MultiSelect
+              label="Teams"
+              options={allTeams}
+              selected={state.teams}
+              onToggle={(value) => toggleList("teams", value)}
+            />
+            <button
+              type="button"
+              onClick={() => replaceState({ ...EMPTY_STATE, ids: state.ids })}
+              className="rounded-full border border-card-border px-3 py-1.5 text-xs text-foreground hover:border-accent/50"
+            >
+              Clear filters
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <div className="hidden overflow-hidden rounded-2xl border border-card-border bg-card/70 md:block">
@@ -444,7 +475,7 @@ export function GamesExplorer() {
           </table>
         </div>
         {filtered.length === 0 ? (
-          <p className="px-4 py-10 text-center text-sm text-muted">No games match those filters.</p>
+          <EmptyGames onClear={() => replaceState({ ...EMPTY_STATE, ids: state.ids })} />
         ) : null}
       </div>
 
@@ -472,6 +503,9 @@ export function GamesExplorer() {
             {currentSort.desc ? "Desc" : "Asc"}
           </button>
         </div>
+        {filtered.length === 0 ? (
+          <EmptyGames onClear={() => replaceState({ ...EMPTY_STATE, ids: state.ids })} />
+        ) : null}
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
           return (
@@ -518,7 +552,7 @@ export function GamesExplorer() {
         <div className="fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 px-4 py-3 backdrop-blur">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-foreground">
-              {selectedGames.length} game{selectedGames.length === 1 ? "" : "s"} selected
+              {selectedGames.length} selected
             </p>
             <div className="flex flex-wrap gap-2">
               <button
@@ -526,28 +560,28 @@ export function GamesExplorer() {
                 onClick={copyShareLink}
                 className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-background"
               >
-                {copied === "link" ? "Link copied" : "Share link"}
+                {copied === "link" ? "Copied" : "Share"}
               </button>
               <button
                 type="button"
                 onClick={copySummary}
                 className="rounded-full border border-card-border px-3 py-1.5 text-xs"
               >
-                {copied === "summary" ? "Summary copied" : "Copy summary"}
+                {copied === "summary" ? "Copied" : "Copy"}
               </button>
               <button
                 type="button"
                 onClick={() => patch({ selectedOnly: true })}
                 className="rounded-full border border-card-border px-3 py-1.5 text-xs"
               >
-                Review selected
+                Review
               </button>
               <button
                 type="button"
                 onClick={() => patch({ ids: [], selectedOnly: false })}
                 className="rounded-full border border-card-border px-3 py-1.5 text-xs"
               >
-                Clear selection
+                Clear
               </button>
             </div>
           </div>
@@ -562,6 +596,22 @@ export function GamesExplorer() {
         />
       ) : null}
     </section>
+  );
+}
+
+function EmptyGames({ onClear }: { onClear: () => void }) {
+  return (
+    <div className="px-4 py-10 text-center">
+      <p className="text-sm font-medium text-foreground">No games match</p>
+      <p className="mt-1 text-sm text-muted">Clear filters or try a different search.</p>
+      <button
+        type="button"
+        onClick={onClear}
+        className="mt-3 rounded-full border border-card-border px-3 py-1.5 text-xs text-foreground hover:border-accent/50"
+      >
+        Clear filters
+      </button>
+    </div>
   );
 }
 
