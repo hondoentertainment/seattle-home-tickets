@@ -80,3 +80,11 @@ export function teamHref(card: TeamMark): string {
   if (card.sport) params.set("sports", card.sport);
   return `/?${params.toString()}`;
 }
+
+export function markFor(team: string, sport?: string): TeamMark | undefined {
+  const cards = teamCards();
+  if (sport) {
+    return cards.find((card) => card.team === team && card.sport === sport) ?? cards.find((card) => card.team === team);
+  }
+  return cards.find((card) => card.team === team && !card.sport) ?? cards.find((card) => card.team === team);
+}

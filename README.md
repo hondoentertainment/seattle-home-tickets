@@ -6,6 +6,7 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles (college tiles print the sport)
 - **Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals
+- **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
 
@@ -99,7 +100,7 @@ What it **does not**:
 - Scrape official or secondary ticket sites for live prices
 - Invent unpublished conference basketball dates
 - Bump `games.json` `asOf` just because the clock moved
-- Pull standings or invent promo calendars (edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
+- Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
 The site shows **last checked** under the nav and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
 
@@ -124,6 +125,8 @@ Data lives in [`data/games.json`](data/games.json). Published promotions live in
 ```bash
 python3 scripts/generate-games.py
 ```
+
+Standings live in [`data/standings.json`](data/standings.json) — the same seed style as the game catalog. Each row cites a published table and an `asOf` date. Refresh by editing that file when league tables move; the daily GitHub Action does **not** scrape live standings or invent college basketball records.
 
 ## Stack
 
@@ -154,6 +157,11 @@ npx vercel
 - SoundersFC / MLS / Ticketmaster home listings
 - ReignFC.com single-match tickets
 - Storm.wnba.com 2026 schedule
+- MLB.com Mariners standings (66–77, 3rd AL West as of Sep 6, 2026)
+- NFL.com 2026 NFC West standings (0–0–0 before Week 1)
+- ESPN MLS / NWSL club tables (Sounders 7–6–9, 13th West; Reign 9–4–8, 9th)
+- WNBA.com standings (Storm 8–32, 15th)
+- GoHuskies.com / FOX Big Ten football (Huskies 0–0, AP 17 entering Apple Cup)
 - GoHuskies.com football, basketball, volleyball, soccer
 - GoSeattleU.com 2026-27 basketball schedules
 - SPUFalcons.com 2026 volleyball and 2026-27 basketball schedules

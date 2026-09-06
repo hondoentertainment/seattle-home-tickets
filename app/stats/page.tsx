@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { formatGameDate, formatUsd } from "@/lib/format";
 import { catalogStats } from "@/lib/stats";
 import type { StatRow } from "@/lib/stats";
@@ -22,7 +23,12 @@ export default function StatsPage() {
         {stats.dateFrom && stats.dateTo
           ? ` (${formatGameDate(stats.dateFrom)} – ${formatGameDate(stats.dateTo)})`
           : ""}
-        . Ticket dollars use unofficial mid-tier estimates at qty 2. Not a live market feed.
+        . Ticket dollars use unofficial mid-tier estimates at qty 2. Not a live market feed. For
+        W–L and conference tables see{" "}
+        <Link href="/standings" className="text-accent hover:underline">
+          Standings
+        </Link>
+        .
       </p>
 
       <dl className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

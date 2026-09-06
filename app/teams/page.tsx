@@ -22,7 +22,11 @@ export default function TeamsPage() {
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
         Original monogram tiles — not official club marks. College programs print the sport on
         the tile so football and basketball don&apos;t collide. Click a tile to open Home filtered
-        to that club.
+        to that club. Season W–L lives on{" "}
+        <Link href="/standings" className="text-accent hover:underline">
+          Standings
+        </Link>
+        .
       </p>
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
