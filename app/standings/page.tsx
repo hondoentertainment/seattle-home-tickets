@@ -20,7 +20,7 @@ export default function StandingsPage() {
   const upcoming = standingsCatalog.rows.filter((row) => row.status === "upcoming");
 
   return (
-    <div className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Tables</p>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         Standings

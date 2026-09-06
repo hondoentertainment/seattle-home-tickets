@@ -187,7 +187,7 @@ const faqs: { q: string; a: ReactNode }[] = [
 
 export default function AboutPage() {
   return (
-    <article className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 lg:px-8">
+    <article className="page-gutter mx-auto w-full max-w-3xl flex-1 py-10">
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">FAQ</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
         Frequently asked questions

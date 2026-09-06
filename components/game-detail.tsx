@@ -20,7 +20,7 @@ export function GameDetail({
   const group = estimateForQty(game.estPriceEachUsd, qty);
 
   return (
-    <aside className="fixed inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto rounded-t-3xl border border-card-border bg-card p-5 shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:w-[28rem] md:max-h-none md:rounded-none md:border-l">
+    <aside className="fixed inset-x-0 bottom-0 z-40 max-h-[min(85vh,85dvh)] overflow-y-auto rounded-t-3xl border border-card-border bg-card p-5 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:w-[min(28rem,100%)] md:max-h-none md:rounded-none md:border-l md:pb-5">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-wider text-accent">{game.sport}</p>

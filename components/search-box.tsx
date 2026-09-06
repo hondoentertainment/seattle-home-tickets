@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { FIELD_ACTION, FIELD_INPUT } from "@/lib/field-control";
+import { FIELD_ACTION, FIELD_INPUT, FIELD_LIST, FIELD_ROW } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 import { searchSuggestions, type SearchSuggestion } from "@/lib/suggestions";
 
@@ -98,7 +98,7 @@ export function SearchBox({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
-      <div className="flex h-11 items-center gap-2">
+      <div className={FIELD_ROW}>
         <label className="min-w-0 flex-1">
           <span className="sr-only">Search team, opponent, venue, sport</span>
           <input
@@ -141,7 +141,7 @@ export function SearchBox({
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-40 mt-1 max-h-72 w-full overflow-auto rounded-xl border border-card-border bg-card py-1 shadow-lg shadow-black/40"
+          className={FIELD_LIST}
         >
           {list.map((item, index) => (
             <li key={item.id} role="presentation">

@@ -28,6 +28,26 @@
 html {
   background: var(--background);
   color: var(--foreground);
+  text-size-adjust: 100%;
+}
+
+.page-gutter {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 640px) {
+  .page-gutter {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-gutter {
+    padding-left: max(2rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2rem, env(safe-area-inset-right, 0px));
+  }
 }
 
 body {

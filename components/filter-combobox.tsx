@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { FIELD_ACTION, FIELD_INPUT } from "@/lib/field-control";
+import { FIELD_ACTION, FIELD_CHIP, FIELD_INPUT, FIELD_LIST, FIELD_ROW } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 
 export function FilterCombobox<T extends string>({
@@ -117,7 +117,7 @@ export function FilterCombobox<T extends string>({
               key={value}
               type="button"
               onClick={() => onToggle(value)}
-              className="inline-flex min-h-11 items-center rounded-full border border-accent bg-accent/15 px-3 text-xs font-medium text-accent"
+              className={`${FIELD_CHIP} w-auto border-accent bg-accent/15 text-accent`}
             >
               {render ? render(value) : value} ×
             </button>
@@ -125,7 +125,7 @@ export function FilterCombobox<T extends string>({
         </div>
       ) : null}
       <div className="relative" onKeyDown={onKeyDown}>
-        <div className="flex h-11 items-center gap-2">
+        <div className={FIELD_ROW}>
           <input
             ref={inputRef}
             type="text"
@@ -168,7 +168,7 @@ export function FilterCombobox<T extends string>({
           <ul
             id={listId}
             role="listbox"
-            className="absolute z-30 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-card-border bg-card py-1 shadow-lg shadow-black/40"
+            className={`${FIELD_LIST} z-30`}
           >
             {visible.map((option, index) => {
               const activeOption = selected.includes(option);

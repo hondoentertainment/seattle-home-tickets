@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { FIELD_TRIGGER } from "@/lib/field-control";
+import { FIELD_LIST, FIELD_TRIGGER } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 import { QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
 
@@ -75,7 +75,7 @@ export function QuantityPicker({
   }
 
   return (
-    <div ref={rootRef} className="relative w-full shrink-0 md:w-auto md:min-w-[11.5rem]" onKeyDown={onKeyDown}>
+    <div ref={rootRef} className="relative w-full min-w-0 md:w-auto md:min-w-48" onKeyDown={onKeyDown}>
       <button
         type="button"
         aria-haspopup="listbox"
@@ -86,7 +86,7 @@ export function QuantityPicker({
           if (open) setOpen(false);
           else openList();
         }}
-        className={`${FIELD_TRIGGER} md:min-w-[11.5rem]`}
+        className={FIELD_TRIGGER}
       >
         <span className="truncate text-sm font-semibold leading-5 text-foreground">
           {value} {qtyNoun(value)}
@@ -100,7 +100,7 @@ export function QuantityPicker({
           id={listId}
           role="listbox"
           aria-label="Ticket quantity"
-          className="absolute right-0 z-40 mt-1 max-h-72 w-full overflow-auto rounded-xl border border-card-border bg-card py-1 shadow-lg shadow-black/40"
+          className={`${FIELD_LIST} right-0 left-auto`}
         >
           {QTY_OPTIONS.map((qty) => {
             const selected = qty === value;
