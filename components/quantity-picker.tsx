@@ -74,7 +74,7 @@ export function QuantityPicker({
   }
 
   return (
-    <div ref={rootRef} className="relative shrink-0" onKeyDown={onKeyDown}>
+    <div ref={rootRef} className="relative w-full shrink-0 md:w-auto md:min-w-[11.5rem]" onKeyDown={onKeyDown}>
       <button
         type="button"
         aria-haspopup="listbox"
@@ -85,13 +85,13 @@ export function QuantityPicker({
           if (open) setOpen(false);
           else openList();
         }}
-        className="flex min-w-[11.5rem] items-center justify-between gap-3 rounded-xl border border-card-border bg-gradient-to-b from-white/8 to-background px-3 py-2.5 text-left shadow-inner outline-none ring-accent/40 hover:border-accent/40 focus:ring-2"
+        className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-card-border bg-card px-3.5 py-2 text-left outline-none ring-accent/40 hover:border-accent/40 focus:ring-2 md:min-w-[11.5rem]"
       >
         <span>
-          <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+          <span className="block text-[10px] font-medium uppercase leading-none tracking-[0.16em] text-muted">
             Tickets
           </span>
-          <span className="text-sm font-semibold text-foreground">
+          <span className="mt-0.5 block text-[15px] font-semibold leading-tight text-foreground">
             {value} {qtyNoun(value)}
           </span>
         </span>

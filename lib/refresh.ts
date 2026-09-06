@@ -24,3 +24,13 @@ export function formatLastChecked(iso: string): string {
     timeZoneName: "short",
   });
 }
+
+export function formatLastCheckedShort(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return date.toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    month: "short",
+    day: "numeric",
+  });
+}

@@ -107,7 +107,7 @@ What it **does not**:
 - Bump `games.json` `asOf` just because the clock moved
 - Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
-The site shows **last checked** under the nav and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
+The site shows a short **last checked** stamp in the header and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 

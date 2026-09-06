@@ -34,7 +34,7 @@ export function GameDetail({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full border border-card-border px-3 py-1 text-sm text-muted hover:text-foreground"
+          className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-sm text-muted hover:text-foreground"
         >
           Close
         </button>
