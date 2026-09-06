@@ -23,6 +23,7 @@ import {
   featuredHolidayGames,
   monthLabel,
 } from "@/lib/catalog";
+import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
@@ -203,8 +204,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   }
 
   const filterPanel = (
-      <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-        <div className="flex flex-col gap-2.5 md:flex-row md:items-stretch">
+      <div className="flex flex-col gap-2 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
+        <div className="flex flex-col gap-2 md:flex-row md:items-stretch">
           <SearchBox
             value={draftQ}
             onChange={setDraftQ}
@@ -222,7 +223,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:items-center">
           <ToggleChip
             active={state.selectedOnly}
             onClick={() => patch({ selectedOnly: !state.selectedOnly })}
@@ -252,20 +253,22 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 setFiltersOpen(false);
               }
             }}
-            className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
+            className={`${FIELD_CHIP} w-full sm:w-auto ${
               filtersOpen || extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
                 : "border-card-border bg-card text-muted"
             }`}
           >
-            Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
+            <span className="truncate">
+              Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
+            </span>
           </button>
           {variant === "holidays" ? (
-            <span className="inline-flex min-h-11 items-center rounded-full border border-gold/30 bg-gold/10 px-3 text-xs text-gold">
+            <span className={`${FIELD_CHIP} col-span-2 w-full border-gold/30 bg-gold/10 text-gold sm:col-auto sm:w-auto`}>
               Holiday games
             </span>
           ) : null}
-          <span className="ml-auto text-xs text-muted">
+          <span className="hidden text-xs leading-5 text-muted sm:ml-auto sm:inline">
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
         </div>
@@ -279,7 +282,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.from}
                   onChange={(event) => patch({ from: event.target.value })}
-                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className={FIELD_INPUT}
                 />
               </label>
               <label className="block">
@@ -288,7 +291,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.to}
                   onChange={(event) => patch({ to: event.target.value })}
-                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className={FIELD_INPUT}
                 />
               </label>
             </div>
@@ -415,11 +418,11 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
       </div>
 
       <div className="space-y-3 md:hidden">
-        <div className="flex items-center gap-2 text-sm">
+        <div className={`${FIELD_ROW} text-sm`}>
           <select
             value={currentSort.id}
             onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
-            className="h-11 w-full rounded-xl border border-card-border bg-card px-3 text-foreground"
+            className={FIELD_INPUT}
           >
             <option value="date">Date</option>
             <option value="team">Team</option>
@@ -433,7 +436,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <button
             type="button"
             onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
-            className="inline-flex h-11 min-w-11 items-center justify-center rounded-xl border border-card-border bg-card px-3"
+            className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
           >
             {currentSort.desc ? "Desc" : "Asc"}
           </button>
@@ -496,7 +499,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
       </div>
 
       {selectedGames.length ? (
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 px-4 py-3 backdrop-blur">
+        <div className="page-gutter fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] backdrop-blur">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-foreground">
               {selectedGames.length} selected
@@ -620,7 +623,7 @@ function ChipRow<T extends string>({
                   onToggle(option);
                 }
               }}
-              className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium transition ${
+              className={`inline-flex min-h-11 min-w-0 items-center rounded-full border px-3 text-xs font-medium leading-5 transition ${
                 active
                   ? "border-accent bg-accent/15 text-accent"
                   : "border-card-border bg-background text-muted hover:border-accent/50 hover:text-foreground"
@@ -649,11 +652,11 @@ function ToggleChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
+      className={`${FIELD_CHIP} w-full sm:w-auto ${
         active ? "border-gold bg-gold/15 text-gold" : "border-card-border bg-card text-muted"
       }`}
     >
-      {children}
+      <span className="truncate">{children}</span>
     </button>
   );
 }

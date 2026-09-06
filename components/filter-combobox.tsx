@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { FIELD_ACTION, FIELD_CHIP, FIELD_INPUT, FIELD_LIST, FIELD_ROW } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 
 export function FilterCombobox<T extends string>({
@@ -116,7 +117,7 @@ export function FilterCombobox<T extends string>({
               key={value}
               type="button"
               onClick={() => onToggle(value)}
-              className="inline-flex min-h-11 items-center rounded-full border border-accent bg-accent/15 px-3 text-xs font-medium text-accent"
+              className={`${FIELD_CHIP} w-auto border-accent bg-accent/15 text-accent`}
             >
               {render ? render(value) : value} ×
             </button>
@@ -124,7 +125,7 @@ export function FilterCombobox<T extends string>({
         </div>
       ) : null}
       <div className="relative" onKeyDown={onKeyDown}>
-        <div className="flex gap-2">
+        <div className={FIELD_ROW}>
           <input
             ref={inputRef}
             type="text"
@@ -145,7 +146,7 @@ export function FilterCombobox<T extends string>({
               setActive(0);
               setOpen(true);
             }}
-            className="h-11 min-w-0 flex-1 rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            className={`${FIELD_INPUT} flex-1 truncate placeholder:truncate`}
           />
           <button
             type="button"
@@ -158,7 +159,7 @@ export function FilterCombobox<T extends string>({
               }
               if (!applyHighlight()) inputRef.current?.focus();
             }}
-            className="inline-flex h-11 w-[88px] shrink-0 items-center justify-center rounded-xl border-[1.5px] border-accent bg-transparent text-sm font-semibold text-accent outline-none ring-accent/40 hover:bg-accent/10 focus:ring-2"
+            className={FIELD_ACTION}
           >
             Select
           </button>
@@ -167,7 +168,7 @@ export function FilterCombobox<T extends string>({
           <ul
             id={listId}
             role="listbox"
-            className="absolute z-30 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-card-border bg-card py-1 shadow-lg shadow-black/40"
+            className={`${FIELD_LIST} z-30`}
           >
             {visible.map((option, index) => {
               const activeOption = selected.includes(option);
@@ -185,7 +186,7 @@ export function FilterCombobox<T extends string>({
                     onMouseEnter={() => setActive(index)}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => choose(option)}
-                    className={`flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm ${
+                    className={`flex w-full items-center justify-between gap-3 px-3.5 py-2 text-left text-sm leading-5 ${
                       index === highlight ? "bg-accent/15 text-foreground" : "text-foreground"
                     }`}
                   >

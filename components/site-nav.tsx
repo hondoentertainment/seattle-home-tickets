@@ -77,10 +77,10 @@ export function SiteNav() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-card-border/80 bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-2 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-20 border-b border-card-border/80 bg-background/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur">
+      <div className="page-gutter mx-auto flex max-w-7xl flex-col gap-2 py-2">
         <div className="flex min-h-11 items-center justify-between gap-3">
-          <Link href="/" className="text-[17px] font-bold tracking-tight text-foreground lg:text-sm lg:font-semibold">
+          <Link href="/" className="min-w-0 truncate text-base font-bold tracking-tight text-foreground lg:text-sm lg:font-semibold">
             Seattle Home Tickets
           </Link>
           <nav aria-label="Primary" className="hidden flex-wrap items-center justify-end gap-0.5 lg:flex">
@@ -103,7 +103,7 @@ export function SiteNav() {
           <button
             ref={menuButtonRef}
             type="button"
-            className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-[10px] border px-3 text-[13px] font-semibold lg:hidden ${
+            className={`inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border px-3.5 text-sm font-semibold leading-5 lg:hidden ${
               menuOpen || moreActive
                 ? "border-accent bg-accent/10 text-accent"
                 : "border-card-border bg-card text-accent"
@@ -117,7 +117,7 @@ export function SiteNav() {
           </button>
         </div>
 
-        <nav aria-label="Primary" className="flex gap-2 overflow-x-auto lg:hidden">
+        <nav aria-label="Primary" className="grid w-full grid-cols-4 gap-2 lg:hidden">
           {PRIMARY.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -125,11 +125,11 @@ export function SiteNav() {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-[13px] font-semibold ${
+                className={`inline-flex min-h-11 min-w-0 items-center justify-center rounded-full px-1 text-center text-xs font-semibold leading-5 ${
                   active ? "bg-accent text-background" : "bg-card text-muted"
                 }`}
               >
-                {link.label}
+                <span className="truncate">{link.label}</span>
               </Link>
             );
           })}
@@ -154,7 +154,7 @@ export function SiteNav() {
             role="dialog"
             aria-modal="true"
             aria-labelledby={menuTitleId}
-            className="absolute inset-y-0 right-0 flex w-[min(20rem,88vw)] flex-col border-l border-card-border bg-background shadow-2xl"
+            className="absolute inset-y-0 right-0 flex w-[min(20rem,calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)))] max-w-[88vw] flex-col border-l border-card-border bg-background pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] shadow-2xl"
           >
             <div className="flex min-h-14 items-center justify-between gap-3 border-b border-card-border px-4">
               <p id={menuTitleId} className="text-sm font-semibold text-foreground">
@@ -164,7 +164,7 @@ export function SiteNav() {
                 ref={closeButtonRef}
                 type="button"
                 onClick={closeMenu}
-                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[10px] border border-card-border px-3 text-sm text-muted hover:text-foreground"
+                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-card-border px-3.5 text-sm leading-5 text-muted hover:text-foreground"
               >
                 Close
               </button>

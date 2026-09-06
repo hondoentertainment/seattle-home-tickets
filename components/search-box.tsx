@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { FIELD_ACTION, FIELD_INPUT, FIELD_LIST, FIELD_ROW } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 import { searchSuggestions, type SearchSuggestion } from "@/lib/suggestions";
 
@@ -97,7 +98,7 @@ export function SearchBox({
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
-      <div className="flex h-11 items-center gap-2">
+      <div className={FIELD_ROW}>
         <label className="min-w-0 flex-1">
           <span className="sr-only">Search team, opponent, venue, sport</span>
           <input
@@ -116,7 +117,7 @@ export function SearchBox({
             }}
             onFocus={() => setOpen(true)}
             placeholder="Search team, opponent, venue…"
-            className="h-11 w-full rounded-xl border border-card-border bg-card px-3 text-[13px] text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            className={`${FIELD_INPUT} truncate placeholder:truncate`}
           />
         </label>
         <button
@@ -131,7 +132,7 @@ export function SearchBox({
             apply();
             inputRef.current?.focus();
           }}
-          className="inline-flex h-11 w-[88px] shrink-0 items-center justify-center rounded-xl border-[1.5px] border-accent bg-transparent text-sm font-semibold text-accent outline-none ring-accent/40 hover:bg-accent/10 focus:ring-2"
+          className={FIELD_ACTION}
         >
           Select
         </button>
@@ -140,7 +141,7 @@ export function SearchBox({
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-40 mt-1 max-h-72 w-full overflow-auto rounded-xl border border-card-border bg-card py-1 shadow-lg shadow-black/40"
+          className={FIELD_LIST}
         >
           {list.map((item, index) => (
             <li key={item.id} role="presentation">
@@ -156,7 +157,7 @@ export function SearchBox({
                 onMouseEnter={() => setActive(index)}
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => choose(item)}
-                className={`flex w-full items-baseline justify-between gap-3 px-3 py-2 text-left text-sm ${
+                className={`flex w-full items-center justify-between gap-3 px-3.5 py-2 text-left text-sm leading-5 ${
                   index === highlight ? "bg-accent/15 text-foreground" : "text-foreground"
                 }`}
               >

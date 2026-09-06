@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function HolidaysPage() {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+      <div className="page-gutter mx-auto w-full max-w-7xl pt-6">
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold">Holiday / special</p>
         <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
           Dates worth circling
@@ -39,7 +39,7 @@ export default function HolidaysPage() {
         </p>
       </div>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <main className="page-gutter mx-auto w-full max-w-7xl flex-1 py-6">
         <Suspense fallback={<p className="text-sm text-muted">Loading holiday games…</p>}>
           <GamesExplorer variant="holidays" />
         </Suspense>
