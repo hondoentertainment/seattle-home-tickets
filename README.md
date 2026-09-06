@@ -6,7 +6,7 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles (college tiles print the sport)
 - **Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals
-- **Promos (`/promotions`)** — calendar of tagged holiday / special homes
+- **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
 
 Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on About, not the calendar.
@@ -77,7 +77,7 @@ Combine freely (also persisted in the URL):
 
 ## Holiday / special games
 
-Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. Showcase cards, a badge key, and holiday-only browsing live on **Holidays**. The **Promos** calendar lists the same tagged nights by month. Matching rows still show badges on Home.
+Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week, Christmas, New Year’s, MLK Day, Presidents Day, Apple Cup, Homecoming, Seattle Holiday Classic, Decision Day, and selected rivalries. Showcase cards, a badge key, and holiday-only browsing live on **Holidays**. The **Promotions** calendar lists published club/school theme nights and giveaways (bobbleheads, Homecoming, Decision Day, and the like) from [`data/promotions.json`](data/promotions.json). Holiday browsing without a published promo stays on **Holidays**. Matching games still show badges on Home.
 
 ## Daily refresh
 
@@ -99,7 +99,7 @@ What it **does not**:
 - Scrape official or secondary ticket sites for live prices
 - Invent unpublished conference basketball dates
 - Bump `games.json` `asOf` just because the clock moved
-- Pull standings or promo calendars
+- Pull standings or invent promo calendars (edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
 The site shows **last checked** under the nav and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
 
@@ -119,7 +119,7 @@ npm start
 
 `npm run lint` runs ESLint.
 
-Data lives in [`data/games.json`](data/games.json). Types are in [`lib/types.ts`](lib/types.ts). To regenerate the JSON after editing [`scripts/generate-games.py`](scripts/generate-games.py):
+Data lives in [`data/games.json`](data/games.json). Published promotions live in [`data/promotions.json`](data/promotions.json). Types are in [`lib/types.ts`](lib/types.ts). To regenerate the game catalog after editing [`scripts/generate-games.py`](scripts/generate-games.py):
 
 ```bash
 python3 scripts/generate-games.py
