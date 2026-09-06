@@ -84,7 +84,7 @@ export function explorerStateToParams(state: ExplorerState): URLSearchParams {
   if (state.to) params.set("to", state.to);
   if (state.selectedOnly) params.set("selected", "1");
   if (state.holidayOnly) params.set("holiday", "1");
-  if (state.qty !== DEFAULT_QTY) params.set("qty", String(clampQty(state.qty)));
+  params.set("qty", String(clampQty(state.qty)));
   return params;
 }
 

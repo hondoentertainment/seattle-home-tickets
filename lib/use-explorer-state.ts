@@ -21,34 +21,12 @@ export function useExplorerState() {
 
   const [state, setState] = useState(() => parseExplorerState(new URLSearchParams(urlKey)));
   const [draftQ, setDraftQ] = useState(state.q);
+  const lastWritten = useRef(urlKey);
+  const hydrated = useRef(false);
 
-  const writtenKey = useRef(urlKey);
-  const pendingWrite = useRef(false);
-
-  const commitUrl = useCallback(
-    (next: ExplorerState) => {
-      const query = explorerStateKey(next);
-      writtenKey.current = query;
-      pendingWrite.current = true;
-      writeStoredIds(next.ids);
-      writeStoredQty(next.qty);
-      startTransition(() => {
-        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-      });
-    },
-    [pathname, router],
-  );
-
-  const apply = useCallback(
-    (updater: (prev: ExplorerState) => ExplorerState) => {
-      setState((prev) => {
-        const next = updater(prev);
-        queueMicrotask(() => commitUrl(next));
-        return next;
-      });
-    },
-    [commitUrl],
-  );
+  const apply = useCallback((updater: (prev: ExplorerState) => ExplorerState) => {
+    setState((prev) => updater(prev));
+  }, []);
 
   const patch = useCallback(
     (partial: Partial<ExplorerState>) => {
@@ -58,30 +36,38 @@ export function useExplorerState() {
   );
 
   useEffect(() => {
-    if (pendingWrite.current) {
-      if (urlKey === writtenKey.current) pendingWrite.current = false;
-      return;
-    }
-    if (urlKey === writtenKey.current) return;
-    writtenKey.current = urlKey;
-    const incoming = parseExplorerState(new URLSearchParams(urlKey));
-    setState(incoming);
-    setDraftQ(incoming.q);
-  }, [urlKey]);
-
-  useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
     const storedIds = searchParams.get("ids") ? [] : readStoredIds();
     const storedQty = searchParams.has("qty") ? null : readStoredQty();
     if (!storedIds.length && storedQty == null) return;
-    // localStorage is an external store; apply once after mount when the URL omits ids/qty.
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate prefs
-    apply((prev) => ({
+    // localStorage is an external store read once after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate ids/qty
+    setState((prev) => ({
       ...prev,
       ids: prev.ids.length || !storedIds.length ? prev.ids : storedIds,
       qty: storedQty ?? prev.qty,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const query = explorerStateKey(state);
+    writeStoredIds(state.ids);
+    writeStoredQty(state.qty);
+    if (query === lastWritten.current) return;
+    lastWritten.current = query;
+    startTransition(() => {
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    });
+  }, [state, pathname, router]);
+
+  useEffect(() => {
+    if (urlKey === lastWritten.current) return;
+    lastWritten.current = urlKey;
+    const incoming = parseExplorerState(new URLSearchParams(urlKey));
+    setState(incoming);
+    setDraftQ(incoming.q);
+  }, [urlKey]);
 
   useEffect(() => {
     if (draftQ === state.q) return;
