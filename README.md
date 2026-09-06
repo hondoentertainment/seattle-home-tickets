@@ -5,12 +5,14 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 - **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, shortlist
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles (college and high-school tiles print the sport)
-- **Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
+- **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
-- **About (`/about`)** — who it’s for, how estimates work, weather/travel/ticket-link notes, sources
+- **Venues (`/venues`)** — catalog buildings with travel notes and a Home venue filter
+- **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
+- **FAQ (`/about`)** — short Q&A. `/faq` redirects here
 
-Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on About, not the calendar.
+Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on the FAQ, not the calendar.
 
 ## What’s on the grid
 

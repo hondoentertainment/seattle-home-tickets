@@ -32,7 +32,7 @@ export default function StandingsPage() {
       </p>
       <p className="mt-3 text-sm">
         <Link href="/stats" className="text-accent hover:underline">
-          Catalog ticket totals
+          Ticket Stats
         </Link>
         {" · "}
         <Link href="/teams" className="text-accent hover:underline">

@@ -11,7 +11,13 @@ export function SiteFooter() {
         </p>
         <p className="flex flex-wrap gap-x-3 gap-y-1">
           <Link href="/about" className="text-accent hover:underline">
-            How this works
+            FAQ
+          </Link>
+          <Link href="/venues" className="text-accent hover:underline">
+            Venues
+          </Link>
+          <Link href="/contact" className="text-accent hover:underline">
+            Contact
           </Link>
           <span>Prices are not live-scraped</span>
         </p>
