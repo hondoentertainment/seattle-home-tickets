@@ -36,7 +36,7 @@ export default function AboutPage() {
         <p className="leading-7 text-muted">
           Each row lists an unofficial mid-tier price per seat (not cheapest upper deck,
           not club). The calendar defaults to planning for two tickets and lets you
-          scale from 1–10. Displayed group prices and totals are{" "}
+          scale from 1–19. Displayed group prices and totals are{" "}
           <span className="text-foreground">est. each × quantity</span>. They will be
           wrong the moment inventory moves. Always confirm on official club sites before
           you spend.

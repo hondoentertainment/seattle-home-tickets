@@ -52,7 +52,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           state.venues.length ||
           state.months.length ||
           state.from ||
-          state.to,
+          state.to ||
+          (variant === "home" && state.holidayOnly),
       ),
   );
 
@@ -165,7 +166,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.months.length +
     (state.genders.includes("open") ? 1 : 0) +
     (state.from ? 1 : 0) +
-    (state.to ? 1 : 0);
+    (state.to ? 1 : 0) +
+    (variant === "home" && state.holidayOnly ? 1 : 0);
 
   function toggleId(id: string) {
     apply((prev) => ({
@@ -218,18 +220,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {variant === "home" ? (
-            <Link
-              href="/holidays"
-              className="rounded-full border border-gold/40 px-3 py-1.5 text-xs font-medium text-gold hover:bg-gold/10"
-            >
-              See holiday games
-            </Link>
-          ) : (
-            <span className="rounded-full border border-gold/40 bg-gold/15 px-3 py-1.5 text-xs font-medium text-gold">
-              Holiday games
-            </span>
-          )}
           <ToggleChip
             active={state.selectedOnly}
             onClick={() => patch({ selectedOnly: !state.selectedOnly })}
@@ -257,6 +247,14 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           >
             Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
           </button>
+          {variant === "home" ? (
+            <Link
+              href="/holidays"
+              className="rounded-full border border-gold/30 px-3 py-1.5 text-xs text-gold/90 hover:bg-gold/10"
+            >
+              See holiday games
+            </Link>
+          ) : null}
           <span className="ml-auto text-xs text-muted">
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
@@ -316,6 +314,24 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               selected={state.teams}
               onToggle={(value) => toggleList("teams", value)}
             />
+            {variant === "home" ? (
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
+                  Special
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <ToggleChip
+                    active={state.holidayOnly}
+                    onClick={() => patch({ holidayOnly: !state.holidayOnly })}
+                  >
+                    Holiday / special only
+                  </ToggleChip>
+                  <Link href="/holidays" className="text-xs text-gold hover:underline">
+                    Open Holidays tab
+                  </Link>
+                </div>
+              </div>
+            ) : null}
             <button
               type="button"
               onClick={clearFilters}
