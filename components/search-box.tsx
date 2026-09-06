@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { searchSuggestions, type SearchSuggestion } from "@/lib/suggestions";
 
 export function SearchBox({
@@ -15,10 +15,13 @@ export function SearchBox({
   onPickFilter: (kind: "teams" | "sports" | "venues", value: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(-1);
   const list = useMemo(() => searchSuggestions(value), [value]);
   const rootRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const listId = useId();
+  const highlight = active >= 0 && active < list.length ? active : -1;
+  const showList = open && list.length > 0;
 
   useEffect(() => {
     function onPointerDown(event: PointerEvent) {
@@ -28,43 +31,47 @@ export function SearchBox({
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
+  useLayoutEffect(() => {
+    if (highlight < 0) return;
+    optionRefs.current[highlight]?.scrollIntoView({ block: "nearest" });
+  }, [highlight, showList]);
+
   function choose(item: SearchSuggestion) {
     if (item.kind === "team") onPickFilter("teams", item.label);
     else if (item.kind === "sport") onPickFilter("sports", item.label);
     else if (item.kind === "venue") onPickFilter("venues", item.label);
     else onCommit(item.label);
     setOpen(false);
+    setActive(-1);
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      if (list.length) {
-        setOpen(true);
-        setActive((index) => (index + 1) % list.length);
-      }
+      if (!list.length) return;
+      setOpen(true);
+      setActive((index) => (index < 0 ? 0 : (index + 1) % list.length));
       return;
     }
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      if (list.length) {
-        setOpen(true);
-        setActive((index) => (index - 1 + list.length) % list.length);
-      }
+      if (!list.length) return;
+      setOpen(true);
+      setActive((index) => (index < 0 ? list.length - 1 : (index - 1 + list.length) % list.length));
       return;
     }
     if (event.key === "Enter") {
       event.preventDefault();
-      if (open && list[highlight]) choose(list[highlight]);
+      if (open && highlight >= 0 && list[highlight]) choose(list[highlight]);
       else onCommit(value);
       setOpen(false);
       return;
     }
-    if (event.key === "Escape") setOpen(false);
+    if (event.key === "Escape") {
+      setOpen(false);
+      setActive(-1);
+    }
   }
-
-  const highlight = list.length ? Math.min(active, list.length - 1) : 0;
-  const showList = open && list.length > 0;
 
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1">
@@ -76,11 +83,11 @@ export function SearchBox({
           aria-expanded={showList}
           aria-controls={listId}
           aria-autocomplete="list"
-          aria-activedescendant={showList ? `${listId}-${highlight}` : undefined}
+          aria-activedescendant={showList && highlight >= 0 ? `${listId}-${highlight}` : undefined}
           value={value}
           onChange={(event) => {
             onChange(event.target.value);
-            setActive(0);
+            setActive(-1);
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
@@ -99,6 +106,9 @@ export function SearchBox({
             <li key={item.id} role="presentation">
               <button
                 id={`${listId}-${index}`}
+                ref={(node) => {
+                  optionRefs.current[index] = node;
+                }}
                 type="button"
                 role="option"
                 aria-selected={index === highlight}
