@@ -81,6 +81,13 @@ export function GamesExplorer() {
           state.to,
       ),
   );
+  const [draftQ, setDraftQ] = useState(state.q);
+  const [urlQ, setUrlQ] = useState(state.q);
+  if (state.q !== urlQ) {
+    const wasSynced = draftQ === urlQ;
+    setUrlQ(state.q);
+    if (wasSynced) setDraftQ(state.q);
+  }
 
   const replaceState = useCallback(
     (next: ExplorerState) => {
@@ -97,6 +104,14 @@ export function GamesExplorer() {
     },
     [replaceState, state],
   );
+
+  useEffect(() => {
+    if (draftQ === state.q) return;
+    const timer = window.setTimeout(() => {
+      patch({ q: draftQ });
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [draftQ, state.q, patch]);
 
   useEffect(() => {
     if (searchParams.get("ids")) return;
@@ -124,7 +139,7 @@ export function GamesExplorer() {
     };
   }, []);
 
-  const normalizedQuery = state.q.trim().toLowerCase();
+  const normalizedQuery = draftQ.trim().toLowerCase();
   const selected = useMemo(
     () => new Set(state.ids),
     [state.ids],
@@ -303,8 +318,8 @@ export function GamesExplorer() {
           <span className="sr-only">Search team, opponent, venue, sport</span>
           <input
             type="search"
-            value={state.q}
-            onChange={(event) => patch({ q: event.target.value })}
+            value={draftQ}
+            onChange={(event) => setDraftQ(event.target.value)}
             placeholder="Search team, opponent, venue, sport"
             className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
           />
