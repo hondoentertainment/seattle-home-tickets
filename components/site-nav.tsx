@@ -28,16 +28,17 @@ function isActive(pathname: string, href: string) {
 
 export function SiteNav() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuPath, setMenuPath] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const menuTitleId = useId();
+  const menuOpen = menuPath === pathname;
   const moreActive = MORE.some((link) => isActive(pathname, link.href));
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  function closeMenu() {
+    setMenuPath(null);
+  }
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -45,11 +46,12 @@ export function SiteNav() {
     closeButtonRef.current?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const menuButton = menuButtonRef.current;
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
-        setMenuOpen(false);
+        closeMenu();
         return;
       }
       if (event.key !== "Tab" || !panelRef.current) return;
@@ -70,7 +72,7 @@ export function SiteNav() {
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
-      menuButtonRef.current?.focus();
+      menuButton?.focus();
     };
   }, [menuOpen]);
 
@@ -109,7 +111,7 @@ export function SiteNav() {
             aria-expanded={menuOpen}
             aria-controls="site-menu"
             aria-haspopup="dialog"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
           >
             Menu
           </button>
@@ -144,7 +146,7 @@ export function SiteNav() {
             type="button"
             className="absolute inset-0 bg-black/60"
             aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
           />
           <div
             id="site-menu"
@@ -161,7 +163,7 @@ export function SiteNav() {
               <button
                 ref={closeButtonRef}
                 type="button"
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
                 className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[10px] border border-card-border px-3 text-sm text-muted hover:text-foreground"
               >
                 Close
