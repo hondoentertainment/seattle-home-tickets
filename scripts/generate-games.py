@@ -725,7 +725,7 @@ payload = {
     "games": games,
 }
 
-out = Path("/workspace/data/games.json")
+out = Path(__file__).resolve().parents[1] / "data" / "games.json"
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(payload, indent=2) + "\n")
 print(f"Wrote {len(games)} games to {out}")

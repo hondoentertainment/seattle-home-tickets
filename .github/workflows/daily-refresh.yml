@@ -2,19 +2,53 @@ name: Daily catalog refresh
 
 on:
   schedule:
-    # 07:00 PDT (UTC-7). GitHub cron is UTC-only; this is 06:00 PST.
+    # GitHub cron is UTC-only. 14:00 = 7am PDT; 15:00 = 7am PST.
+    # The gate job no-ops unless America/Los_Angeles hour is 07–08 (or workflow_dispatch).
     - cron: "0 14 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: daily-catalog-refresh
+  cancel-in-progress: false
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - name: 7:00 AM America/Los_Angeles only
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+            echo "Manual or non-schedule run."
+            exit 0
+          fi
+          HOUR=$(TZ=America/Los_Angeles date +%H)
+          echo "PT hour is $HOUR"
+          # GitHub cron can lag; accept 07 or 08 so a late 7am tick still runs.
+          if [ "$HOUR" = "07" ] || [ "$HOUR" = "08" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping — not 7:00 AM Pacific."
+          fi
+
   refresh:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,14 +64,24 @@ jobs:
       - name: Regenerate games from the published seed
         run: python3 scripts/generate-games.py
 
-      - name: Confirm catalog matches the generator
+      - name: Price refresh (best-effort stub)
+        run: python3 scripts/refresh-prices.py
+
+      - name: Detect catalog drift
+        id: drift
         run: |
-          if ! git diff --exit-code -- data/games.json; then
-            echo "data/games.json drifted from scripts/generate-games.py."
-            echo "This job does not invent dates or scrape live schedules."
-            echo "Commit a regenerated catalog after editing the seed script."
-            exit 1
+          if git diff --quiet -- data/games.json; then
+            echo "changed=0" >> "$GITHUB_OUTPUT"
+            echo "CATALOG_MATCHES_SEED=1" >> "$GITHUB_ENV"
+          else
+            echo "changed=1" >> "$GITHUB_OUTPUT"
+            echo "CATALOG_MATCHES_SEED=0" >> "$GITHUB_ENV"
+            echo "data/games.json differs from the generator."
+            git --no-pager diff --stat -- data/games.json
           fi
+
+      - name: Stamp last-checked
+        run: python3 scripts/write-refresh-stamp.py
 
       - name: Install
         run: npm ci
@@ -47,3 +91,34 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Open PR if the catalog drifted
+        if: steps.drift.outputs.changed == '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/catalog-seed-drift
+          title: Regenerate games.json from the published seed
+          commit-message: Regenerate games.json from the published seed
+          body: |
+            The daily 7:00 AM Pacific job regenerated `data/games.json` from
+            `scripts/generate-games.py` and it differed from main.
+
+            This is a seed/script mismatch, not a live scrape. Review the diff
+            before merging. The job does not invent unpublished conference dates
+            or marketplace prices.
+          add-paths: |
+            data/games.json
+            data/refresh.json
+
+      - name: Commit last-checked stamp to main
+        if: steps.drift.outputs.changed != '1'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/refresh.json
+          if git diff --cached --quiet; then
+            echo "Stamp unchanged."
+            exit 0
+          fi
+          git commit -m "Stamp daily catalog check (7:00 AM PT)"
+          git push origin HEAD:main

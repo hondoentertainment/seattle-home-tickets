@@ -97,8 +97,9 @@ export default function AboutPage() {
         <p className="leading-7 text-muted">
           Seeded from official and league schedules as of {catalog.asOf}. Conference
           basketball homes without published dates are omitted rather than invented.
-          Refresh the JSON when clubs publish more dates; this is a static snapshot, not
-          a live feed.
+          A GitHub Action re-validates the published seed every day at 7:00 AM Pacific
+          and stamps “last checked” under the nav and in the footer. It does not scrape
+          live prices or invent unpublished dates.
         </p>
       </section>
 
