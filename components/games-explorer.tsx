@@ -7,11 +7,12 @@ import {
   tableFeatures,
   useTable,
 } from "@tanstack/react-table";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { FilterCombobox } from "@/components/filter-combobox";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
 import { QuantityPicker } from "@/components/quantity-picker";
+import { SearchBox } from "@/components/search-box";
 import {
   GENDER_LABELS,
   allMonths,
@@ -39,8 +40,8 @@ const helper = createColumnHelper<typeof features, Game>();
 const EMPTY_GAMES: Game[] = [];
 
 export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holidays" }) {
-  const { state, draftQ, setDraftQ, apply, patch } = useExplorerState();
-  const holidayOnly = variant === "holidays" || state.holidayOnly;
+  const { state, draftQ, setDraftQ, commitQ, apply, patch } = useExplorerState();
+  const holidayOnly = variant === "holidays";
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const [copied, setCopied] = useState<string | null>(null);
@@ -52,8 +53,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           state.venues.length ||
           state.months.length ||
           state.from ||
-          state.to ||
-          (variant === "home" && state.holidayOnly),
+          state.to,
       ),
   );
 
@@ -166,8 +166,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.months.length +
     (state.genders.includes("open") ? 1 : 0) +
     (state.from ? 1 : 0) +
-    (state.to ? 1 : 0) +
-    (variant === "home" && state.holidayOnly ? 1 : 0);
+    (state.to ? 1 : 0);
 
   function toggleId(id: string) {
     apply((prev) => ({
@@ -206,16 +205,20 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   const filterPanel = (
       <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <label className="block min-w-0 flex-1">
-            <span className="sr-only">Search team, opponent, venue, sport</span>
-            <input
-              type="search"
-              value={draftQ}
-              onChange={(event) => setDraftQ(event.target.value)}
-              placeholder="Search team, opponent, venue, sport"
-              className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
-            />
-          </label>
+          <SearchBox
+            value={draftQ}
+            onChange={setDraftQ}
+            onCommit={commitQ}
+            onPickFilter={(kind, value) => {
+              setDraftQ("");
+              apply((prev) => ({
+                ...prev,
+                q: "",
+                [kind]: prev[kind].includes(value) ? prev[kind] : [...prev[kind], value],
+              }));
+              setFiltersOpen(true);
+            }}
+          />
           <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         </div>
 
@@ -247,13 +250,10 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           >
             Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
           </button>
-          {variant === "home" ? (
-            <Link
-              href="/holidays"
-              className="rounded-full border border-gold/30 px-3 py-1.5 text-xs text-gold/90 hover:bg-gold/10"
-            >
-              See holiday games
-            </Link>
+          {variant === "holidays" ? (
+            <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs text-gold">
+              Holiday games
+            </span>
           ) : null}
           <span className="ml-auto text-xs text-muted">
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
@@ -282,13 +282,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 />
               </label>
             </div>
-            <ChipRow
+            <FilterCombobox
               label="Sport"
               options={allSports}
               selected={state.sports}
               onToggle={(value) => toggleList("sports", value)}
             />
-            <ChipRow
+            <FilterCombobox
               label="Month"
               options={allMonths}
               selected={state.months}
@@ -302,36 +302,18 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               onToggle={(value) => toggleGender(value)}
               render={(value) => GENDER_LABELS[value]}
             />
-            <ChipRow
+            <FilterCombobox
               label="Venue"
               options={allVenues}
               selected={state.venues}
               onToggle={(value) => toggleList("venues", value)}
             />
-            <ChipRow
+            <FilterCombobox
               label="Teams"
               options={allTeams}
               selected={state.teams}
               onToggle={(value) => toggleList("teams", value)}
             />
-            {variant === "home" ? (
-              <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
-                  Special
-                </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <ToggleChip
-                    active={state.holidayOnly}
-                    onClick={() => patch({ holidayOnly: !state.holidayOnly })}
-                  >
-                    Holiday / special only
-                  </ToggleChip>
-                  <Link href="/holidays" className="text-xs text-gold hover:underline">
-                    Open Holidays tab
-                  </Link>
-                </div>
-              </div>
-            ) : null}
             <button
               type="button"
               onClick={clearFilters}

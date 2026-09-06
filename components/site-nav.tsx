@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/holidays", label: "Holidays" },
+  { href: "/teams", label: "Teams" },
+  { href: "/stats", label: "Stats" },
+  { href: "/promotions", label: "Promos" },
   { href: "/about", label: "About" },
 ] as const;
 
@@ -14,11 +17,11 @@ export function SiteNav() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-card-border/80 bg-background/90 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-14 max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 sm:px-6 lg:px-8">
         <Link href="/" className="text-sm font-semibold tracking-tight text-foreground">
           Seattle Home Tickets
         </Link>
-        <nav aria-label="Primary" className="flex items-center gap-1">
+        <nav aria-label="Primary" className="flex flex-wrap items-center justify-end gap-0.5">
           {LINKS.map((link) => {
             const active = pathname === link.href;
             return (
@@ -26,7 +29,7 @@ export function SiteNav() {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-full px-3 py-1.5 text-sm ${
+                className={`rounded-full px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm ${
                   active ? "bg-accent/15 text-accent" : "text-muted hover:text-foreground"
                 }`}
               >
