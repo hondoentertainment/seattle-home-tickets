@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { composingKey } from "@/lib/listbox-keys";
 import { QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
 
 export function QuantityPicker({
@@ -46,6 +47,7 @@ export function QuantityPicker({
   }
 
   function onKeyDown(event: React.KeyboardEvent) {
+    if (composingKey(event)) return;
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       if (!open) {
@@ -64,11 +66,15 @@ export function QuantityPicker({
       choose(active);
       return;
     }
-    if (event.key === "Escape") setOpen(false);
+    if (event.key === "Escape") {
+      if (!open) return;
+      event.preventDefault();
+      setOpen(false);
+    }
   }
 
   return (
-    <div ref={rootRef} className="relative shrink-0">
+    <div ref={rootRef} className="relative shrink-0" onKeyDown={onKeyDown}>
       <button
         type="button"
         aria-haspopup="listbox"
@@ -79,7 +85,6 @@ export function QuantityPicker({
           if (open) setOpen(false);
           else openList();
         }}
-        onKeyDown={onKeyDown}
         className="flex min-w-[11.5rem] items-center justify-between gap-3 rounded-xl border border-card-border bg-gradient-to-b from-white/8 to-background px-3 py-2.5 text-left shadow-inner outline-none ring-accent/40 hover:border-accent/40 focus:ring-2"
       >
         <span>
@@ -113,7 +118,9 @@ export function QuantityPicker({
                   }}
                   role="option"
                   aria-selected={selected}
+                  tabIndex={-1}
                   onMouseEnter={() => setActive(qty)}
+                  onMouseDown={(event) => event.preventDefault()}
                   onClick={() => choose(qty)}
                   className={`flex w-full items-center justify-between px-3 py-2 text-sm ${
                     highlighted ? "bg-accent/15 text-foreground" : "text-foreground"

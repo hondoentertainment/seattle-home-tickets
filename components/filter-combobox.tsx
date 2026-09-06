@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { composingKey } from "@/lib/listbox-keys";
 
 export function FilterCombobox<T extends string>({
   label,
@@ -19,6 +20,7 @@ export function FilterCombobox<T extends string>({
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const listId = useId();
   const visible = useMemo(() => {
@@ -28,6 +30,9 @@ export function FilterCombobox<T extends string>({
       return !q || text.includes(q) || option.toLowerCase().includes(q);
     });
   }, [options, query, render]);
+
+  const highlight = visible.length ? Math.min(active, visible.length - 1) : -1;
+  const showList = open && visible.length > 0;
 
   useEffect(() => {
     function onPointerDown(event: PointerEvent) {
@@ -40,43 +45,66 @@ export function FilterCombobox<T extends string>({
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
+  useLayoutEffect(() => {
+    if (!showList || highlight < 0) return;
+    optionRefs.current[highlight]?.scrollIntoView({ block: "nearest" });
+  }, [highlight, showList]);
+
   function choose(option: T) {
     onToggle(option);
     setQuery("");
     setOpen(false);
+    inputRef.current?.focus();
   }
 
-  function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "ArrowDown") {
+  function openList(index = 0) {
+    setActive(visible.length ? Math.min(index, visible.length - 1) : 0);
+    setOpen(true);
+  }
+
+  function applyHighlight() {
+    if (highlight >= 0 && visible[highlight]) {
+      choose(visible[highlight]);
+      return true;
+    }
+    return false;
+  }
+
+  function onKeyDown(event: React.KeyboardEvent) {
+    if (composingKey(event)) return;
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
-      setOpen(true);
-      if (visible.length) setActive((index) => (index + 1) % visible.length);
+      if (!open) {
+        openList(0);
+        return;
+      }
+      if (!visible.length) return;
+      const delta = event.key === "ArrowDown" ? 1 : -1;
+      setActive((index) => {
+        const current = Math.min(Math.max(index, 0), visible.length - 1);
+        return (current + delta + visible.length) % visible.length;
+      });
       return;
     }
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      setOpen(true);
-      if (visible.length) setActive((index) => (index - 1 + visible.length) % visible.length);
-      return;
-    }
+
     if (event.key === "Enter") {
       event.preventDefault();
-      if (visible[highlight]) choose(visible[highlight]);
+      if (!open) {
+        openList(0);
+        return;
+      }
+      applyHighlight();
       return;
     }
+
     if (event.key === "Escape") {
+      if (!open && !query) return;
+      event.preventDefault();
       setOpen(false);
       setQuery("");
     }
   }
-
-  const highlight = visible.length ? Math.min(active, visible.length - 1) : 0;
-  const showList = open && visible.length > 0;
-
-  useLayoutEffect(() => {
-    if (!showList) return;
-    optionRefs.current[highlight]?.scrollIntoView({ block: "nearest" });
-  }, [highlight, showList]);
 
   return (
     <div ref={rootRef} className="space-y-2">
@@ -95,28 +123,46 @@ export function FilterCombobox<T extends string>({
           ))}
         </div>
       ) : null}
-      <div className="relative">
-        <input
-          type="text"
-          role="combobox"
-          aria-expanded={showList}
-          aria-controls={listId}
-          aria-autocomplete="list"
-          aria-label={`Filter ${label}`}
-          value={query}
-          placeholder={`Type or Enter to apply ${label.toLowerCase()}`}
-          onChange={(event) => {
-            setQuery(event.target.value);
-            setActive(0);
-            setOpen(true);
-          }}
-          onFocus={() => {
-            setActive(0);
-            setOpen(true);
-          }}
-          onKeyDown={onKeyDown}
-          className="w-full rounded-xl border border-card-border bg-background px-3 py-2 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
-        />
+      <div className="relative" onKeyDown={onKeyDown}>
+        <div className="flex gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            role="combobox"
+            aria-expanded={showList}
+            aria-controls={listId}
+            aria-autocomplete="list"
+            aria-activedescendant={showList && highlight >= 0 ? `${listId}-${highlight}` : undefined}
+            aria-label={`Filter ${label}`}
+            value={query}
+            placeholder={`Type, arrow, then Enter or Select`}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActive(0);
+              setOpen(true);
+            }}
+            onFocus={() => {
+              setActive(0);
+              setOpen(true);
+            }}
+            className="min-w-0 flex-1 rounded-xl border border-card-border bg-background px-3 py-2 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+          />
+          <button
+            type="button"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => {
+              if (!open) {
+                openList(0);
+                inputRef.current?.focus();
+                return;
+              }
+              if (!applyHighlight()) inputRef.current?.focus();
+            }}
+            className="shrink-0 rounded-xl border border-accent/40 bg-accent/15 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-accent outline-none ring-accent/40 hover:bg-accent/25 focus:ring-2"
+          >
+            Select
+          </button>
+        </div>
         {showList ? (
           <ul
             id={listId}
@@ -129,11 +175,13 @@ export function FilterCombobox<T extends string>({
                 <li key={option} role="presentation">
                   <button
                     type="button"
+                    id={`${listId}-${index}`}
                     ref={(node) => {
                       optionRefs.current[index] = node;
                     }}
                     role="option"
                     aria-selected={index === highlight}
+                    tabIndex={-1}
                     onMouseEnter={() => setActive(index)}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => choose(option)}

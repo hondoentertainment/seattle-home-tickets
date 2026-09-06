@@ -67,10 +67,10 @@ Check **Interested** on any row. Selection is stored in `localStorage` and in th
 
 Combine freely (also persisted in the URL):
 
-- Search with autocomplete; **Enter** applies the highlighted suggestion (or the typed query immediately). Team / sport / venue hits become filter chips; opponent and tag hits become a text query
-- Sport, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** applies the highlighted option
-- Ticket quantity is a styled 1–19 listbox (arrows + Enter)
-- Month chips and category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women)
+- Search with autocomplete; arrows highlight a suggestion, **Enter** or **Select** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query
+- Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Select** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
+- Ticket quantity is a styled 1–19 listbox (arrows + Enter; Enter opens when closed)
+- Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women); arrows move between chips, Enter applies
 - Optional date range
 - Selected only
 - Holiday / special browsing lives only on [`/holidays`](/holidays). Home does not have a holiday toggle.
