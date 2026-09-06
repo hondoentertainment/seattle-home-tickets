@@ -11,12 +11,7 @@ export function HolidayShowcase({
   if (!games.length) return null;
   return (
     <section className="space-y-3">
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-gold">Holiday / special</p>
-          <h2 className="text-lg font-semibold text-foreground">Dates worth circling</h2>
-        </div>
-      </div>
+      <h2 className="text-sm font-semibold text-gold">Holiday / special</h2>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {games.map((game) => (
           <button
