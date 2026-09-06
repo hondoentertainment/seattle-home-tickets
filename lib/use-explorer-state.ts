@@ -7,7 +7,9 @@ import {
   explorerStateToParams,
   parseExplorerState,
   readStoredIds,
+  readStoredQty,
   writeStoredIds,
+  writeStoredQty,
   type ExplorerState,
 } from "@/lib/url-state";
 
@@ -29,6 +31,7 @@ export function useExplorerState() {
       writtenKey.current = query;
       pendingWrite.current = true;
       writeStoredIds(next.ids);
+      writeStoredQty(next.qty);
       startTransition(() => {
         router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
       });
@@ -67,12 +70,16 @@ export function useExplorerState() {
   }, [urlKey]);
 
   useEffect(() => {
-    if (searchParams.get("ids")) return;
-    const stored = readStoredIds();
-    if (!stored.length) return;
-    // localStorage is an external store; apply once after mount if the URL has no ids.
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate shortlist
-    apply((prev) => (prev.ids.length ? prev : { ...prev, ids: stored }));
+    const storedIds = searchParams.get("ids") ? [] : readStoredIds();
+    const storedQty = searchParams.has("qty") ? null : readStoredQty();
+    if (!storedIds.length && storedQty == null) return;
+    // localStorage is an external store; apply once after mount when the URL omits ids/qty.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate prefs
+    apply((prev) => ({
+      ...prev,
+      ids: prev.ids.length || !storedIds.length ? prev.ids : storedIds,
+      qty: storedQty ?? prev.qty,
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

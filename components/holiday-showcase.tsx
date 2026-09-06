@@ -1,11 +1,14 @@
 import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
+import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import type { Game } from "@/lib/types";
 
 export function HolidayShowcase({
   games,
+  qty = DEFAULT_QTY,
   onOpen,
 }: {
   games: Game[];
+  qty?: number;
   onOpen: (game: Game) => void;
 }) {
   if (!games.length) return null;
@@ -29,7 +32,9 @@ export function HolidayShowcase({
             <p className="mt-1 text-sm text-muted">
               {formatGameDate(game.date)} · {game.timePt} · {game.venue}
             </p>
-            <p className="mt-2 text-sm text-accent">{formatUsd(game.estPricePairUsd)} pair est.</p>
+            <p className="mt-2 text-sm text-accent">
+              {formatUsd(estimateForQty(game.estPriceEachUsd, qty))} {qtyEstimateLabel(qty)}
+            </p>
           </button>
         ))}
       </div>

@@ -1,19 +1,23 @@
-import { GENDER_LABELS, venueFor } from "@/lib/catalog";
+import { venueFor } from "@/lib/catalog";
 import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
+import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import { ticketLinks } from "@/lib/tickets";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
 export function GameDetail({
   game,
   weather,
+  qty = DEFAULT_QTY,
   onClose,
 }: {
   game: Game;
   weather?: WeatherBlurb;
+  qty?: number;
   onClose: () => void;
 }) {
   const venue = venueFor(game.venue);
-  const links = ticketLinks(game, venue);
+  const links = ticketLinks(game, venue, qty);
+  const group = estimateForQty(game.estPriceEachUsd, qty);
 
   return (
     <aside className="fixed inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto rounded-t-3xl border border-card-border bg-card p-5 shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:w-[28rem] md:max-h-none md:rounded-none md:border-l">
@@ -38,14 +42,12 @@ export function GameDetail({
 
       <dl className="grid grid-cols-2 gap-3 text-sm">
         <div>
-          <dt className="text-xs text-muted">Est. each / pair</dt>
-          <dd className="font-semibold text-accent">
-            {formatUsd(game.estPriceEachUsd)} / {formatUsd(game.estPricePairUsd)}
-          </dd>
+          <dt className="text-xs text-muted">{qtyEstimateLabel(qty)}</dt>
+          <dd className="font-semibold text-accent">{formatUsd(group)}</dd>
         </div>
         <div>
-          <dt className="text-xs text-muted">Category</dt>
-          <dd>{GENDER_LABELS[game.gender]}</dd>
+          <dt className="text-xs text-muted">Est. each</dt>
+          <dd>{formatUsd(game.estPriceEachUsd)}</dd>
         </div>
       </dl>
       {game.specialTags.length ? (
@@ -66,6 +68,10 @@ export function GameDetail({
 
       <section className="mt-5 space-y-2">
         <h3 className="text-sm font-semibold text-foreground">Tickets</h3>
+        <p className="text-xs text-muted">
+          Marketplace links include a quantity hint where the site accepts one. Official
+          hubs are per-listing — multiply the seat price by {qty} if needed.
+        </p>
         <div className="flex flex-wrap gap-2">
           {links.map((link) => (
             <a
@@ -80,6 +86,7 @@ export function GameDetail({
               }`}
             >
               {link.label}
+              {link.qtyApplied ? ` · ${qty}` : ""}
             </a>
           ))}
         </div>

@@ -10,6 +10,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
+import { QuantityPicker } from "@/components/quantity-picker";
 import {
   GENDER_LABELS,
   allMonths,
@@ -21,6 +22,7 @@ import {
 } from "@/lib/catalog";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
+import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
 import { EMPTY_STATE, shareUrl } from "@/lib/url-state";
@@ -139,8 +141,9 @@ export function GamesExplorer() {
           header: "Est. each",
           cell: (info) => <span className="tabular-nums">{formatUsd(info.getValue())}</span>,
         }),
-        helper.accessor("estPricePairUsd", {
-          header: "Est. pair",
+        helper.accessor((row) => estimateForQty(row.estPriceEachUsd, state.qty), {
+          id: "estGroup",
+          header: qtyEstimateLabel(state.qty),
           cell: (info) => (
             <span className="font-semibold tabular-nums text-accent">
               {formatUsd(info.getValue())}
@@ -150,7 +153,7 @@ export function GamesExplorer() {
       ]),
     // toggleId is stable enough via patch/state.ids
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selected, state.ids],
+    [selected, state.ids, state.qty],
   );
 
   const table = useTable(
@@ -163,7 +166,10 @@ export function GamesExplorer() {
     (tableState) => ({ sorting: tableState.sorting }),
   );
 
-  const pairTotal = filtered.reduce((sum, game) => sum + game.estPricePairUsd, 0);
+  const groupTotal = filtered.reduce(
+    (sum, game) => sum + estimateForQty(game.estPriceEachUsd, state.qty),
+    0,
+  );
   const selectedGames = catalog.games.filter((game) => selected.has(game.id));
   const openGame = catalog.games.find((game) => game.id === openId) ?? null;
   const currentSort = table.state.sorting[0] ?? { id: "date", desc: false };
@@ -193,7 +199,7 @@ export function GamesExplorer() {
 
   function clearFilters() {
     setDraftQ("");
-    apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids }));
+    apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids, qty: prev.qty }));
   }
 
   async function copyShareLink() {
@@ -204,7 +210,7 @@ export function GamesExplorer() {
   }
 
   async function copySummary() {
-    const text = shortlistMarkdown(selectedGames, weatherByDate);
+    const text = shortlistMarkdown(selectedGames, weatherByDate, state.qty);
     await navigator.clipboard.writeText(text);
     setCopied("summary");
     setTimeout(() => setCopied(null), 2000);
@@ -212,29 +218,36 @@ export function GamesExplorer() {
 
   return (
     <section className="space-y-6 pb-24">
-      <HolidayShowcase games={holidayGames} onOpen={(game) => setOpenId(game.id)} />
+      <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
 
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         <StatCard label="Events" value={filtered.length.toString()} hint={`${catalog.games.length} total`} />
-        <StatCard label="Pair total" value={formatUsd(pairTotal)} hint="Visible estimates" />
         <StatCard
-          label="Avg pair"
-          value={filtered.length ? formatUsd(Math.round(pairTotal / filtered.length)) : "—"}
-          hint="On screen"
+          label="Est. total"
+          value={formatUsd(groupTotal)}
+          hint={qtyEstimateLabel(state.qty)}
+        />
+        <StatCard
+          label="Avg game"
+          value={filtered.length ? formatUsd(Math.round(groupTotal / filtered.length)) : "—"}
+          hint={qtyEstimateLabel(state.qty)}
         />
       </div>
 
       <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-        <label className="block">
-          <span className="sr-only">Search team, opponent, venue, sport</span>
-          <input
-            type="search"
-            value={draftQ}
-            onChange={(event) => setDraftQ(event.target.value)}
-            placeholder="Search team, opponent, venue, sport"
-            className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
-          />
-        </label>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <label className="block min-w-0 flex-1">
+            <span className="sr-only">Search team, opponent, venue, sport</span>
+            <input
+              type="search"
+              value={draftQ}
+              onChange={(event) => setDraftQ(event.target.value)}
+              placeholder="Search team, opponent, venue, sport"
+              className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            />
+          </label>
+          <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
+        </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <ToggleChip
@@ -419,7 +432,7 @@ export function GamesExplorer() {
             <option value="venue">Venue</option>
             <option value="timePt">Time</option>
             <option value="estPriceEachUsd">Est. each</option>
-            <option value="estPricePairUsd">Est. pair</option>
+            <option value="estGroup">{qtyEstimateLabel(state.qty)}</option>
           </select>
           <button
             type="button"
@@ -466,8 +479,11 @@ export function GamesExplorer() {
                 {formatGameDate(game.date)} · {game.timePt} · {game.venue}
               </p>
               <p className="mt-2 text-sm">
-                {formatUsd(game.estPriceEachUsd)}{" "}
-                <span className="font-semibold text-accent">{formatUsd(game.estPricePairUsd)}</span>
+                {formatUsd(game.estPriceEachUsd)} each{" "}
+                <span className="font-semibold text-accent">
+                  {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
+                </span>{" "}
+                <span className="text-xs text-muted">{qtyEstimateLabel(state.qty)}</span>
               </p>
             </article>
           );
@@ -518,6 +534,7 @@ export function GamesExplorer() {
         <GameDetail
           game={openGame}
           weather={weatherByDate[openGame.date]}
+          qty={state.qty}
           onClose={() => setOpenId(null)}
         />
       ) : null}

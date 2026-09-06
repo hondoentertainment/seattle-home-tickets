@@ -45,6 +45,7 @@ export type TicketLink = {
   label: string;
   href: string;
   kind: "official" | "marketplace";
+  qtyApplied?: boolean;
 };
 
 export type WeatherBlurb = {

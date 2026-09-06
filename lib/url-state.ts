@@ -1,4 +1,5 @@
 import type { Gender } from "@/lib/types";
+import { DEFAULT_QTY, clampQty } from "@/lib/quantity";
 
 export type ExplorerState = {
   q: string;
@@ -12,6 +13,7 @@ export type ExplorerState = {
   ids: string[];
   selectedOnly: boolean;
   holidayOnly: boolean;
+  qty: number;
 };
 
 export const EMPTY_STATE: ExplorerState = {
@@ -26,6 +28,7 @@ export const EMPTY_STATE: ExplorerState = {
   ids: [],
   selectedOnly: false,
   holidayOnly: false,
+  qty: DEFAULT_QTY,
 };
 
 function csv(value: string | null): string[] {
@@ -49,6 +52,7 @@ export function parseExplorerState(params: URLSearchParams): ExplorerState {
     ids: csv(params.get("ids")),
     selectedOnly: params.get("selected") === "1",
     holidayOnly: params.get("holiday") === "1",
+    qty: params.has("qty") ? clampQty(params.get("qty")) : DEFAULT_QTY,
   };
 }
 
@@ -80,11 +84,13 @@ export function explorerStateToParams(state: ExplorerState): URLSearchParams {
   if (state.to) params.set("to", state.to);
   if (state.selectedOnly) params.set("selected", "1");
   if (state.holidayOnly) params.set("holiday", "1");
+  if (state.qty !== DEFAULT_QTY) params.set("qty", String(clampQty(state.qty)));
   return params;
 }
 
 export function shareUrl(state: ExplorerState): string {
   const params = explorerStateToParams(state);
+  params.set("qty", String(clampQty(state.qty)));
   const query = params.toString();
   const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ""}`;
   if (url.length < 1800) return url;
@@ -92,11 +98,14 @@ export function shareUrl(state: ExplorerState): string {
     ...EMPTY_STATE,
     ids: state.ids,
     selectedOnly: true,
+    qty: state.qty,
   });
+  compact.set("qty", String(clampQty(state.qty)));
   return `${window.location.origin}${window.location.pathname}?${compact.toString()}`;
 }
 
 const STORAGE_KEY = "seattle-home-tickets:shortlist";
+const QTY_STORAGE_KEY = "seattle-home-tickets:qty";
 
 export function readStoredIds(): string[] {
   try {
@@ -111,4 +120,18 @@ export function readStoredIds(): string[] {
 
 export function writeStoredIds(ids: string[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+}
+
+export function readStoredQty(): number | null {
+  try {
+    const raw = localStorage.getItem(QTY_STORAGE_KEY);
+    if (raw == null) return null;
+    return clampQty(raw);
+  } catch {
+    return null;
+  }
+}
+
+export function writeStoredQty(qty: number) {
+  localStorage.setItem(QTY_STORAGE_KEY, String(clampQty(qty)));
 }
