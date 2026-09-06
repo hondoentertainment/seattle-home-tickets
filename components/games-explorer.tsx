@@ -24,7 +24,7 @@ import {
   monthLabel,
 } from "@/lib/catalog";
 import { filterGames } from "@/lib/filter-games";
-import { formatGameDate, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
+import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
@@ -204,7 +204,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
 
   const filterPanel = (
       <div className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-2.5 md:flex-row md:items-stretch">
           <SearchBox
             value={draftQ}
             onChange={setDraftQ}
@@ -252,16 +252,16 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 setFiltersOpen(false);
               }
             }}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
+            className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
               filtersOpen || extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
-                : "border-card-border text-muted"
+                : "border-card-border bg-card text-muted"
             }`}
           >
             Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
           </button>
           {variant === "holidays" ? (
-            <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs text-gold">
+            <span className="inline-flex min-h-11 items-center rounded-full border border-gold/30 bg-gold/10 px-3 text-xs text-gold">
               Holiday games
             </span>
           ) : null}
@@ -279,7 +279,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.from}
                   onChange={(event) => patch({ from: event.target.value })}
-                  className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
                 />
               </label>
               <label className="block">
@@ -288,7 +288,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                   type="date"
                   value={state.to}
                   onChange={(event) => patch({ to: event.target.value })}
-                  className="w-full rounded-xl border border-card-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
+                  className="h-11 w-full rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent/40"
                 />
               </label>
             </div>
@@ -327,7 +327,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             <button
               type="button"
               onClick={clearFilters}
-              className="rounded-full border border-card-border px-3 py-1.5 text-xs text-foreground hover:border-accent/50"
+              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
             >
               Clear filters
             </button>
@@ -419,7 +419,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <select
             value={currentSort.id}
             onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
-            className="w-full rounded-xl border border-card-border bg-card px-3 py-2 text-foreground"
+            className="h-11 w-full rounded-xl border border-card-border bg-card px-3 text-foreground"
           >
             <option value="date">Date</option>
             <option value="team">Team</option>
@@ -433,7 +433,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <button
             type="button"
             onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
-            className="rounded-xl border border-card-border bg-card px-3 py-2"
+            className="inline-flex h-11 min-w-11 items-center justify-center rounded-xl border border-card-border bg-card px-3"
           >
             {currentSort.desc ? "Desc" : "Asc"}
           </button>
@@ -444,41 +444,50 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
           return (
-            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-4">
-              <div className="flex items-start justify-between gap-3">
-                <label className="flex items-center gap-2 text-xs text-muted">
+            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-3.5">
+              <div className="flex items-center justify-between gap-3">
+                <label className="flex min-h-11 items-center gap-2 text-xs text-muted">
                   <input
                     type="checkbox"
                     checked={selected.has(game.id)}
                     onChange={() => toggleId(game.id)}
-                    className="accent-accent"
+                    className="size-4 accent-accent"
                   />
                   Interested
                 </label>
                 <button
                   type="button"
                   onClick={() => setOpenId(game.id)}
-                  className="text-xs text-accent"
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-accent"
                 >
                   Details
                 </button>
               </div>
               {game.specialTags.length ? (
-                <p className="mt-2 text-xs text-gold">
-                  {game.specialTags.map(formatSpecialTag).join(" · ")}
-                </p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {game.specialTags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md bg-gold/15 px-2 py-1 text-[10px] font-medium text-gold"
+                    >
+                      {formatSpecialTag(tag)}
+                    </span>
+                  ))}
+                </div>
               ) : null}
-              <h2 className="mt-1 text-base font-semibold text-foreground">
+              <h2 className="mt-2 text-[15px] font-bold text-foreground">
                 {game.team} vs {game.opponent}
               </h2>
-              <p className="mt-1 text-sm text-muted">
-                {formatGameDate(game.date)} · {game.timePt} · {game.venue}
+              <p className="mt-1 text-xs text-muted">
+                {formatGameDateShort(game.date)} · {game.timePt} · {game.venue}
               </p>
-              <p className="mt-2 text-sm">
-                {formatUsd(game.estPriceEachUsd)} each{" "}
-                <span className="font-semibold text-accent">
+              <p className="mt-2 flex flex-wrap items-baseline gap-2 text-sm">
+                <span className="text-[13px] text-muted">
+                  {formatUsd(game.estPriceEachUsd)} each
+                </span>
+                <span className="text-base font-bold text-accent">
                   {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
-                </span>{" "}
+                </span>
                 <span className="text-xs text-muted">{qtyEstimateLabel(state.qty)}</span>
               </p>
             </article>
@@ -496,28 +505,28 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               <button
                 type="button"
                 onClick={copyShareLink}
-                className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-background"
+                className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
               >
                 {copied === "link" ? "Copied" : "Share"}
               </button>
               <button
                 type="button"
                 onClick={copySummary}
-                className="rounded-full border border-card-border px-3 py-1.5 text-xs"
+                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
               >
                 {copied === "summary" ? "Copied" : "Copy"}
               </button>
               <button
                 type="button"
                 onClick={() => patch({ selectedOnly: true })}
-                className="rounded-full border border-card-border px-3 py-1.5 text-xs"
+                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
               >
                 Review
               </button>
               <button
                 type="button"
                 onClick={() => patch({ ids: [], selectedOnly: false })}
-                className="rounded-full border border-card-border px-3 py-1.5 text-xs"
+                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
               >
                 Clear
               </button>
@@ -546,7 +555,7 @@ function EmptyGames({ onClear }: { onClear: () => void }) {
       <button
         type="button"
         onClick={onClear}
-        className="mt-3 rounded-full border border-card-border px-3 py-1.5 text-xs text-foreground hover:border-accent/50"
+        className="mt-3 inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
       >
         Clear filters
       </button>
@@ -611,7 +620,7 @@ function ChipRow<T extends string>({
                   onToggle(option);
                 }
               }}
-              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium transition ${
                 active
                   ? "border-accent bg-accent/15 text-accent"
                   : "border-card-border bg-background text-muted hover:border-accent/50 hover:text-foreground"
@@ -640,8 +649,8 @@ function ToggleChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
-        active ? "border-gold bg-gold/15 text-gold" : "border-card-border text-muted"
+      className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
+        active ? "border-gold bg-gold/15 text-gold" : "border-card-border bg-card text-muted"
       }`}
     >
       {children}

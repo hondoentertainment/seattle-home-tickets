@@ -16,8 +16,19 @@ export function formatUsd(value: number): string {
   return money.format(value);
 }
 
+const shortDate = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 export function formatGameDate(iso: string): string {
   return longDate.format(new Date(`${iso}T12:00:00Z`));
+}
+
+export function formatGameDateShort(iso: string): string {
+  return shortDate.format(new Date(`${iso}T12:00:00Z`));
 }
 
 export function parseIsoDate(iso: string): number {

@@ -116,7 +116,7 @@ export function FilterCombobox<T extends string>({
               key={value}
               type="button"
               onClick={() => onToggle(value)}
-              className="rounded-full border border-accent bg-accent/15 px-3 py-1.5 text-xs font-medium text-accent"
+              className="inline-flex min-h-11 items-center rounded-full border border-accent bg-accent/15 px-3 text-xs font-medium text-accent"
             >
               {render ? render(value) : value} ×
             </button>
@@ -145,7 +145,7 @@ export function FilterCombobox<T extends string>({
               setActive(0);
               setOpen(true);
             }}
-            className="min-w-0 flex-1 rounded-xl border border-card-border bg-background px-3 py-2 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
+            className="h-11 min-w-0 flex-1 rounded-xl border border-card-border bg-background px-3 text-sm text-foreground outline-none ring-accent/40 placeholder:text-muted focus:ring-2"
           />
           <button
             type="button"
@@ -158,7 +158,7 @@ export function FilterCombobox<T extends string>({
               }
               if (!applyHighlight()) inputRef.current?.focus();
             }}
-            className="shrink-0 rounded-xl border border-accent/40 bg-accent/15 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-accent outline-none ring-accent/40 hover:bg-accent/25 focus:ring-2"
+            className="inline-flex h-11 w-[88px] shrink-0 items-center justify-center rounded-xl border-[1.5px] border-accent bg-transparent text-sm font-semibold text-accent outline-none ring-accent/40 hover:bg-accent/10 focus:ring-2"
           >
             Select
           </button>
