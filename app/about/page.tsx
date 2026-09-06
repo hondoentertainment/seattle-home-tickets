@@ -99,7 +99,8 @@ export default function AboutPage() {
           basketball homes without published dates are omitted rather than invented.
           A GitHub Action re-validates the published seed every day at 7:00 AM Pacific
           and stamps “last checked” under the nav and in the footer. It does not scrape
-          live prices or invent unpublished dates.
+          live prices or invent unpublished dates. Published theme nights and giveaways
+          live on Promotions — incomplete club calendars are marked instead of filled in.
         </p>
       </section>
 
