@@ -4,7 +4,7 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 
 - **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, shortlist
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
-- **Teams (`/teams`)** — color monogram tiles (college tiles print the sport)
+- **Teams (`/teams`)** — color monogram tiles (college and high-school tiles print the sport)
 - **Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
@@ -28,8 +28,11 @@ Seeded from official and league schedules researched **as of 6 September 2026**.
 | UW Volleyball / M+W Soccer | Remaining 2026 fall homes |
 | Seattle U M/W Basketball | Men: published non-conference homes + Holiday Classic. Women: all dated 2026-27 homes including WCC |
 | SPU Volleyball + Basketball | Remaining 2026 VB homes and published 2026-27 basketball homes with listed opponents |
+| O'Dea / Ballard / Roosevelt / Rainier Beach / Eastside Catholic / Bellevue HS Football | Remaining 2026 published homes only (Metro / KingCo). Sport tagged **HS Football** |
+| Touring / exhibit sports | **None upcoming** with a published Seattle-city date after Sep 6, 2026. Exhibition / Touring sport + tag is wired for when dates publish |
+| Seattle Torrent (PWHL) | Standings row only — 2026–27 Climate Pledge schedule unpublished |
 
-Away games are excluded. If a conference basketball slate was not dated yet, it was omitted rather than invented.
+Away games are excluded. If a conference basketball slate, HS conference week, or touring date was not published yet, it was omitted rather than invented.
 
 ## Prices
 
@@ -45,7 +48,7 @@ The header stats show:
 
 Each game’s detail panel (click the team name, or **Details** on mobile) links out to check live prices:
 
-- Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, plus venue Ticketmaster where useful)
+- Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, O'Dea / Eastside Catholic athletics, Seattle Public Schools digital tickets, plus venue Ticketmaster where useful)
 - Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats
 
 Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. No affiliate parameters.
@@ -54,7 +57,7 @@ Marketplace URLs are **search links** for team + opponent + date, not reserved i
 
 Client-side [Open-Meteo](https://open-meteo.com/) forecast for Seattle (47.6062, −122.3321), no API key. About 16 days of daily high/low, precip chance, and wind. Dates beyond that window show **climatology** (“typical for that month in Seattle”), labeled as not a live forecast.
 
-Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer Stadium) treat weather as a go/wear decision. Indoor venues (Climate Pledge, Alaska Airlines Arena, Redhawk Center, Royal Brougham) still show a travel-day note.
+Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer Stadium, West Seattle Stadium, Northwest Athletic Complex, Southeast Athletic Complex, Eastside Catholic, Bellevue HS Stadium) treat weather as a go/wear decision. Indoor venues (Climate Pledge, Alaska Airlines Arena, Redhawk Center, Royal Brougham) still show a travel-day note.
 
 ## Travel
 
@@ -71,7 +74,7 @@ Combine freely (also persisted in the URL):
 - Search with autocomplete; arrows highlight a suggestion, **Enter** or **Select** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query
 - Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Select** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
 - Ticket quantity is a styled 1–19 listbox (arrows + Enter; Enter opens when closed)
-- Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s → Men; NWSL/WNBA/NCAA women’s + volleyball → Women); arrows move between chips, Enter applies
+- Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s / HS football → Men; NWSL/WNBA/NCAA women’s + volleyball / PWHL → Women; Exhibition / Touring → Open); arrows move between chips, Enter applies
 - Optional date range
 - Selected only
 - Holiday / special browsing lives only on [`/holidays`](/holidays). Home does not have a holiday toggle.
@@ -165,5 +168,9 @@ npx vercel
 - GoHuskies.com football, basketball, volleyball, soccer
 - GoSeattleU.com 2026-27 basketball schedules
 - SPUFalcons.com 2026 volleyball and 2026-27 basketball schedules
+- O’Dea.org / Ballard HS athletics / EastsideCatholic.org 2026 football schedules
+- MaxPreps (WIAA partner) Roosevelt and Bellevue 2026-27 football glances
+- Seattle Public Schools digital athletic tickets
+- PWHL Seattle Torrent FAQ (2026–27 schedule unpublished as of Sep 6)
 
 Kickoff times marked `TBD` were not published yet (common for Big Ten football flex windows and most college basketball tips).

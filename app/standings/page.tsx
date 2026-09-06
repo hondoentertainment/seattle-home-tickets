@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "Standings — Seattle Home Tickets",
   description:
-    "Published season standings for Seattle clubs on this calendar. Upcoming sports are listed without invented records.",
+    "Published season standings for Seattle clubs and large high-school programs on this calendar. Upcoming sports are listed without invented records.",
 };
 
 export default function StandingsPage() {

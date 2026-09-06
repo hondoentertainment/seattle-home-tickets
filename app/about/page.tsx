@@ -61,9 +61,10 @@ export default function AboutPage() {
         </p>
         <p className="leading-7 text-muted">
           Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer
-          Stadium) treat weather as a go / what-to-wear note. Indoor venues (Climate
-          Pledge Arena, Alaska Airlines Arena, Redhawk Center, Royal Brougham Pavilion)
-          still show a travel-day snapshot and are marked indoor.
+          Stadium, plus Metro / KingCo high-school fields) treat weather as a go /
+          what-to-wear note. Indoor venues (Climate Pledge Arena, Alaska Airlines
+          Arena, Redhawk Center, Royal Brougham Pavilion) still show a travel-day
+          snapshot and are marked indoor.
         </p>
       </section>
 

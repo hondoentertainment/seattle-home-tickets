@@ -56,6 +56,6 @@ export function standingSportLabel(row: StandingRow): string {
 export function standingHref(row: StandingRow): string {
   const params = new URLSearchParams();
   params.set("teams", row.team);
-  if (row.sport.startsWith("NCAA")) params.set("sports", row.sport);
+  if (row.sport.startsWith("NCAA") || row.sport.startsWith("HS")) params.set("sports", row.sport);
   return `/?${params.toString()}`;
 }

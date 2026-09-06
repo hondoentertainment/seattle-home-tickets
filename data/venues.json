@@ -86,5 +86,60 @@
     "rideshare": "3rd Ave W at W Dravus St or W Nickerson St.",
     "traffic": "Nickerson / Fremont Bridge backups at rush hour. Leave extra time from the Eastside via 99 or I-5 + 45th.",
     "officialTickets": "https://spufalcons.com/sports/2026/8/6/spu-athletics-ticket-page.aspx"
+  },
+  "West Seattle Stadium": {
+    "name": "West Seattle Stadium",
+    "address": "4205 SW Genesee St, Seattle, WA 98116",
+    "neighborhood": "West Seattle",
+    "indoor": false,
+    "transit": "Metro C Line / 21 / 55 to the West Seattle Junction, then a short walk or local bus to Genesee. No Link station.",
+    "parking": "Stadium lot fills for O’Dea and Metro Friday nights. Neighborhood streets around Genesee are time-limited.",
+    "rideshare": "SW Genesee St or 35th Ave SW. After games, walk a block west before requesting.",
+    "traffic": "West Seattle Bridge / Fauntleroy backups on Friday nights. Leave extra time from downtown or the Eastside.",
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+  },
+  "Northwest Athletic Complex": {
+    "name": "Northwest Athletic Complex",
+    "address": "1819 N 135th St, Seattle, WA 98133",
+    "neighborhood": "Broadview / Ingraham",
+    "indoor": false,
+    "transit": "Metro 28 / 40 / 345 to N 135th. No Link station — plan a bus or car.",
+    "parking": "Ingraham / NWAC lots. Overflow spills onto N 135th; arrive early for Homecoming.",
+    "rideshare": "N 135th St at Greenwood Ave N or the Ingraham lot curb.",
+    "traffic": "I-5 Northgate exits jam on Friday kickoffs. Aurora (SR-99) is the usual backup.",
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+  },
+  "Southeast Athletic Complex": {
+    "name": "Southeast Athletic Complex",
+    "address": "8815 Seward Park Ave S, Seattle, WA 98118",
+    "neighborhood": "Rainier Beach",
+    "indoor": false,
+    "transit": "Link 1 Line to Rainier Beach Station; short walk to the Rainier Beach / SEAC fields.",
+    "parking": "SEAC / Rainier Beach HS lots. Street parking on Seward Park Ave S is limited on Friday nights.",
+    "rideshare": "Seward Park Ave S at the complex entrance.",
+    "traffic": "Rainier Ave S backs up before 7 p.m. kickoffs. Link is usually faster from downtown.",
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+  },
+  "Eastside Catholic School": {
+    "name": "Eastside Catholic School",
+    "address": "232 228th Ave SE, Sammamish, WA 98074",
+    "neighborhood": "Sammamish",
+    "indoor": false,
+    "transit": "No Link. King County Metro / Sound Transit to Issaquah or Redmond, then a local bus or car. Most fans drive.",
+    "parking": "Campus lots at 228th Ave SE. Homecoming fills them — follow event-staff directions.",
+    "rideshare": "228th Ave SE at the campus loop.",
+    "traffic": "I-90 + 228th Ave SE is the typical approach. Friday 7 p.m. starts overlap with Eastside commute.",
+    "officialTickets": "https://www.eastsidecatholic.org/athletics/teams/football"
+  },
+  "Bellevue High School Stadium": {
+    "name": "Bellevue High School Stadium",
+    "address": "10416 Wolverine Way SE, Bellevue, WA 98004",
+    "neighborhood": "Bellevue",
+    "indoor": false,
+    "transit": "East Link to Bellevue Downtown, then a local bus or short rideshare south to Wolverine Way.",
+    "parking": "Campus lots off Wolverine Way. Neighborhood overflow is limited on Friday nights.",
+    "rideshare": "Wolverine Way SE at the stadium entrance.",
+    "traffic": "I-405 Bellevue exits clog before 7 p.m. kickoffs. Leave extra time from Seattle via 520 or I-90.",
+    "officialTickets": "https://www.maxpreps.com/wa/bellevue/bellevue-wolverines/football/"
   }
 }

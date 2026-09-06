@@ -11,6 +11,13 @@ const TEAM_TICKET_HUBS: Record<string, string> = {
   "Seattle U Redhawks": "https://goseattleu.com/tickets",
   "Seattle Pacific Falcons":
     "https://spufalcons.com/sports/2026/8/6/spu-athletics-ticket-page.aspx",
+  "O'Dea Fighting Irish": "https://www.odea.org/athletics/fall-sports/football/",
+  "Ballard Beavers": "https://ballardhs.seattleschools.org/activities/athletics/",
+  "Roosevelt Roughriders": "https://www.seattleschools.org/news/digital-athletic-tickets/",
+  "Rainier Beach Vikings": "https://www.seattleschools.org/news/digital-athletic-tickets/",
+  "Eastside Catholic Crusaders": "https://www.eastsidecatholic.org/athletics/teams/football",
+  "Bellevue Wolverines": "https://www.maxpreps.com/wa/bellevue/bellevue-wolverines/football/schedule/",
+  "Seattle Torrent": "https://www.thepwhl.com/en/teams/seattle-torrent/tickets",
 };
 
 function searchQuery(game: Game): string {

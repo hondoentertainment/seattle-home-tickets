@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TeamMark } from "@/components/team-mark";
 import { catalog } from "@/lib/catalog";
-import { isCollegeTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
+import { isSchoolTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
 
 export const metadata: Metadata = {
   title: "Teams — Seattle Home Tickets",
   description:
-    "Seattle home teams as original color tiles. College tiles include the sport so UW football and basketball stay distinct.",
+    "Seattle home teams as original color tiles. College and high-school tiles include the sport so football and basketball stay distinct.",
 };
 
 export default function TeamsPage() {
@@ -20,9 +20,9 @@ export default function TeamsPage() {
         Teams
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Original monogram tiles — not official club marks. College programs print the sport on
-        the tile so football and basketball don&apos;t collide. Click a tile to open Home filtered
-        to that club. Season W–L lives on{" "}
+        Original monogram tiles — not official club marks. College and high-school programs
+        print the sport on the tile so football and basketball don&apos;t collide. Click a tile
+        to open Home filtered to that club. Season W–L lives on{" "}
         <Link href="/standings" className="text-accent hover:underline">
           Standings
         </Link>
@@ -39,7 +39,7 @@ export default function TeamsPage() {
               <TeamMark mark={card} />
               <span className="min-w-0">
                 <span className="block font-semibold text-foreground">{card.team}</span>
-                {isCollegeTeam(card.team) && card.sport ? (
+                {isSchoolTeam(card.team) && card.sport ? (
                   <span className="mt-1 inline-flex rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
                     {sportTileLabel(card.sport)}
                   </span>
