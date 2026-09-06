@@ -5,7 +5,7 @@ import { catalog } from "@/lib/catalog";
 export const metadata: Metadata = {
   title: "About — Seattle Home Tickets",
   description:
-    "How Seattle Home Tickets estimates pair prices, weather, travel, and marketplace links for published Seattle home games.",
+    "How Seattle Home Tickets estimates mid-tier ticket prices, weather, travel, and marketplace links for published Seattle home games.",
 };
 
 export default function AboutPage() {
@@ -13,7 +13,7 @@ export default function AboutPage() {
     <article className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 lg:px-8">
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">About</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-        A planning board for two seats in Seattle
+        A planning board for Seattle home tickets
       </h1>
       <p className="mt-4 text-base leading-7 text-muted">
         This site is for Seattle fans who want to scan the published{" "}
@@ -34,9 +34,10 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold text-foreground">How estimates work</h2>
         <p className="leading-7 text-muted">{catalog.priceDisclaimer}</p>
         <p className="leading-7 text-muted">
-          Each row lists an unofficial mid-tier price for one seat and for a pair — not
-          the cheapest upper deck, not club. Stats on the calendar are the count of
-          visible games and the sum (and average) of those pair estimates. They will be
+          Each row lists an unofficial mid-tier price per seat (not cheapest upper deck,
+          not club). The calendar defaults to planning for two tickets and lets you
+          scale from 1–10. Displayed group prices and totals are{" "}
+          <span className="text-foreground">est. each × quantity</span>. They will be
           wrong the moment inventory moves. Always confirm on official club sites before
           you spend.
         </p>
@@ -82,7 +83,11 @@ export default function AboutPage() {
           The detail drawer links to official hubs (club sites and venue box offices)
           plus Ticketmaster, StubHub, SeatGeek, TickPick, and Vivid Seats. Marketplace
           URLs are search links for team + opponent + date — not reserved inventory.
-          There are no affiliate parameters.
+          Quantity is appended where those sites commonly accept{" "}
+          <code className="text-foreground">qty</code> /{" "}
+          <code className="text-foreground">quantity</code>; official hubs are still
+          per-listing, so multiply the seat price if the site ignores it. There are no
+          affiliate parameters.
         </p>
       </section>
 

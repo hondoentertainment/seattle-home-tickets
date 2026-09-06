@@ -23,7 +23,7 @@ function searchQuery(game: Game): string {
   return `${game.team} vs ${game.opponent} ${pretty}`;
 }
 
-export function ticketLinks(game: Game, venue?: VenueProfile): TicketLink[] {
+export function ticketLinks(game: Game, venue?: VenueProfile, qty = 2): TicketLink[] {
   const q = encodeURIComponent(searchQuery(game));
   const official = TEAM_TICKET_HUBS[game.team] ?? venue?.officialTickets;
   const links: TicketLink[] = [];
@@ -34,17 +34,42 @@ export function ticketLinks(game: Game, venue?: VenueProfile): TicketLink[] {
     links.push({ label: `${venue.name} box office`, href: venue.officialTickets, kind: "official" });
   }
   links.push(
-    { label: "Ticketmaster", href: `https://www.ticketmaster.com/search?q=${q}`, kind: "marketplace" },
-    { label: "StubHub", href: `https://www.stubhub.com/secure/search?q=${q}`, kind: "marketplace" },
-    { label: "SeatGeek", href: `https://seatgeek.com/search?search=${q}`, kind: "marketplace" },
-    { label: "TickPick", href: `https://www.tickpick.com/search?q=${q}`, kind: "marketplace" },
-    { label: "Vivid Seats", href: `https://www.vividseats.com/search?searchTerm=${q}`, kind: "marketplace" },
+    {
+      label: "Ticketmaster",
+      href: `https://www.ticketmaster.com/search?q=${q}&quantity=${qty}`,
+      kind: "marketplace",
+      qtyApplied: true,
+    },
+    {
+      label: "StubHub",
+      href: `https://www.stubhub.com/secure/search?q=${q}&qty=${qty}`,
+      kind: "marketplace",
+      qtyApplied: true,
+    },
+    {
+      label: "SeatGeek",
+      href: `https://seatgeek.com/search?search=${q}&qty=${qty}`,
+      kind: "marketplace",
+      qtyApplied: true,
+    },
+    {
+      label: "TickPick",
+      href: `https://www.tickpick.com/search?q=${q}&qty=${qty}`,
+      kind: "marketplace",
+      qtyApplied: true,
+    },
+    {
+      label: "Vivid Seats",
+      href: `https://www.vividseats.com/search?searchTerm=${q}&quantity=${qty}`,
+      kind: "marketplace",
+      qtyApplied: true,
+    },
   );
   return links;
 }
 
-export function ticketSummaryLine(game: Game): string {
-  return ticketLinks(game)
+export function ticketSummaryLine(game: Game, qty = 2): string {
+  return ticketLinks(game, undefined, qty)
     .slice(0, 3)
     .map((link) => `${link.label}: ${link.href}`)
     .join(" · ");

@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex flex-1 flex-col">
       <div className="mx-auto flex w-full max-w-7xl items-baseline justify-between gap-4 px-4 pt-6 sm:px-6 lg:px-8">
         <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-          Published Seattle home games · unofficial pair estimates
+          Published Seattle home games · unofficial ticket estimates
         </h1>
         <Link href="/about" className="shrink-0 text-xs text-muted hover:text-accent">
           As of {catalog.asOf}

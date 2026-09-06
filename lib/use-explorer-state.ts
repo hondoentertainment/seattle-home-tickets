@@ -1,51 +1,37 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   explorerStateKey,
   explorerStateToParams,
   parseExplorerState,
   readStoredIds,
+  readStoredQty,
   writeStoredIds,
+  writeStoredQty,
   type ExplorerState,
 } from "@/lib/url-state";
 
+function writeLocation(query: string) {
+  const next = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+  const current = `${window.location.pathname}${window.location.search}`;
+  if (current === next) return;
+  window.history.replaceState(window.history.state, "", next);
+}
+
 export function useExplorerState() {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const urlKey = searchParams.toString();
 
   const [state, setState] = useState(() => parseExplorerState(new URLSearchParams(urlKey)));
   const [draftQ, setDraftQ] = useState(state.q);
+  const lastWritten = useRef(urlKey);
+  const hydrated = useRef(false);
 
-  const writtenKey = useRef(urlKey);
-  const pendingWrite = useRef(false);
-
-  const commitUrl = useCallback(
-    (next: ExplorerState) => {
-      const query = explorerStateKey(next);
-      writtenKey.current = query;
-      pendingWrite.current = true;
-      writeStoredIds(next.ids);
-      startTransition(() => {
-        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-      });
-    },
-    [pathname, router],
-  );
-
-  const apply = useCallback(
-    (updater: (prev: ExplorerState) => ExplorerState) => {
-      setState((prev) => {
-        const next = updater(prev);
-        queueMicrotask(() => commitUrl(next));
-        return next;
-      });
-    },
-    [commitUrl],
-  );
+  const apply = useCallback((updater: (prev: ExplorerState) => ExplorerState) => {
+    setState((prev) => updater(prev));
+  }, []);
 
   const patch = useCallback(
     (partial: Partial<ExplorerState>) => {
@@ -55,25 +41,41 @@ export function useExplorerState() {
   );
 
   useEffect(() => {
-    if (pendingWrite.current) {
-      if (urlKey === writtenKey.current) pendingWrite.current = false;
-      return;
-    }
-    if (urlKey === writtenKey.current) return;
-    writtenKey.current = urlKey;
-    const incoming = parseExplorerState(new URLSearchParams(urlKey));
-    setState(incoming);
-    setDraftQ(incoming.q);
-  }, [urlKey]);
+    if (hydrated.current) return;
+    hydrated.current = true;
+    const storedIds = searchParams.get("ids") ? [] : readStoredIds();
+    const storedQty = searchParams.has("qty") ? null : readStoredQty();
+    if (!storedIds.length && storedQty == null) return;
+    // localStorage is an external store read once after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate ids/qty
+    setState((prev) => ({
+      ...prev,
+      ids: prev.ids.length || !storedIds.length ? prev.ids : storedIds,
+      qty: storedQty ?? prev.qty,
+    }));
+  }, [searchParams]);
 
   useEffect(() => {
-    if (searchParams.get("ids")) return;
-    const stored = readStoredIds();
-    if (!stored.length) return;
-    // localStorage is an external store; apply once after mount if the URL has no ids.
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate shortlist
-    apply((prev) => (prev.ids.length ? prev : { ...prev, ids: stored }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const query = explorerStateKey(state);
+    writeStoredIds(state.ids);
+    writeStoredQty(state.qty);
+    if (query === lastWritten.current) return;
+    lastWritten.current = query;
+    writeLocation(query);
+  }, [state]);
+
+  useEffect(() => {
+    const onPop = () => {
+      const incoming = window.location.search.startsWith("?")
+        ? window.location.search.slice(1)
+        : window.location.search;
+      lastWritten.current = incoming;
+      const parsed = parseExplorerState(new URLSearchParams(incoming));
+      setState(parsed);
+      setDraftQ(parsed.q);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   useEffect(() => {

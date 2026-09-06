@@ -1,24 +1,26 @@
 import { ticketLinks } from "@/lib/tickets";
 import { venueFor } from "@/lib/catalog";
 import { formatGameDate, formatUsd } from "@/lib/format";
+import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel, qtyNoun } from "@/lib/quantity";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
-export function gameSummary(game: Game, weather?: WeatherBlurb): string {
+export function gameSummary(game: Game, weather?: WeatherBlurb, qty = DEFAULT_QTY): string {
   const venue = venueFor(game.venue);
   const travel = venue
     ? `${venue.neighborhood} · ${venue.transit}`
     : game.venue;
-  const links = ticketLinks(game, venue)
+  const links = ticketLinks(game, venue, qty)
     .slice(0, 4)
     .map((link) => `- ${link.label}: ${link.href}`)
     .join("\n");
   const tags = game.specialTags.length ? `Tags: ${game.specialTags.join(", ")}\n` : "";
   const wx = weather ? `Weather: ${weather.label} — ${weather.detail}\n` : "";
+  const group = estimateForQty(game.estPriceEachUsd, qty);
   return [
     `${formatGameDate(game.date)} · ${game.timePt}`,
     `${game.team} vs ${game.opponent} (${game.sport})`,
     `${game.venue} · TV: ${game.tv}`,
-    `Est. pair: ${formatUsd(game.estPricePairUsd)} (each ${formatUsd(game.estPriceEachUsd)})`,
+    `${qtyEstimateLabel(qty)}: ${formatUsd(group)} (each ${formatUsd(game.estPriceEachUsd)})`,
     tags.trimEnd(),
     wx.trimEnd(),
     `Travel: ${travel}`,
@@ -29,8 +31,19 @@ export function gameSummary(game: Game, weather?: WeatherBlurb): string {
     .join("\n");
 }
 
-export function shortlistMarkdown(games: Game[], weatherByDate: Record<string, WeatherBlurb>): string {
+export function shortlistMarkdown(
+  games: Game[],
+  weatherByDate: Record<string, WeatherBlurb>,
+  qty = DEFAULT_QTY,
+): string {
   if (!games.length) return "No games selected.";
-  return ["# Seattle home tickets shortlist", "", ...games.map((game) => gameSummary(game, weatherByDate[game.date])), ""]
+  const total = games.reduce((sum, game) => sum + estimateForQty(game.estPriceEachUsd, qty), 0);
+  const header = [
+    "# Seattle home tickets shortlist",
+    "",
+    `Planning for ${qty} ${qtyNoun(qty)}. Mid-tier estimates, not quotes.`,
+    `Shortlist total ${qtyEstimateLabel(qty)}: ${formatUsd(total)}`,
+  ].join("\n");
+  return [header, "", ...games.map((game) => gameSummary(game, weatherByDate[game.date], qty)), ""]
     .join("\n\n---\n\n");
 }

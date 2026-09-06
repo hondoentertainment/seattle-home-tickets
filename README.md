@@ -28,13 +28,13 @@ Away games are excluded. If a conference basketball slate was not dated yet, it 
 
 ## Prices
 
-Every row has `estPriceEachUsd` and `estPricePairUsd` for two mid-tier seats (not cheapest upper deck, not club). These are **unofficial estimates** based on typical 2026 secondary/official ranges for that opponent and venue. They will be wrong the moment inventory moves. Always buy from official club / Ticketmaster / authorized sellers.
+Every row has `estPriceEachUsd` (and a stored pair field) for mid-tier seats (not cheapest upper deck, not club). The UI defaults to **2 tickets** and scales displayed prices as `estPriceEachUsd × quantity` (1–10). Quantity lives in the URL (`qty=`) and `localStorage`. These are **unofficial estimates**. They will be wrong the moment inventory moves. Always buy from official club / Ticketmaster / authorized sellers.
 
 The header stats show:
 
 - How many events are visible after filters
-- The **sum of pair estimates** if you bought every visible game
-- The average pair estimate on screen
+- The **sum of estimates for the chosen quantity** if you bought every visible game
+- The average estimate per game at that quantity
 
 ## Ticket links
 
