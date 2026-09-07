@@ -82,11 +82,12 @@ const faqs: { q: string; a: ReactNode }[] = [
     ),
   },
   {
-    q: "What is a shortlist?",
+    q: "How do I save games?",
     a: (
       <>
-        Check <span className="text-foreground">Interested</span> on a row to add it to
-        Saved. Open the list from the <span className="text-foreground">Saved</span> chip,
+        Tap <span className="text-foreground">Save</span> on a row (it switches to{" "}
+        <span className="text-foreground">Saved</span>) to add it to the Saved list.
+        Open that list from the <span className="text-foreground">Saved</span> chip,
         the Menu entry, or the desktop nav. Signed out, the list stays in this
         browser&apos;s localStorage. Sign in with Google to merge that list onto your
         account (union on first login this session, then the server copy wins). Share

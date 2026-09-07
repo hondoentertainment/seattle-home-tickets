@@ -12,6 +12,7 @@ import { FilterCombobox } from "@/components/filter-combobox";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
 import { QuantityPicker } from "@/components/quantity-picker";
+import { SaveToggle } from "@/components/save-toggle";
 import { SearchBox } from "@/components/search-box";
 import {
   GENDER_LABELS,
@@ -87,14 +88,12 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
       helper.columns([
         helper.display({
           id: "select",
-          header: " ",
+          header: "Save",
           cell: (info) => (
-            <input
-              type="checkbox"
-              checked={selected.has(info.row.original.id)}
-              onChange={() => toggleId(info.row.original.id)}
-              aria-label={`Interested in ${info.row.original.team} vs ${info.row.original.opponent}`}
-              className="accent-accent"
+            <SaveToggle
+              saved={selected.has(info.row.original.id)}
+              onToggle={() => toggleId(info.row.original.id)}
+              matchup={`${info.row.original.team} vs ${info.row.original.opponent}`}
             />
           ),
         }),
@@ -272,6 +271,11 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
         </div>
+        {selected.size === 0 ? (
+          <p className="text-[11px] leading-4 text-muted">
+            Tap <span className="text-foreground">Save</span> on a game to add it to this list.
+          </p>
+        ) : null}
 
         {filtersOpen ? (
           <div className="space-y-4 border-t border-card-border/70 pt-3">
@@ -449,15 +453,11 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           return (
             <article key={game.id} className="rounded-2xl border border-card-border bg-card p-3.5">
               <div className="flex items-center justify-between gap-3">
-                <label className="flex min-h-11 items-center gap-2 text-xs text-muted">
-                  <input
-                    type="checkbox"
-                    checked={selected.has(game.id)}
-                    onChange={() => toggleId(game.id)}
-                    className="size-4 accent-accent"
-                  />
-                  Interested
-                </label>
+                <SaveToggle
+                  saved={selected.has(game.id)}
+                  onToggle={() => toggleId(game.id)}
+                  matchup={`${game.team} vs ${game.opponent}`}
+                />
                 <button
                   type="button"
                   onClick={() => setOpenId(game.id)}

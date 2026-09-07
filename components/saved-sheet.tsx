@@ -142,7 +142,7 @@ export function SavedSheet({
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
           {games.length === 0 ? (
             <p className="text-sm leading-6 text-muted">
-              Check <span className="text-foreground">Interested</span> on a home game to save it
+              Tap <span className="text-foreground">Save</span> on a home game to add it
               here. Signed out, the list stays in this browser. Sign in with Google to merge it
               onto your account (share URLs with <code className="text-foreground">ids=</code>{" "}
               still work). {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
