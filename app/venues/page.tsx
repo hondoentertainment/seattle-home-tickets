@@ -39,8 +39,13 @@ export default function VenuesPage() {
               {teams.length ? ` · ${teams.join(", ")}` : ""}
             </p>
             <details className="mt-3 text-sm text-muted">
-              <summary className="cursor-pointer font-medium text-foreground">Getting there</summary>
+              <summary className="cursor-pointer font-medium text-foreground">Neighborhood playbook</summary>
               <div className="mt-2 space-y-2 text-xs leading-5">
+                {venue.arriveBy ? (
+                  <p>
+                    <span className="text-foreground">Arrive.</span> {venue.arriveBy}
+                  </p>
+                ) : null}
                 <p>
                   <span className="text-foreground">Transit.</span> {venue.transit}
                 </p>
@@ -53,6 +58,21 @@ export default function VenuesPage() {
                 <p>
                   <span className="text-foreground">Traffic.</span> {venue.traffic}
                 </p>
+                {venue.rainPlan ? (
+                  <p>
+                    <span className="text-foreground">Rain.</span> {venue.rainPlan}
+                  </p>
+                ) : null}
+                {venue.eatWalk ? (
+                  <p>
+                    <span className="text-foreground">Food / after.</span> {venue.eatWalk}
+                  </p>
+                ) : null}
+                {venue.after ? (
+                  <p>
+                    <span className="text-foreground">Exit.</span> {venue.after}
+                  </p>
+                ) : null}
               </div>
             </details>
             <div className="mt-3 flex flex-wrap gap-2">

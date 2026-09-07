@@ -10,6 +10,7 @@ import { shortlistMarkdown } from "@/lib/share";
 import type { WeatherBlurb } from "@/lib/types";
 import {
   SHORTLIST_OPEN_EVENT,
+  groupInviteUrl,
   requestShowSavedOnCalendar,
   shortlistShareUrl,
   writeStoredIds,
@@ -23,7 +24,7 @@ export function ShortlistHost() {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState<"link" | "summary" | null>(null);
+  const [copied, setCopied] = useState<"link" | "summary" | "invite" | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const games = gamesForIds(ids);
 
@@ -61,6 +62,13 @@ export function ShortlistHost() {
     window.setTimeout(() => setCopied(null), 2000);
   }
 
+  async function copyInviteLink() {
+    await navigator.clipboard.writeText(groupInviteUrl(ids, qty));
+    setCopied("invite");
+    toast("Invite link copied");
+    window.setTimeout(() => setCopied(null), 2000);
+  }
+
   async function copySummary() {
     await navigator.clipboard.writeText(shortlistMarkdown(games, weatherByDate, qty));
     setCopied("summary");
@@ -85,6 +93,7 @@ export function ShortlistHost() {
         toast("Cleared Saved list");
       }}
       onShare={copyShareLink}
+      onInvite={copyInviteLink}
       onCopy={copySummary}
       onShowCalendar={() => {
         close();

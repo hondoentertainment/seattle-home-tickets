@@ -1,3 +1,4 @@
+import { isDiscoveryTag, type DiscoveryTag, type GameLevel } from "@/lib/game-level";
 import type { Gender } from "@/lib/types";
 import { DEFAULT_QTY, clampQty } from "@/lib/quantity";
 
@@ -8,11 +9,15 @@ export type ExplorerState = {
   venues: string[];
   months: string[];
   genders: Gender[];
+  levels: GameLevel[];
+  focusTags: DiscoveryTag[];
   from: string;
   to: string;
   ids: string[];
   selectedOnly: boolean;
   holidayOnly: boolean;
+  mine: boolean;
+  invite: boolean;
   qty: number;
 };
 
@@ -23,11 +28,15 @@ export const EMPTY_STATE: ExplorerState = {
   venues: [],
   months: [],
   genders: [],
+  levels: [],
+  focusTags: [],
   from: "",
   to: "",
   ids: [],
   selectedOnly: false,
   holidayOnly: false,
+  mine: true,
+  invite: false,
   qty: DEFAULT_QTY,
 };
 
@@ -40,6 +49,10 @@ export function parseExplorerState(params: URLSearchParams): ExplorerState {
   const genders = csv(params.get("gender")).filter((item): item is Gender =>
     item === "men" || item === "women" || item === "open",
   );
+  const levels = csv(params.get("level")).filter((item): item is GameLevel =>
+    item === "pro" || item === "college" || item === "hs",
+  );
+  const focusTags = csv(params.get("tag")).filter(isDiscoveryTag);
   return {
     q: params.get("q") ?? "",
     teams: csv(params.get("teams")),
@@ -47,11 +60,15 @@ export function parseExplorerState(params: URLSearchParams): ExplorerState {
     venues: csv(params.get("venues")),
     months: csv(params.get("months")),
     genders,
+    levels,
+    focusTags,
     from: params.get("from") ?? "",
     to: params.get("to") ?? "",
     ids: csv(params.get("ids")),
     selectedOnly: params.get("selected") === "1",
     holidayOnly: params.get("holiday") === "1",
+    mine: params.get("mine") !== "0",
+    invite: params.get("invite") === "1",
     qty: params.has("qty") ? clampQty(params.get("qty")) : DEFAULT_QTY,
   };
 }
@@ -74,6 +91,8 @@ export function explorerStateToParams(state: ExplorerState): URLSearchParams {
     ["venues", state.venues],
     ["months", state.months],
     ["gender", state.genders],
+    ["level", state.levels],
+    ["tag", state.focusTags],
     ["ids", state.ids],
   ];
   for (const [key, values] of lists) {
@@ -84,6 +103,8 @@ export function explorerStateToParams(state: ExplorerState): URLSearchParams {
   if (state.to) params.set("to", state.to);
   if (state.selectedOnly) params.set("selected", "1");
   if (state.holidayOnly) params.set("holiday", "1");
+  if (!state.mine) params.set("mine", "0");
+  if (state.invite) params.set("invite", "1");
   params.set("qty", String(clampQty(state.qty)));
   return params;
 }
@@ -170,6 +191,17 @@ export function shortlistShareUrl(ids: string[], qty: number): string {
     ...EMPTY_STATE,
     ids,
     selectedOnly: true,
+    qty,
+  });
+  return `${window.location.origin}/?${params.toString()}`;
+}
+
+export function groupInviteUrl(ids: string[], qty: number): string {
+  const params = explorerStateToParams({
+    ...EMPTY_STATE,
+    ids,
+    selectedOnly: true,
+    invite: true,
     qty,
   });
   return `${window.location.origin}/?${params.toString()}`;

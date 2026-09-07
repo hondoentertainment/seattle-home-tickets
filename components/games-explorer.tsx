@@ -8,10 +8,13 @@ import {
   useTable,
 } from "@tanstack/react-table";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { BundleNights } from "@/components/bundle-nights";
 import { FilterCombobox } from "@/components/filter-combobox";
 import { FilterSheet } from "@/components/filter-sheet";
 import { GameDetail } from "@/components/game-detail";
+import { GroupInviteBanner } from "@/components/group-invite-banner";
 import { HolidayShowcase } from "@/components/holiday-showcase";
+import { MyTeamsBar } from "@/components/my-teams-bar";
 import { QuantityPicker } from "@/components/quantity-picker";
 import { SaveToggle } from "@/components/save-toggle";
 import { SearchBox } from "@/components/search-box";
@@ -26,14 +29,22 @@ import {
   monthLabel,
 } from "@/lib/catalog";
 import { toast } from "@/lib/feedback";
+import { DISCOVERY_TAGS, LEVEL_LABELS, type DiscoveryTag, type GameLevel } from "@/lib/game-level";
+import { writeHomeMine } from "@/lib/home-prefs";
+import { togglePinnedTeam } from "@/lib/my-teams";
+import { usePinnedTeams } from "@/lib/use-my-teams";
+import { estimateSpreadLabel } from "@/lib/price-band";
+import { CATALOG_REFRESH_EVENT } from "@/lib/refresh";
 import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
+import { readStoredIds, writeStoredIds } from "@/lib/url-state";
+import { unionSavedIds } from "@/lib/saved-ids";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
 import { EMPTY_STATE, type ExplorerState } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
-import { getForecast, weatherForDate } from "@/lib/weather";
+import { getForecast, refreshForecast, weatherForDate } from "@/lib/weather";
 
 const features = tableFeatures({
   rowSortingFeature,
@@ -48,26 +59,48 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const pinned = usePinnedTeams();
+  const [storedSaved, setStoredSaved] = useState<string[]>([]);
 
   useEffect(() => {
     let cancelled = false;
-    getForecast().then((forecast) => {
+
+    function applyForecast(forecast: Awaited<ReturnType<typeof getForecast>>) {
       if (cancelled) return;
       const next: Record<string, WeatherBlurb> = {};
       for (const game of catalog.games) {
         next[game.date] = weatherForDate(game.date, forecast);
       }
       setWeatherByDate(next);
-    });
+    }
+
+    getForecast().then(applyForecast);
+
+    function onCatalogRefresh() {
+      refreshForecast().then(applyForecast);
+    }
+    window.addEventListener(CATALOG_REFRESH_EVENT, onCatalogRefresh);
+
     return () => {
       cancelled = true;
+      window.removeEventListener(CATALOG_REFRESH_EVENT, onCatalogRefresh);
     };
+  }, []);
+
+  useEffect(() => {
+    queueMicrotask(() => setStoredSaved(readStoredIds()));
   }, []);
 
   const selected = useMemo(() => new Set(state.ids), [state.ids]);
   const filtered = useMemo(
-    () => filterGames(catalog.games, { ...state, holidayOnly }, draftQ),
-    [state, draftQ, holidayOnly],
+    () =>
+      filterGames(
+        catalog.games,
+        { ...state, holidayOnly, mine: holidayOnly ? false : state.mine },
+        draftQ,
+        pinned,
+      ),
+    [state, draftQ, holidayOnly, pinned],
   );
 
   const holidayGames = useMemo(() => featuredHolidayGames(6), []);
@@ -140,7 +173,9 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.months.length +
     state.genders.length +
     (state.from ? 1 : 0) +
-    (state.to ? 1 : 0);
+    (state.to ? 1 : 0) +
+    state.levels.length +
+    state.focusTags.length;
 
   function toggleId(id: string) {
     const removing = state.ids.includes(id);
@@ -161,8 +196,20 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
 
   function clearFilters() {
     setDraftQ("");
-    apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids, qty: prev.qty }));
+    apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids, qty: prev.qty, mine: false, invite: prev.invite }));
   }
+
+  function toggleLevel(value: GameLevel) {
+    apply((prev) => ({ ...prev, levels: toggleListValue(prev.levels, value) }));
+  }
+
+  function toggleFocusTag(value: DiscoveryTag) {
+    apply((prev) => ({ ...prev, focusTags: toggleListValue(prev.focusTags, value) }));
+  }
+
+  const inviteIds = state.invite ? state.ids : [];
+  const inviteAlreadySaved =
+    inviteIds.length > 0 && inviteIds.every((id) => storedSaved.includes(id));
 
   const filterPanel = (
       <div className="flex flex-col gap-2 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
@@ -210,9 +257,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           onClearList={(key, value) => toggleList(key, value)}
           onClearGender={(value) => toggleGender(value)}
           onClearSelectedOnly={() => patch({ selectedOnly: false })}
+          onClearLevel={(value) => toggleLevel(value)}
+          onClearTag={(value) => toggleFocusTag(value)}
+          onClearMine={() => patch({ mine: false })}
           onClearFrom={() => patch({ from: "" })}
           onClearTo={() => patch({ to: "" })}
           onClearAll={clearFilters}
+          mineActive={!holidayOnly && state.mine && pinned.length > 0 && state.teams.length === 0}
         />
       </div>
   );
@@ -222,6 +273,70 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
       {variant === "holidays" ? (
         <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
       ) : null}
+      {variant === "home" && state.invite && state.ids.length ? (
+        <GroupInviteBanner
+          count={state.ids.length}
+          alreadySaved={inviteAlreadySaved}
+          onAdd={() => {
+            const next = unionSavedIds(storedSaved, state.ids);
+            writeStoredIds(next);
+            setStoredSaved(next);
+            apply((prev) => ({ ...prev, ids: next, invite: false, selectedOnly: true, mine: false }));
+            toast("Added to Saved");
+          }}
+        />
+      ) : null}
+      {variant === "home" ? (
+        <MyTeamsBar
+          allTeams={allTeams}
+          pinned={pinned}
+          mine={state.mine}
+          onTogglePin={(team) => {
+            togglePinnedTeam(team);
+          }}
+          onShowMine={() => {
+            writeHomeMine(true);
+            patch({ mine: true, teams: [] });
+          }}
+          onShowAll={() => {
+            writeHomeMine(false);
+            patch({ mine: false });
+          }}
+        />
+      ) : null}
+      {variant === "home" ? <BundleNights /> : null}
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Discovery">
+        {(["pro", "college", "hs"] as GameLevel[]).map((level) => (
+          <button
+            key={level}
+            type="button"
+            aria-pressed={state.levels.includes(level)}
+            onClick={() => toggleLevel(level)}
+            className={`${FIELD_CHIP} ${
+              state.levels.includes(level)
+                ? "border-accent/50 bg-accent/10 text-accent"
+                : "border-card-border bg-card text-muted"
+            }`}
+          >
+            {LEVEL_LABELS[level]}
+          </button>
+        ))}
+        {DISCOVERY_TAGS.map((tag) => (
+          <button
+            key={tag}
+            type="button"
+            aria-pressed={state.focusTags.includes(tag)}
+            onClick={() => toggleFocusTag(tag)}
+            className={`${FIELD_CHIP} ${
+              state.focusTags.includes(tag)
+                ? "border-accent/50 bg-accent/10 text-accent"
+                : "border-card-border bg-card text-muted"
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
       {filterPanel}
       <FilterSheet open={filtersOpen} onClose={() => setFiltersOpen(false)}>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -263,6 +378,19 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           selected={state.genders}
           onToggle={(value) => toggleGender(value)}
           render={(value) => GENDER_LABELS[value]}
+        />
+        <ChipRow
+          label="Level"
+          options={["pro", "college", "hs"] as GameLevel[]}
+          selected={state.levels}
+          onToggle={(value) => toggleLevel(value)}
+          render={(value) => LEVEL_LABELS[value]}
+        />
+        <ChipRow
+          label="Published tags"
+          options={[...DISCOVERY_TAGS]}
+          selected={state.focusTags}
+          onToggle={(value) => toggleFocusTag(value)}
         />
         <FilterCombobox
           label="Venue"
@@ -359,6 +487,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                             </div>
                           ) : null}
                         </div>
+                      ) : cell.column.id === "estGroup" ? (
+                        <div>
+                          <table.FlexRender cell={cell} />
+                          <div className="mt-1 text-[10px] text-muted">
+                            Band {estimateSpreadLabel(row.original.estPriceEachUsd, state.qty)} · unofficial
+                          </div>
+                        </div>
                       ) : (
                         <table.FlexRender cell={cell} />
                       )}
@@ -397,6 +532,9 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 <p className="mt-3 text-xl font-bold tabular-nums text-accent">
                   {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
                   <span className="ml-2 text-xs font-medium text-muted">{qtyEstimateLabel(state.qty)}</span>
+                </p>
+                <p className="mt-1 text-xs text-muted">
+                  Unofficial band {estimateSpreadLabel(game.estPriceEachUsd, state.qty)} · not live
                 </p>
                 <span className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
                   Tickets
@@ -521,9 +659,13 @@ function ActiveFilterChips({
   onClearList,
   onClearGender,
   onClearSelectedOnly,
+  onClearLevel,
+  onClearTag,
+  onClearMine,
   onClearFrom,
   onClearTo,
   onClearAll,
+  mineActive,
 }: {
   state: ExplorerState;
   draftQ: string;
@@ -531,14 +673,25 @@ function ActiveFilterChips({
   onClearList: (key: "sports" | "teams" | "venues" | "months", value: string) => void;
   onClearGender: (value: Gender) => void;
   onClearSelectedOnly: () => void;
+  onClearLevel: (value: GameLevel) => void;
+  onClearTag: (value: DiscoveryTag) => void;
+  onClearMine: () => void;
   onClearFrom: () => void;
   onClearTo: () => void;
   onClearAll: () => void;
+  mineActive: boolean;
 }) {
   const query = draftQ || state.q;
   const chips: Array<{ key: string; label: string; onClear: () => void }> = [];
   if (query) chips.push({ key: "q", label: `“${query}”`, onClear: onClearQuery });
+  if (mineActive) chips.push({ key: "mine", label: "My teams", onClear: onClearMine });
   if (state.selectedOnly) chips.push({ key: "saved", label: "Saved only", onClear: onClearSelectedOnly });
+  for (const value of state.levels) {
+    chips.push({ key: `lv-${value}`, label: LEVEL_LABELS[value], onClear: () => onClearLevel(value) });
+  }
+  for (const value of state.focusTags) {
+    chips.push({ key: `tg-${value}`, label: value, onClear: () => onClearTag(value) });
+  }
   if (state.from) chips.push({ key: "from", label: `From ${formatGameDateShort(state.from)}`, onClear: onClearFrom });
   if (state.to) chips.push({ key: "to", label: `To ${formatGameDateShort(state.to)}`, onClear: onClearTo });
   for (const value of state.genders) {

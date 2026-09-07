@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { AuthControls } from "@/components/auth-controls";
 import { useStoredShortlist } from "@/lib/shortlist";
 import { requestShortlistOpen } from "@/lib/url-state";
 
@@ -16,14 +15,16 @@ const PRIMARY = [
 ] as const;
 
 const MORE = [
+  { href: "/profile", label: "Profile" },
   { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
   { href: "/venues", label: "Venues" },
+  { href: "/alerts", label: "Alerts" },
   { href: "/contact", label: "Contact" },
   { href: "/about", label: "FAQ" },
 ] as const;
 
-const ALL_LINKS = [...PRIMARY, ...MORE] as const;
+const DESKTOP_LINKS = [...PRIMARY, ...MORE.filter((link) => link.href !== "/profile")] as const;
 
 function isActive(pathname: string, href: string) {
   return pathname === href;
@@ -38,7 +39,7 @@ export function SiteNav() {
   const panelRef = useRef<HTMLDivElement>(null);
   const menuTitleId = useId();
   const menuOpen = menuPath === pathname;
-  const moreActive = MORE.some((link) => isActive(pathname, link.href));
+  const moreActive = MORE.some((link) => link.href !== "/profile" && isActive(pathname, link.href));
   const savedCount = ids.length;
 
   function closeMenu() {
@@ -119,9 +120,6 @@ export function SiteNav() {
             <span>Saved</span>
             <span className="text-xs text-muted">{savedCount || "0"}</span>
           </button>
-          <div className="px-1 py-2">
-            <AuthControls variant="menu" />
-          </div>
           {MORE.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -151,7 +149,7 @@ export function SiteNav() {
             Seattle Home Tickets
           </Link>
           <nav aria-label="Primary" className="hidden flex-wrap items-center justify-end gap-0.5 lg:flex">
-            {ALL_LINKS.map((link) => {
+            {DESKTOP_LINKS.map((link) => {
               const active = isActive(pathname, link.href);
               return (
                 <Link
@@ -174,7 +172,15 @@ export function SiteNav() {
             >
               Saved{savedCount ? ` · ${savedCount}` : ""}
             </button>
-            <AuthControls variant="nav" />
+            <Link
+              href="/profile"
+              aria-current={isActive(pathname, "/profile") ? "page" : undefined}
+              className={`inline-flex min-h-11 items-center rounded-full px-3 text-sm ${
+                isActive(pathname, "/profile") ? "bg-accent text-background" : "text-muted hover:text-foreground"
+              }`}
+            >
+              Profile
+            </Link>
           </nav>
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
             <button
@@ -185,6 +191,17 @@ export function SiteNav() {
             >
               Saved{savedCount ? ` · ${savedCount}` : ""}
             </button>
+            <Link
+              href="/profile"
+              aria-current={isActive(pathname, "/profile") ? "page" : undefined}
+              className={`inline-flex min-h-11 items-center rounded-xl border px-3 text-sm font-semibold leading-5 ${
+                isActive(pathname, "/profile")
+                  ? "border-accent bg-accent/10 text-accent"
+                  : "border-card-border bg-card text-foreground"
+              }`}
+            >
+              Profile
+            </Link>
             <button
               ref={menuButtonRef}
               type="button"

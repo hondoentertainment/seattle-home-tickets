@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PinTeamButton } from "@/components/pin-team-button";
 import { TeamMark } from "@/components/team-mark";
 import { catalog } from "@/lib/catalog";
 import { isSchoolTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
@@ -19,7 +20,8 @@ export default function TeamsPage() {
         Teams
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Tap a team to see its home games. Tiles are original monograms, not official logos.
+        Tap a team to see its home games. Pin clubs for Home’s My teams filter. Tiles are
+        original monograms, not official logos.
         Records are on{" "}
         <Link href="/standings" className="text-accent hover:underline">
           Standings
@@ -29,11 +31,8 @@ export default function TeamsPage() {
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
-          <li key={teamKey(card)}>
-            <Link
-              href={teamHref(card)}
-              className="flex items-center gap-4 rounded-2xl border border-card-border bg-card/80 p-4 transition hover:border-accent/40"
-            >
+          <li key={teamKey(card)} className="flex items-center gap-3 rounded-2xl border border-card-border bg-card/80 p-4">
+            <Link href={teamHref(card)} className="flex min-w-0 flex-1 items-center gap-4">
               <TeamMark mark={card} />
               <span className="min-w-0">
                 <span className="block font-semibold text-foreground">{card.team}</span>
@@ -49,6 +48,7 @@ export default function TeamsPage() {
                 </span>
               </span>
             </Link>
+            <PinTeamButton team={card.team} />
           </li>
         ))}
       </ul>

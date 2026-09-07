@@ -9,12 +9,12 @@ export function ToastHost() {
   const [items, setItems] = useState<ToastItem[]>([]);
 
   useEffect(() => {
-    return subscribeToasts((message) => {
+    return subscribeToasts(({ message, durationMs }) => {
       const id = Date.now() + Math.random();
       setItems((current) => [...current.slice(-2), { id, message }]);
       window.setTimeout(() => {
         setItems((current) => current.filter((item) => item.id !== id));
-      }, 2400);
+      }, durationMs);
     });
   }, []);
 
