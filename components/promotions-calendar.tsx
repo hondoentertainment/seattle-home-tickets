@@ -246,11 +246,11 @@ function MonthGrid({
           return (
             <div
               key={iso}
-              className={`flex min-h-16 min-w-0 flex-col overflow-hidden rounded-lg border px-1 py-1 text-left ${
+              className={`flex min-h-16 min-w-0 flex-col overflow-hidden rounded-lg border px-1 py-1.5 text-left ${
                 dayPromos.length ? "border-gold/30 bg-gold/10" : "border-card-border/60 bg-card/40"
               }`}
             >
-              <div className="shrink-0 text-[10px] font-semibold leading-none tabular-nums text-muted">{day}</div>
+              <div className="mb-1 shrink-0 text-[10px] font-semibold leading-none tabular-nums text-muted">{day}</div>
               {dayPromos.length ? (
                 <ul className={`mt-1 min-w-0 ${crowded ? "space-y-0.5" : "space-y-1"}`}>
                   {dayPromos.map((promo) => (
@@ -262,7 +262,7 @@ function MonthGrid({
                         className="block w-full min-w-0 overflow-hidden text-left"
                       >
                         <span
-                          className={`block overflow-hidden font-semibold leading-tight text-accent [overflow-wrap:anywhere] ${
+                          className={`hyphens-auto break-words font-semibold leading-tight text-accent ${
                             crowded
                               ? "line-clamp-1 text-[8px] sm:text-[10px]"
                               : "line-clamp-2 text-[9px] sm:line-clamp-3 sm:text-[10px]"
