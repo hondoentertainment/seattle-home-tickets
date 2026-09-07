@@ -89,7 +89,7 @@ export function SavedSheet({
             <p className="text-xs text-muted">
               {games.length
                 ? `${formatUsd(total)} ${qtyEstimateLabel(qty)} · unofficial`
-                : "On this device until you sign in"}
+                : "Tap Save on a game to add it"}
             </p>
           </div>
           <button
@@ -102,7 +102,7 @@ export function SavedSheet({
           </button>
         </div>
 
-        <div className="shrink-0 border-b border-card-border px-4 py-3">
+        <div className="shrink-0 empty:hidden border-b border-card-border px-4 py-3">
           <AuthControls variant="sheet" />
         </div>
 
@@ -127,7 +127,7 @@ export function SavedSheet({
               onClick={onShowCalendar}
               className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
             >
-              On calendar
+              Show on Home
             </button>
             <button
               type="button"
@@ -146,10 +146,9 @@ export function SavedSheet({
         >
           {games.length === 0 ? (
             <p className="text-sm leading-6 text-muted">
-              Tap <span className="text-foreground">Save</span> on a home game to add it
-              here. Signed out, the list stays in this browser. Sign in with Google to merge it
-              onto your account (share URLs with <code className="text-foreground">ids=</code>{" "}
-              still work). {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
+              Tap <span className="text-foreground">Save</span> on a game to add it here.
+              Sign in to keep the list on your account. Share links still work without an
+              account.
             </p>
           ) : (
             <ul className="space-y-2">
@@ -192,9 +191,8 @@ export function SavedSheet({
           )}
           {games.length ? (
             <p className="mt-4 text-xs leading-5 text-muted">
-              {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Share links keep{" "}
-              <code className="text-foreground">ids=</code> so a friend can open the same slate
-              without signing in.
+              {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Share links keep the same
+              games without an account.
             </p>
           ) : null}
         </div>

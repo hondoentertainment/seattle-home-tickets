@@ -48,7 +48,7 @@ The header stats show:
 
 ## Ticket links
 
-Each game’s detail panel (click the team name, or **Details** on mobile) links out to check live prices:
+Each game’s detail panel (click **Tickets** on a card, or the team name on desktop) links out to check live prices:
 
 - Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, O'Dea / Eastside Catholic athletics, Seattle Public Schools digital tickets, plus venue Ticketmaster where useful)
 - Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats
@@ -67,7 +67,7 @@ Venue profiles live in [`data/venues.json`](data/venues.json): address, neighbor
 
 ## Saved list and sharing
 
-Tap **Save** on any row (the control reads **Saved** when it is on). That builds a **Saved** list (count on the chip, Menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same slate without signing in. **Copy** writes markdown with date, matchup, venue, unofficial quantity estimate, weather blurb, travel one-liner, ticket search links, and a no-sales disclaimer. If the URL gets too long, share falls back to ids-only.
+Tap **Save** on any row (the control reads **Saved** when it is on). That builds a **Saved** list (count on the chip, More menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same slate without signing in. **Copy** writes markdown with date, matchup, venue, unofficial quantity estimate, weather blurb, travel one-liner, ticket search links, and a no-sales disclaimer. If the URL gets too long, share falls back to ids-only.
 
 Signed out, Saved stays in this browser. After **Sign in with Google**, the client unions local + server once per login session, writes the union to the account, then treats the server copy as source of truth. Toggles PUT `/api/saved`. If Redis/Neon secrets are missing, Google login can still work and Saved stays on-device.
 
@@ -107,8 +107,8 @@ Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `A
 
 Combine freely (also persisted in the URL):
 
-- Search with autocomplete; arrows highlight a suggestion, **Enter** or **Select** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query
-- Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Select** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
+- Search with autocomplete; arrows highlight a suggestion, **Enter** or **Search** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query. Advanced filters stay behind **Filters**; active filters show as dismissible chips with **Clear all**
+- Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Add** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
 - Ticket quantity is a styled 1–19 listbox (arrows + Enter; Enter opens when closed)
 - Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s / HS football → Men; NWSL/WNBA/NCAA women’s + volleyball / PWHL → Women; Exhibition / Touring → Open); arrows move between chips, Enter applies
 - Optional date range

@@ -17,7 +17,7 @@ const PRIMARY = [
 ] as const;
 
 const MORE = [
-  { href: "/stats", label: "Ticket Stats" },
+  { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
   { href: "/venues", label: "Venues" },
   { href: "/contact", label: "Contact" },
@@ -187,12 +187,13 @@ export function SiteNav() {
                   ? "border-accent bg-accent/10 text-accent"
                   : "border-card-border bg-card text-accent"
               }`}
+              aria-label="More pages"
               aria-expanded={menuOpen}
               aria-controls="site-menu"
               aria-haspopup="dialog"
               onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
             >
-              Menu
+              More
             </button>
           </div>
         </div>

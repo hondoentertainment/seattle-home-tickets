@@ -72,12 +72,12 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "How do search and filters work?",
     a: (
       <>
-        Type in search; arrows highlight a suggestion; <span className="text-foreground">Enter</span> or{" "}
-        <span className="text-foreground">Select</span> applies it (or the typed
-        query if nothing is highlighted). Filter dropdowns work the same: type,
-        arrow, then Enter or Select. Enter on a closed field opens the list. Escape
-        closes without changing filters. Sport, team, venue, month, men/women, date
-        range, and Saved combine freely in the URL.
+        Type in <span className="text-foreground">Search games</span>; arrows highlight
+        a suggestion; <span className="text-foreground">Enter</span> or{" "}
+        <span className="text-foreground">Search</span> applies it. Advanced options
+        stay behind <span className="text-foreground">Filters</span>; active ones show
+        as chips you can tap to remove. Sport, team, venue, month, men/women, date
+        range, and Saved combine in the URL.
       </>
     ),
   },
@@ -201,11 +201,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "Can I sign in with Google?",
     a: (
       <>
-        Yes, when the operator has set Google OAuth secrets. Sign-in is only for
-        syncing Saved nights to your account. The calendar, estimates, and share
-        links stay public. If secrets are missing, the Sign in control explains that
-        and the site still builds. Saved stays on this device until a Redis or Neon
-        store is configured.
+        Yes, when Google sign-in is offered: tap{" "}
+        <span className="text-foreground">Continue with Google</span>. That only
+        syncs Saved games to your account. The calendar stays public. If sign-in
+        isn’t shown, the list stays in this browser. Share URLs with{" "}
+        <code className="text-foreground">ids=</code> still work either way.
       </>
     ),
   },
@@ -214,9 +214,8 @@ const faqs: { q: string; a: ReactNode }[] = [
 export default function AboutPage() {
   return (
     <article className="page-gutter mx-auto w-full max-w-3xl flex-1 py-10">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">FAQ</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-        Frequently asked questions
+      <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        FAQ
       </h1>
       <p className="mt-4 text-base leading-7 text-muted">
         Short answers. Official ticket offices are on{" "}

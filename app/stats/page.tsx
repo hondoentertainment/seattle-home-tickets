@@ -15,18 +15,15 @@ export default function StatsPage() {
 
   return (
     <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Snapshot</p>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-        Ticket Stats
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        Ticket stats
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Ticket and catalog estimates only — not team W–L or conference tables. Tallies from the
-        published catalog only
+        Catalog counts and unofficial mid-tier totals at 2 tickets
         {stats.dateFrom && stats.dateTo
           ? ` (${formatGameDate(stats.dateFrom)} – ${formatGameDate(stats.dateTo)})`
           : ""}
-        . Ticket dollars use unofficial mid-tier estimates at qty 2. Not a live market feed. For
-        W–L and conference tables see{" "}
+        . Not live prices, and not team W–L — that is on{" "}
         <Link href="/standings" className="text-accent hover:underline">
           Standings
         </Link>
@@ -77,7 +74,7 @@ function Section({
             <tr>
               <th className="px-3 py-2 font-semibold">{column}</th>
               <th className="px-3 py-2 font-semibold">Games</th>
-              <th className="px-3 py-2 font-semibold">Est. @ qty 2</th>
+              <th className="px-3 py-2 font-semibold">Est. for 2 tickets</th>
             </tr>
           </thead>
           <tbody>

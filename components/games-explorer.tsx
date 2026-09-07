@@ -23,14 +23,15 @@ import {
   catalog,
   featuredHolidayGames,
   monthLabel,
+  venueFor,
 } from "@/lib/catalog";
+import { toast } from "@/lib/feedback";
 import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
-import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
-import { EMPTY_STATE, requestShortlistOpen, shareUrl } from "@/lib/url-state";
+import { EMPTY_STATE, requestShortlistOpen, shareUrl, type ExplorerState } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
@@ -164,15 +165,17 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.teams.length +
     state.venues.length +
     state.months.length +
-    (state.genders.includes("open") ? 1 : 0) +
+    state.genders.length +
     (state.from ? 1 : 0) +
     (state.to ? 1 : 0);
 
   function toggleId(id: string) {
+    const removing = state.ids.includes(id);
     apply((prev) => ({
       ...prev,
       ids: prev.ids.includes(id) ? prev.ids.filter((item) => item !== id) : [...prev.ids, id],
     }));
+    toast(removing ? "Removed" : "Saved");
   }
 
   function toggleList(key: "sports" | "teams" | "venues" | "months", value: string) {
@@ -192,13 +195,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     const url = shareUrl({ ...state, selectedOnly: true });
     await navigator.clipboard.writeText(url);
     setCopied("link");
-    setTimeout(() => setCopied(null), 2000);
-  }
-
-  async function copySummary() {
-    const text = shortlistMarkdown(selectedGames, weatherByDate, state.qty);
-    await navigator.clipboard.writeText(text);
-    setCopied("summary");
+    toast("Link copied");
     setTimeout(() => setCopied(null), 2000);
   }
 
@@ -216,28 +213,15 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 q: "",
                 [kind]: prev[kind].includes(value) ? prev[kind] : [...prev[kind], value],
               }));
-              setFiltersOpen(true);
             }}
           />
           <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:items-center">
-          <ToggleChip
-            active={state.selectedOnly || selected.size > 0}
-            onClick={requestShortlistOpen}
-          >
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+          <ToggleChip active={state.selectedOnly} onClick={requestShortlistOpen}>
             {selected.size ? `Saved · ${selected.size}` : "Saved"}
           </ToggleChip>
-          {(["men", "women"] as const).map((value) => (
-            <ToggleChip
-              key={value}
-              active={state.genders.includes(value)}
-              onClick={() => toggleGender(value)}
-            >
-              {GENDER_LABELS[value]}
-            </ToggleChip>
-          ))}
           <button
             type="button"
             aria-expanded={filtersOpen}
@@ -263,7 +247,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             </span>
           </button>
           {variant === "holidays" ? (
-            <span className={`${FIELD_CHIP} col-span-2 w-full border-gold/30 bg-gold/10 text-gold sm:col-auto sm:w-auto`}>
+            <span className={`${FIELD_CHIP} w-full border-gold/30 bg-gold/10 text-gold sm:w-auto`}>
               Holiday games
             </span>
           ) : null}
@@ -271,9 +255,23 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
           </span>
         </div>
+        <ActiveFilterChips
+          state={state}
+          draftQ={draftQ}
+          onClearQuery={() => {
+            setDraftQ("");
+            apply((prev) => ({ ...prev, q: "" }));
+          }}
+          onClearList={(key, value) => toggleList(key, value)}
+          onClearGender={(value) => toggleGender(value)}
+          onClearSelectedOnly={() => patch({ selectedOnly: false })}
+          onClearFrom={() => patch({ from: "" })}
+          onClearTo={() => patch({ to: "" })}
+          onClearAll={clearFilters}
+        />
         {selected.size === 0 ? (
           <p className="text-[11px] leading-4 text-muted">
-            Tap <span className="text-foreground">Save</span> on a game to add it to this list.
+            Tap <span className="text-foreground">Save</span> on a game to add it here.
           </p>
         ) : null}
 
@@ -396,6 +394,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                           onClick={() => setOpenId(row.original.id)}
                         >
                           <table.FlexRender cell={cell} />
+                          <span className="mt-1 block text-xs font-semibold text-accent">Tickets</span>
                           {row.original.specialTags.length ? (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {row.original.specialTags.map((tag) => (
@@ -450,49 +449,47 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         ) : null}
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
+          const weather = weatherByDate[game.date];
+          const venue = venueFor(game.venue);
+          const extra = [
+            weather?.label,
+            venue?.neighborhood,
+            game.specialTags[0] ? formatSpecialTag(game.specialTags[0]) : null,
+          ]
+            .filter(Boolean)
+            .join(" · ");
           return (
-            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-3.5">
-              <div className="flex items-center justify-between gap-3">
+            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+                {formatGameDateShort(game.date)} · {game.timePt}
+              </p>
+              <h2 className="mt-1 text-[17px] font-bold leading-6 text-foreground">
+                {game.team} vs {game.opponent}
+              </h2>
+              <p className="mt-1 text-sm text-muted">{game.venue}</p>
+              <p className="mt-3 flex flex-wrap items-baseline gap-2">
+                <span className="text-xl font-bold tabular-nums text-accent">
+                  {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
+                </span>
+                <span className="text-xs text-muted">
+                  {qtyEstimateLabel(state.qty)} · {formatUsd(game.estPriceEachUsd)} each
+                </span>
+              </p>
+              {extra ? <p className="mt-2 text-xs leading-4 text-muted">{extra}</p> : null}
+              <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
+                <button
+                  type="button"
+                  onClick={() => setOpenId(game.id)}
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-background"
+                >
+                  Tickets
+                </button>
                 <SaveToggle
                   saved={selected.has(game.id)}
                   onToggle={() => toggleId(game.id)}
                   matchup={`${game.team} vs ${game.opponent}`}
                 />
-                <button
-                  type="button"
-                  onClick={() => setOpenId(game.id)}
-                  className="inline-flex min-h-11 items-center text-sm font-semibold text-accent"
-                >
-                  Details
-                </button>
               </div>
-              {game.specialTags.length ? (
-                <div className="mt-1 flex flex-wrap gap-1.5">
-                  {game.specialTags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md bg-gold/15 px-2 py-1 text-[10px] font-medium text-gold"
-                    >
-                      {formatSpecialTag(tag)}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-              <h2 className="mt-2 text-[15px] font-bold text-foreground">
-                {game.team} vs {game.opponent}
-              </h2>
-              <p className="mt-1 text-xs text-muted">
-                {formatGameDateShort(game.date)} · {game.timePt} · {game.venue}
-              </p>
-              <p className="mt-2 flex flex-wrap items-baseline gap-2 text-sm">
-                <span className="text-[13px] text-muted">
-                  {formatUsd(game.estPriceEachUsd)} each
-                </span>
-                <span className="text-base font-bold text-accent">
-                  {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
-                </span>
-                <span className="text-xs text-muted">{qtyEstimateLabel(state.qty)}</span>
-              </p>
             </article>
           );
         })}
@@ -514,31 +511,17 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
+                onClick={requestShortlistOpen}
+                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs font-semibold"
+              >
+                View
+              </button>
+              <button
+                type="button"
                 onClick={copyShareLink}
                 className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
               >
                 {copied === "link" ? "Copied" : "Share"}
-              </button>
-              <button
-                type="button"
-                onClick={copySummary}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                {copied === "summary" ? "Copied" : "Copy"}
-              </button>
-              <button
-                type="button"
-                onClick={requestShortlistOpen}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                List
-              </button>
-              <button
-                type="button"
-                onClick={() => patch({ ids: [], selectedOnly: false })}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                Clear
               </button>
             </div>
           </div>
@@ -550,6 +533,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           game={openGame}
           weather={weatherByDate[openGame.date]}
           qty={state.qty}
+          saved={selected.has(openGame.id)}
+          onToggleSave={() => toggleId(openGame.id)}
           onClose={() => setOpenId(null)}
         />
       ) : null}
@@ -641,6 +626,75 @@ function ChipRow<T extends string>({
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function ActiveFilterChips({
+  state,
+  draftQ,
+  onClearQuery,
+  onClearList,
+  onClearGender,
+  onClearSelectedOnly,
+  onClearFrom,
+  onClearTo,
+  onClearAll,
+}: {
+  state: ExplorerState;
+  draftQ: string;
+  onClearQuery: () => void;
+  onClearList: (key: "sports" | "teams" | "venues" | "months", value: string) => void;
+  onClearGender: (value: Gender) => void;
+  onClearSelectedOnly: () => void;
+  onClearFrom: () => void;
+  onClearTo: () => void;
+  onClearAll: () => void;
+}) {
+  const query = draftQ || state.q;
+  const chips: Array<{ key: string; label: string; onClear: () => void }> = [];
+  if (query) chips.push({ key: "q", label: `“${query}”`, onClear: onClearQuery });
+  if (state.selectedOnly) chips.push({ key: "saved", label: "Saved only", onClear: onClearSelectedOnly });
+  if (state.from) chips.push({ key: "from", label: `From ${formatGameDateShort(state.from)}`, onClear: onClearFrom });
+  if (state.to) chips.push({ key: "to", label: `To ${formatGameDateShort(state.to)}`, onClear: onClearTo });
+  for (const value of state.genders) {
+    chips.push({ key: `g-${value}`, label: GENDER_LABELS[value], onClear: () => onClearGender(value) });
+  }
+  for (const value of state.sports) {
+    chips.push({ key: `s-${value}`, label: value, onClear: () => onClearList("sports", value) });
+  }
+  for (const value of state.months) {
+    chips.push({ key: `m-${value}`, label: monthLabel(value), onClear: () => onClearList("months", value) });
+  }
+  for (const value of state.venues) {
+    chips.push({ key: `v-${value}`, label: value, onClear: () => onClearList("venues", value) });
+  }
+  for (const value of state.teams) {
+    chips.push({ key: `t-${value}`, label: value, onClear: () => onClearList("teams", value) });
+  }
+  if (!chips.length) return null;
+
+  return (
+    <div className="flex flex-wrap items-center gap-2" aria-label="Active filters">
+      {chips.map((chip) => (
+        <button
+          key={chip.key}
+          type="button"
+          onClick={chip.onClear}
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 text-xs font-medium text-accent"
+        >
+          <span>{chip.label}</span>
+          <span aria-hidden>×</span>
+          <span className="sr-only">Remove {chip.label}</span>
+        </button>
+      ))}
+      <button
+        type="button"
+        onClick={onClearAll}
+        className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-muted hover:text-foreground"
+      >
+        Clear all
+      </button>
     </div>
   );
 }

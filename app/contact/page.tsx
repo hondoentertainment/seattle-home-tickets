@@ -11,19 +11,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="page-gutter mx-auto w-full max-w-3xl flex-1 py-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Support</p>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         Contact
       </h1>
       <p className="mt-2 text-sm leading-6 text-muted">
-        Seattle Home Tickets is unofficial. We do not sell tickets, take orders, or
-        handle refunds. For a purchase, account, or gameday issue, use the club or
-        school page — those are the published official channels, not inboxes we
-        invented.
-      </p>
-      <p className="mt-2 text-sm leading-6 text-muted">
-        Questions about how this catalog works (estimates, filters, shortlist) belong
-        on the{" "}
+        This site does not sell tickets. Use the official club or school page for
+        purchases, refunds, or gameday help. How the catalog works is on the{" "}
         <Link href="/about" className="text-accent hover:underline">
           FAQ
         </Link>
@@ -38,12 +31,12 @@ export default function ContactPage() {
             {group.entries.map((entry) => (
               <li key={entry.name} className="rounded-2xl border border-card-border bg-card/80 px-4 py-3">
                 <p className="font-medium text-foreground">{entry.name}</p>
-                <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                <p className="mt-2 flex flex-wrap gap-2">
                   {entry.links.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
-                      className="text-accent hover:underline"
+                      className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-sm text-accent hover:border-accent/50"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

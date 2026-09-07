@@ -85,7 +85,7 @@ function FilterChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-3 py-1.5 text-xs font-medium ${
+      className={`inline-flex min-h-11 items-center rounded-full px-3 text-xs font-medium ${
         active ? "bg-accent/15 text-accent" : "bg-card text-muted hover:text-foreground"
       }`}
     >
@@ -169,7 +169,7 @@ function MonthBlock({ yyyyMm, promos }: { yyyyMm: string; promos: Promotion[] })
             <p className="mt-2 text-sm leading-6 text-muted">{promo.description}</p>
             <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
               <Link href={promoHref(promo)} className="text-accent hover:underline">
-                Open on Home
+                See game
               </Link>
               <a
                 href={promo.sourceUrl}

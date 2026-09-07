@@ -21,8 +21,7 @@ export default function StandingsPage() {
 
   return (
     <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Tables</p>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         Standings
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
@@ -41,7 +40,7 @@ export default function StandingsPage() {
       </p>
 
       <Section title="In season" rows={published} />
-      <Section title="Not started / unpublished" rows={upcoming} />
+      <Section title="Not started yet" rows={upcoming} />
     </div>
   );
 }
@@ -99,7 +98,7 @@ function StandingCard({ row }: { row: StandingRow }) {
           {row.note ? <p className="mt-3 text-sm leading-6 text-muted">{row.note}</p> : null}
           <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs">
             <Link href={standingHref(row)} className="text-accent hover:underline">
-              Filter Home
+              See games
             </Link>
             <a
               href={row.sourceUrl}

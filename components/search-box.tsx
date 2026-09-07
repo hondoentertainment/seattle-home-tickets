@@ -100,7 +100,7 @@ export function SearchBox({
     <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
       <div className={FIELD_ROW}>
         <label className="min-w-0 flex-1">
-          <span className="sr-only">Search team, opponent, venue, sport</span>
+          <span className="sr-only">Search games</span>
           <input
             ref={inputRef}
             type="search"
@@ -116,7 +116,7 @@ export function SearchBox({
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
-            placeholder="Search team, opponent, venue…"
+            placeholder="Search games"
             className={`${FIELD_INPUT} truncate placeholder:truncate`}
           />
         </label>
@@ -134,7 +134,7 @@ export function SearchBox({
           }}
           className={FIELD_ACTION}
         >
-          Select
+          Search
         </button>
       </div>
       {showList ? (

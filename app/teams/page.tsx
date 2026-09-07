@@ -15,14 +15,12 @@ export default function TeamsPage() {
 
   return (
     <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Roster</p>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         Teams
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Original monogram tiles — not official club marks. College and high-school programs
-        print the sport on the tile so football and basketball don&apos;t collide. Click a tile
-        to open Home filtered to that club. Season W–L lives on{" "}
+        Tap a team to see its home games. Tiles are original monograms, not official logos.
+        Records are on{" "}
         <Link href="/standings" className="text-accent hover:underline">
           Standings
         </Link>

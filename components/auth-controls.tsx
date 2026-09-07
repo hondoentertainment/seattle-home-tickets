@@ -52,15 +52,18 @@ function Avatar({ src, alt }: { src?: string | null; alt: string }) {
   );
 }
 
-const buttonClass =
+const outlineButton =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm font-medium leading-5 text-foreground hover:border-accent/50";
+
+const primaryButton =
+  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 text-sm font-semibold leading-5 text-background";
 
 function RedirectField() {
   const pathname = usePathname();
   return <input type="hidden" name="redirectTo" value={pathname || "/"} />;
 }
 
-function SignOutButton({ className = buttonClass }: { className?: string }) {
+function SignOutButton({ className = outlineButton }: { className?: string }) {
   return (
     <form action={signOutUser}>
       <RedirectField />
@@ -71,13 +74,13 @@ function SignOutButton({ className = buttonClass }: { className?: string }) {
   );
 }
 
-function SignInButton({ compact, fullWidth }: { compact: boolean; fullWidth?: boolean }) {
+function SignInButton({ compact, prominent }: { compact: boolean; prominent: boolean }) {
   return (
-    <form action={signInWithGoogle} className={fullWidth ? "w-full" : undefined}>
+    <form action={signInWithGoogle} className={prominent ? "w-full" : undefined}>
       <RedirectField />
-      <button type="submit" className={`${buttonClass} ${fullWidth ? "w-full justify-start" : ""}`}>
+      <button type="submit" className={prominent ? primaryButton : outlineButton}>
         <GoogleMark className="size-4 shrink-0" />
-        <span className="truncate">{compact ? "Sign in" : "Sign in with Google"}</span>
+        <span className="truncate">{compact ? "Sign in" : "Continue with Google"}</span>
       </button>
     </form>
   );
@@ -93,10 +96,8 @@ export function AuthControls({
   const compact = variant === "header";
 
   if (status === "loading" || (enabled === null && !data?.user)) {
-    return (
-      <span className="inline-flex min-h-11 items-center px-2 text-xs text-muted">
-        {compact ? "…" : "Checking sign-in…"}
-      </span>
+    return compact ? null : (
+      <span className="inline-flex min-h-11 items-center px-2 text-xs text-muted">Checking sign-in…</span>
     );
   }
 
@@ -110,46 +111,27 @@ export function AuthControls({
             <span className="sr-only">{label}</span>
           </span>
           {variant === "nav" ? (
-            <span className="hidden max-w-[12rem] truncate text-xs text-muted xl:inline">{label}</span>
+            <span className="hidden max-w-[12rem] truncate text-xs text-muted xl:inline">
+              {data.user.name || "Signed in"}
+            </span>
           ) : null}
           {variant === "nav" ? <SignOutButton /> : null}
         </div>
       );
     }
     return (
-      <div
-        className={
-          variant === "menu"
-            ? "mt-1 rounded-xl border border-card-border bg-card/80 px-3 py-3"
-            : "rounded-2xl border border-card-border bg-background px-3 py-3"
-        }
-      >
-        <div className="flex items-center gap-3">
-          <Avatar src={data.user.image} alt={data.user.name || label} />
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium text-foreground">{data.user.name || "Signed in"}</p>
-            <p className="truncate text-xs text-muted">{label}</p>
-          </div>
-          <SignOutButton />
+      <div className="flex items-center gap-3">
+        <Avatar src={data.user.image} alt={data.user.name || label} />
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-foreground">{data.user.name || "Signed in"}</p>
+          <p className="truncate text-xs text-muted">Saved games sync here</p>
         </div>
-        <p className="mt-2 text-xs leading-5 text-muted">
-          Saved nights sync to this Google account when a store is configured.
-        </p>
+        <SignOutButton />
       </div>
     );
   }
 
-  if (!enabled) {
-    if (compact) return null;
-    return (
-      <p className="rounded-xl border border-dashed border-card-border px-3 py-3 text-xs leading-5 text-muted">
-        Sign in with Google is not configured on this deploy. Add{" "}
-        <code className="text-foreground">AUTH_SECRET</code>,{" "}
-        <code className="text-foreground">AUTH_GOOGLE_ID</code>, and{" "}
-        <code className="text-foreground">AUTH_GOOGLE_SECRET</code> on Vercel Production.
-      </p>
-    );
-  }
+  if (!enabled) return null;
 
-  return <SignInButton compact={compact} fullWidth={variant === "menu"} />;
+  return <SignInButton compact={compact} prominent={variant === "menu" || variant === "sheet"} />;
 }

@@ -13,8 +13,7 @@ export default function PromotionsPage() {
 
   return (
     <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-gold">Calendar</p>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         Promotions
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{promotionsCatalog.disclaimer}</p>

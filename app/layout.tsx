@@ -5,6 +5,7 @@ import { AuthSessionProvider } from "@/components/auth-session-provider";
 import { ShortlistHost } from "@/components/shortlist-host";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
+import { ToastHost } from "@/components/toast-host";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />
           <ShortlistHost />
+          <ToastHost />
           <Analytics />
         </AuthSessionProvider>
       </body>
