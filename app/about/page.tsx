@@ -219,12 +219,12 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         A GitHub Action re-validates the published seed every day at 7:00 AM Pacific
-        (and when someone runs it from the Actions tab or the Home{" "}
-        <strong>Refresh</strong> button, if a dispatch token is configured). It
-        writes a real last-checked timestamp on Home and in the footer, then commits
+        (and when someone runs it from the Actions tab or the header{" "}
+        <strong>Refresh</strong> icon, if a dispatch token is configured). It
+        writes a real last-checked timestamp in the footer, then commits
         so Vercel redeploys. It does not scrape live prices, invent unpublished
         dates, or pull standings. Catalog “as of” comes from the seed file, not from
-        the clock. Home <strong>Refresh</strong> reloads this page and, when{" "}
+        the clock. Header <strong>Refresh</strong> reloads this page and, when{" "}
         <code className="text-foreground">GH_REFRESH_TOKEN</code> is set, queues that
         Action — it will not claim a live rebuild. If the seed and{" "}
         <code className="text-foreground">data/games.json</code> differ, the stamp

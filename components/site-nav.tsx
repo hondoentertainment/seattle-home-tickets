@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { HeaderRefreshButton } from "@/components/header-refresh-button";
 
 const PRIMARY = [
   { href: "/", label: "Home" },
@@ -146,6 +147,7 @@ export function SiteNav() {
                 </Link>
               );
             })}
+            <HeaderRefreshButton />
             <Link
               href="/profile"
               aria-current={isActive(pathname, "/profile") ? "page" : undefined}
@@ -157,6 +159,7 @@ export function SiteNav() {
             </Link>
           </nav>
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
+            <HeaderRefreshButton />
             <Link
               href="/profile"
               aria-current={isActive(pathname, "/profile") ? "page" : undefined}
