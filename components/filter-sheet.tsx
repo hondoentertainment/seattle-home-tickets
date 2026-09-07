@@ -7,14 +7,21 @@ export function FilterSheet({
   open,
   onClose,
   children,
+  title = "Filters",
 }: {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
+  title?: string;
 }) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) return;
@@ -25,7 +32,7 @@ export function FilterSheet({
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
-        onClose();
+        onCloseRef.current();
       }
     }
 
@@ -34,7 +41,7 @@ export function FilterSheet({
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open || typeof document === "undefined") return null;
 
@@ -43,7 +50,7 @@ export function FilterSheet({
       <button
         type="button"
         className="absolute inset-0 bg-[#020806]/80"
-        aria-label="Close filters"
+        aria-label={`Close ${title.toLowerCase()}`}
         onClick={onClose}
       />
       <aside
@@ -56,7 +63,7 @@ export function FilterSheet({
       >
         <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border px-4 pt-[env(safe-area-inset-top,0px)]">
           <p id={titleId} className="text-sm font-semibold text-foreground">
-            Filters
+            {title}
           </p>
           <button
             ref={closeRef}

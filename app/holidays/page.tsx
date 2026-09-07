@@ -4,9 +4,10 @@ import { Suspense } from "react";
 import { GamesExplorer } from "@/components/games-explorer";
 import { HOLIDAY_TAG_BLURBS, allSpecialTags } from "@/lib/catalog";
 import { formatSpecialTag } from "@/lib/format";
+import { pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Holidays — Seattle Home Tickets",
+  title: pageTitle("Holidays"),
   description:
     "Holiday and special Seattle home games: Christmas, Holiday Classic, Apple Cup, Thanksgiving week, and other tagged nights.",
 };

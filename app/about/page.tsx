@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { catalog } from "@/lib/catalog";
+import { PRODUCT_NAME, pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "FAQ — Seattle Home Tickets",
-  description:
-    "FAQ for Seattle Home Tickets: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.",
+  title: pageTitle("FAQ"),
+  description: `FAQ for ${PRODUCT_NAME}: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.`,
 };
 
 const faqs: { q: string; a: ReactNode }[] = [
@@ -14,10 +14,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "What is this site?",
     a: (
       <>
-        A planning board for published Seattle-area <span className="text-foreground">home</span>{" "}
-        sporting events. Scan the slate, save nights, and jump to official or
-        marketplace pages. It is unofficial: not a box office, not affiliated with
-        the clubs or schools, and it does not sell tickets.
+        {PRODUCT_NAME} is a planning board for published Seattle-area{" "}
+        <span className="text-foreground">home</span> sporting events. Scan the slate,
+        save nights, and jump to official or marketplace pages. It is unofficial: not
+        a box office, not affiliated with the clubs or schools, and it does not sell
+        tickets.
       </>
     ),
   },
@@ -183,9 +184,10 @@ const faqs: { q: string; a: ReactNode }[] = [
         <Link href="/profile" className="text-accent hover:underline">
           Profile
         </Link>
-        . Home defaults to those pins (big clubs + Huskies until you edit).{" "}
-        <strong>All teams</strong> shows the full published slate without deleting
-        pins. Pins live in this browser.
+        . First visit offers a short <strong>Pick your teams</strong> prompt (not a
+        wizard). Home defaults to those pins (big clubs + Huskies until you edit).{" "}
+        <strong>All</strong> shows the full published slate without deleting pins.
+        Pins live in this browser.
       </>
     ),
   },

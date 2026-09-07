@@ -8,9 +8,10 @@ import {
   standingsCatalog,
   type StandingRow,
 } from "@/lib/standings";
+import { pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Standings — Seattle Home Tickets",
+  title: pageTitle("Standings"),
   description:
     "Published season standings for Seattle clubs and large high-school programs on this calendar. Upcoming sports are listed without invented records.",
 };

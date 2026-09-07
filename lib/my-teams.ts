@@ -41,6 +41,20 @@ export function readPinnedTeams(): string[] {
   }
 }
 
+export function hasStoredPinnedTeams(): boolean {
+  try {
+    return localStorage.getItem(STORAGE_KEY) != null;
+  } catch {
+    return true;
+  }
+}
+
+export function persistPinnedTeams(): string[] {
+  const next = readPinnedTeams();
+  writePinnedTeams(next);
+  return next;
+}
+
 export function writePinnedTeams(teams: string[]) {
   try {
     const next = [...new Set(teams.filter(Boolean))];
