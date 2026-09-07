@@ -31,6 +31,14 @@ html {
   text-size-adjust: 100%;
 }
 
+.sheet-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

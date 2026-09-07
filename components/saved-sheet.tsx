@@ -66,7 +66,7 @@ export function SavedSheet({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[110]">
+    <div className="fixed inset-0 z-[110] overscroll-none">
       <button
         type="button"
         className="absolute inset-0 bg-[#020806]/80"
@@ -79,7 +79,7 @@ export function SavedSheet({
         aria-modal="true"
         aria-labelledby={titleId}
         style={{ backgroundColor: "#0c1c18" }}
-        className="absolute inset-x-0 bottom-0 z-10 isolate flex max-h-[min(88dvh,40rem)] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:max-h-none md:w-[min(28rem,100%)] md:rounded-none md:border-l"
+        className="absolute inset-x-0 bottom-0 z-10 isolate flex h-[min(92dvh,100svh)] max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-dvh md:max-h-dvh md:w-[min(28rem,100%)] md:rounded-none md:border-l"
       >
         <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border px-4 pt-[env(safe-area-inset-top,0px)]">
           <div>
@@ -139,7 +139,11 @@ export function SavedSheet({
           </div>
         ) : null}
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+        <div
+          className="sheet-scroll min-h-0 flex-1 px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]"
+          role="region"
+          aria-label="Saved games"
+        >
           {games.length === 0 ? (
             <p className="text-sm leading-6 text-muted">
               Tap <span className="text-foreground">Save</span> on a home game to add it
