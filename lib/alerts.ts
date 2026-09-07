@@ -35,21 +35,20 @@ let prefsCache: AlertPrefs = { ...DEFAULT_ALERT_PREFS };
 let prefsHydrated = false;
 
 export function readAlertPrefs(): AlertPrefs {
+  if (prefsHydrated) return prefsCache;
   try {
     const raw = localStorage.getItem(ALERTS_STORAGE_KEY);
     if (!raw) {
-      if (!prefsHydrated) {
-        prefsHydrated = true;
-        prefsCache = { ...DEFAULT_ALERT_PREFS };
-      }
+      prefsHydrated = true;
+      prefsCache = { ...DEFAULT_ALERT_PREFS };
       return prefsCache;
     }
     const parsed: unknown = JSON.parse(raw);
-    const next = isAlertPrefs(parsed) ? parsed : { ...DEFAULT_ALERT_PREFS };
     prefsHydrated = true;
-    prefsCache = next;
+    prefsCache = isAlertPrefs(parsed) ? parsed : { ...DEFAULT_ALERT_PREFS };
     return prefsCache;
   } catch {
+    prefsHydrated = true;
     return prefsCache;
   }
 }
