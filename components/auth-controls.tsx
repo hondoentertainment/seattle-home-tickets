@@ -29,15 +29,16 @@ function GoogleMark({ className }: { className?: string }) {
   );
 }
 
-function Avatar({ src, alt }: { src?: string | null; alt: string }) {
+function Avatar({ src, alt, large }: { src?: string | null; alt: string; large?: boolean }) {
+  const px = large ? 56 : 36;
   if (src) {
     return (
       <Image
         src={src}
         alt={alt}
-        width={36}
-        height={36}
-        className="size-9 rounded-full bg-card object-cover"
+        width={px}
+        height={px}
+        className={`${large ? "size-14" : "size-9"} rounded-full bg-card object-cover`}
         referrerPolicy="no-referrer"
       />
     );
@@ -45,7 +46,7 @@ function Avatar({ src, alt }: { src?: string | null; alt: string }) {
   return (
     <span
       aria-hidden
-      className="inline-flex size-9 items-center justify-center rounded-full bg-accent/15 text-xs font-semibold text-accent"
+      className={`inline-flex ${large ? "size-14 text-lg" : "size-9 text-xs"} items-center justify-center rounded-full bg-accent/15 font-semibold text-accent`}
     >
       {alt.slice(0, 1).toUpperCase() || "?"}
     </span>
@@ -89,13 +90,29 @@ function SignInButton({ compact, prominent }: { compact: boolean; prominent: boo
 export function AuthControls({
   variant,
 }: {
-  variant: "header" | "nav" | "menu" | "sheet";
+  variant: "header" | "nav" | "menu" | "sheet" | "profile";
 }) {
   const enabled = useGoogleAuthEnabled();
   const { data, status } = useSession();
   const compact = variant === "header";
 
   if (status === "loading" || (enabled === null && !data?.user)) {
+    if (variant === "profile") {
+      return (
+        <div className="flex items-center gap-3">
+          <span
+            aria-hidden
+            className="inline-flex size-14 items-center justify-center rounded-full bg-card text-sm font-semibold text-muted"
+          >
+            ·
+          </span>
+          <div>
+            <p className="text-base font-semibold text-muted">Checking sign-in…</p>
+            <p className="text-xs leading-5 text-muted">Local prefs still work.</p>
+          </div>
+        </div>
+      );
+    }
     return null;
   }
 
@@ -117,6 +134,22 @@ export function AuthControls({
         </div>
       );
     }
+    if (variant === "profile") {
+      return (
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Avatar src={data.user.image} alt={data.user.name || label} large />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-base font-semibold text-foreground">{data.user.name || "Signed in"}</p>
+            {data.user.email ? <p className="truncate text-sm text-muted">{data.user.email}</p> : null}
+            <p className="mt-1 text-xs leading-5 text-muted">
+              Saved and alert prefs can sync to this account when Redis or Neon is configured.
+              Otherwise they stay on this device.
+            </p>
+          </div>
+          <SignOutButton />
+        </div>
+      );
+    }
     return (
       <div className="flex items-center gap-3">
         <Avatar src={data.user.image} alt={data.user.name || label} />
@@ -129,7 +162,41 @@ export function AuthControls({
     );
   }
 
-  if (!enabled) return null;
+  if (!enabled) {
+    if (variant === "profile") {
+      return (
+        <div className="flex items-start gap-3">
+          <Avatar alt="Guest" large />
+          <div>
+            <p className="text-base font-semibold text-foreground">Guest</p>
+            <p className="mt-1 text-sm leading-6 text-muted">
+              My teams, alerts, ticket quantity, and Saved stay on this device. Google
+              sign-in is not configured on this deploy.
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  if (variant === "profile") {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-start gap-3">
+          <Avatar alt="Guest" large />
+          <div>
+            <p className="text-base font-semibold text-foreground">Guest</p>
+            <p className="mt-1 text-sm leading-6 text-muted">
+              Prefs stay on this device until you sign in. Saved and alerts can sync after
+              Google + Redis/Neon are set.
+            </p>
+          </div>
+        </div>
+        <SignInButton compact={false} prominent />
+      </div>
+    );
+  }
 
   return <SignInButton compact={compact} prominent={variant === "menu" || variant === "sheet"} />;
 }

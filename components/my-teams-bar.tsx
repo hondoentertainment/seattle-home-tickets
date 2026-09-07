@@ -11,6 +11,7 @@ export function MyTeamsBar({
   onTogglePin,
   onShowMine,
   onShowAll,
+  variant = "home",
 }: {
   allTeams: readonly string[];
   pinned: readonly string[];
@@ -18,33 +19,40 @@ export function MyTeamsBar({
   onTogglePin: (team: string) => void;
   onShowMine: () => void;
   onShowAll: () => void;
+  variant?: "home" | "profile";
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(variant === "profile");
   const viewingMine = mine && pinned.length > 0;
   const pinCount = pinned.length;
 
   return (
     <div className="rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          aria-pressed={viewingMine}
-          onClick={viewingMine ? onShowAll : onShowMine}
-          className={`${FIELD_CHIP} ${
-            viewingMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-          }`}
-        >
-          {viewingMine ? `My teams · ${pinCount}` : pinCount ? "Show my teams" : "My teams"}
-        </button>
-        {viewingMine ? (
-          <button
-            type="button"
-            onClick={onShowAll}
-            className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-muted hover:text-foreground"
-          >
-            All teams
-          </button>
-        ) : null}
+        {variant === "home" ? (
+          <>
+            <button
+              type="button"
+              aria-pressed={viewingMine}
+              onClick={viewingMine ? onShowAll : onShowMine}
+              className={`${FIELD_CHIP} ${
+                viewingMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
+              }`}
+            >
+              {viewingMine ? `My teams · ${pinCount}` : pinCount ? "Show my teams" : "My teams"}
+            </button>
+            {viewingMine ? (
+              <button
+                type="button"
+                onClick={onShowAll}
+                className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-muted hover:text-foreground"
+              >
+                All teams
+              </button>
+            ) : null}
+          </>
+        ) : (
+          <p className="text-sm font-semibold text-foreground">My teams · {pinCount}</p>
+        )}
         <button
           type="button"
           aria-expanded={open}
@@ -77,11 +85,15 @@ export function MyTeamsBar({
         </div>
       ) : (
         <p className="mt-2 text-xs leading-5 text-muted">
-          {viewingMine
-            ? "Home is showing pinned clubs. All teams clears the view without deleting pins."
-            : pinCount
-              ? "Pins stay saved. Tap Show my teams to filter Home."
-              : `Pin clubs to filter Home. Defaults were ${DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.`}
+          {variant === "profile"
+            ? pinCount
+              ? "Pins stay on this device. Home uses them when My teams is the default view."
+              : `Pin clubs to filter Home. Defaults were ${DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.`
+            : viewingMine
+              ? "Home is showing pinned clubs. All teams clears the view without deleting pins."
+              : pinCount
+                ? "Pins stay saved. Tap Show my teams to filter Home."
+                : `Pin clubs to filter Home. Defaults were ${DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.`}
         </p>
       )}
     </div>

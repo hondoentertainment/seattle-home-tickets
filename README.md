@@ -9,6 +9,7 @@ A Next.js (App Router) site that lists **published Seattle HOME sporting events*
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **Venues (`/venues`)** — neighborhood playbooks (arrive / rain / after) and a Home venue filter
+- **Profile (`/profile`)** — identity, My teams pins, Saved, Alerts, default qty / Home view. Guest prefs work without Google
 - **Alerts (`/alerts`)** — in-app prefs only (no email or web-push yet)
 - **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
 - **FAQ (`/about`)** — short Q&A. `/faq` redirects here

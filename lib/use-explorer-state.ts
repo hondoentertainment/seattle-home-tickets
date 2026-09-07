@@ -15,6 +15,7 @@ import {
   writeStoredQty,
   type ExplorerState,
 } from "@/lib/url-state";
+import { readHomeMine } from "@/lib/home-prefs";
 
 function writeLocation(query: string) {
   const next = query ? `${window.location.pathname}?${query}` : window.location.pathname;
@@ -56,13 +57,15 @@ export function useExplorerState() {
     hydrated.current = true;
     const storedIds = searchParams.get("ids") ? [] : readStoredIds();
     const storedQty = searchParams.has("qty") ? null : readStoredQty();
-    if (!storedIds.length && storedQty == null) return;
+    const storedMine = searchParams.has("mine") ? null : readHomeMine();
+    if (!storedIds.length && storedQty == null && storedMine == null) return;
     // localStorage is an external store read once after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate ids/qty
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate ids/qty/mine
     setState((prev) => ({
       ...prev,
       ids: prev.ids.length || !storedIds.length ? prev.ids : storedIds,
       qty: storedQty ?? prev.qty,
+      mine: storedMine ?? prev.mine,
     }));
   }, [searchParams]);
 

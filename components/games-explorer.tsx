@@ -30,6 +30,7 @@ import {
 } from "@/lib/catalog";
 import { toast } from "@/lib/feedback";
 import { DISCOVERY_TAGS, LEVEL_LABELS, type DiscoveryTag, type GameLevel } from "@/lib/game-level";
+import { writeHomeMine } from "@/lib/home-prefs";
 import { togglePinnedTeam } from "@/lib/my-teams";
 import { usePinnedTeams } from "@/lib/use-my-teams";
 import { estimateSpreadLabel } from "@/lib/price-band";
@@ -293,8 +294,14 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           onTogglePin={(team) => {
             togglePinnedTeam(team);
           }}
-          onShowMine={() => patch({ mine: true, teams: [] })}
-          onShowAll={() => patch({ mine: false })}
+          onShowMine={() => {
+            writeHomeMine(true);
+            patch({ mine: true, teams: [] });
+          }}
+          onShowAll={() => {
+            writeHomeMine(false);
+            patch({ mine: false });
+          }}
         />
       ) : null}
       {variant === "home" ? <BundleNights /> : null}

@@ -160,12 +160,29 @@ const faqs: { q: string; a: ReactNode }[] = [
     ),
   },
   {
+    q: "Where is my profile?",
+    a: (
+      <>
+        <Link href="/profile" className="text-accent hover:underline">
+          Profile
+        </Link>{" "}
+        is in the header, More menu, and desktop nav. Signed out, My teams, alerts, quantity,
+        and Saved still work on this device. Continue with Google only appears when OAuth
+        secrets are configured. We do not send email or web-push.
+      </>
+    ),
+  },
+  {
     q: "What are My teams?",
     a: (
       <>
-        Pin Seattle clubs on Home or Teams. Home defaults to those pins (big clubs +
-        Huskies until you edit). <strong>All teams</strong> shows the full published
-        slate without deleting pins. Pins live in this browser.
+        Pin Seattle clubs on Home, Teams, or{" "}
+        <Link href="/profile" className="text-accent hover:underline">
+          Profile
+        </Link>
+        . Home defaults to those pins (big clubs + Huskies until you edit).{" "}
+        <strong>All teams</strong> shows the full published slate without deleting
+        pins. Pins live in this browser.
       </>
     ),
   },
