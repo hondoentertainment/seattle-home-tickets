@@ -26,11 +26,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         No. Each row is an unofficial mid-tier estimate per seat (not cheapest upper
-        deck, not club). Group totals are{" "}
+        deck, not club). We also show a typical band around that seed (~75–135%) and
+        the last-checked stamp — not live marketplace ranges. Group totals are{" "}
         <span className="text-foreground">est. each × quantity</span>. They are not
-        quotes, face values, or reserved inventory, and they will be wrong the
-        moment listings move. Always confirm on the official club or school site
-        before you buy. {catalog.priceDisclaimer}
+        quotes, face values, or reserved inventory. Confirm on official or
+        marketplace search links. {catalog.priceDisclaimer}
       </>
     ),
   },
@@ -156,6 +156,41 @@ const faqs: { q: string; a: ReactNode }[] = [
           Ticket Stats
         </Link>{" "}
         is catalog counts and unofficial estimate totals — not on-field performance.
+      </>
+    ),
+  },
+  {
+    q: "What are My teams?",
+    a: (
+      <>
+        Pin Seattle clubs on Home or Teams. Home defaults to those pins (big clubs +
+        Huskies until you edit). <strong>All teams</strong> shows the full published
+        slate without deleting pins. Pins live in this browser.
+      </>
+    ),
+  },
+  {
+    q: "Do you send price or weather alerts?",
+    a: (
+      <>
+        <Link href="/alerts" className="text-accent hover:underline">
+          Alerts
+        </Link>{" "}
+        stores in-app preferences (price cap, published promo nights, outdoor weather
+        risk, tomorrow’s Saved). Matching games are listed on that page. We do{" "}
+        <span className="text-foreground">not</span> send email or web-push yet — do
+        not expect a notification on your lock screen.
+      </>
+    ),
+  },
+  {
+    q: "Can I share a group shortlist?",
+    a: (
+      <>
+        Saved → <strong>Copy invite</strong> makes a link with{" "}
+        <code className="text-foreground">ids=</code> and{" "}
+        <code className="text-foreground">invite=1</code>. Friends can add those
+        published games to their Saved. That is a shared list, not RSVP.
       </>
     ),
   },

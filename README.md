@@ -2,15 +2,17 @@
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, Saved list
+- **Home (`/`)** — My teams, Refresh, discovery chips (Pro / College / HS / Rivalry), same-weekend slates, filters, trip-kit sheet
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
-- **Teams (`/teams`)** — color monogram tiles (college and high-school tiles print the sport)
+- **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
-- **Venues (`/venues`)** — catalog buildings with travel notes and a Home venue filter
+- **Venues (`/venues`)** — neighborhood playbooks (arrive / rain / after) and a Home venue filter
+- **Alerts (`/alerts`)** — in-app prefs only (no email or web-push yet)
 - **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
 - **FAQ (`/about`)** — short Q&A. `/faq` redirects here
+- **PWA** — installable; offline shell can reopen Home after a first visit
 
 Seeded from official and league schedules researched **as of 6 September 2026**. Prices are estimates, not quotes. Methodology lives on the FAQ, not the calendar.
 
@@ -36,9 +38,21 @@ Seeded from official and league schedules researched **as of 6 September 2026**.
 
 Away games are excluded. If a conference basketball slate, HS conference week, or touring date was not published yet, it was omitted rather than invented.
 
+## My teams, bundles, and group Saved
+
+Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). **All teams** clears the view without deleting pins. Pins are this-browser only.
+
+**Same-weekend slates** group two or more published homes on the same Fri–Sun window (holiday tags when present). Not a ticket package.
+
+**Copy invite** on Saved adds `invite=1` to the existing `ids=` share link. Recipients can add those games to their Saved. No multi-user RSVP.
+
+## Alerts (in-app)
+
+`/alerts` stores: unofficial price-under-each, published promo nights, outdoor weather risk, tomorrow’s Saved. Matches are listed on that page. **Email and web-push are not sent.** If Google + Redis/Neon are configured, prefs can sync to the account (`/api/alerts`). A future Vercel cron could email those prefs only after a sender (e.g. Resend) is added.
+
 ## Prices
 
-Every row has `estPriceEachUsd` (and a stored pair field) for mid-tier seats (not cheapest upper deck, not club). The UI defaults to **2 tickets** and scales displayed prices as `estPriceEachUsd × quantity` (1–19). Quantity lives in the URL (`qty=`) and `localStorage`. These are **unofficial estimates**. They will be wrong the moment inventory moves. Always buy from official club / Ticketmaster / authorized sellers.
+Every row has `estPriceEachUsd` (and a stored pair field) for mid-tier seats (not cheapest upper deck, not club). The UI defaults to **2 tickets** and scales displayed prices as `estPriceEachUsd × quantity` (1–19). Cards also show an unofficial typical band (~75–135% of the seed) and the last-checked stamp. Quantity lives in the URL (`qty=`) and `localStorage`. These are **unofficial estimates**, not live marketplace ranges or reserved inventory. Always buy from official club / Ticketmaster / authorized sellers.
 
 The header stats show:
 
@@ -63,7 +77,7 @@ Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer Stadium,
 
 ## Travel
 
-Venue profiles live in [`data/venues.json`](data/venues.json): address, neighborhood, transit (Link / bus), parking, rideshare, and Seattle traffic caveats. Surfaced in the same detail panel as tickets and weather.
+Venue profiles live in [`data/venues.json`](data/venues.json): address, neighborhood, transit, parking, rideshare, traffic, plus arrive / rain / after playbook notes. The game sheet is a **trip kit**: tickets, arrival suggestion, weather, transit, neighborhood playbook, share. Typical gameday guidance — not live lot status.
 
 ## Saved list and sharing
 
@@ -194,6 +208,7 @@ Standings live in [`data/standings.json`](data/standings.json) — the same seed
 - Client-side [TanStack Table](https://tanstack.com/table) v9 for column sort
 - Auth.js v5 (Google) + optional Upstash Redis or Neon for Saved
 - `@vercel/analytics` (privacy-friendly page views; no custom domain required)
+- Web app manifest + service worker for an installable shell (offline Home after first visit; no push)
 - Static published JSON for the catalog (no live score or ticket APIs)
 
 ## Deploy on Vercel

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthSessionProvider } from "@/components/auth-session-provider";
+import { PwaRegister } from "@/components/pwa-register";
 import { ShortlistHost } from "@/components/shortlist-host";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
@@ -29,6 +30,16 @@ export const metadata: Metadata = {
   title: "Seattle Home Tickets — Full-season price estimates",
   description:
     "Searchable, sortable calendar of Seattle home sporting events with unofficial mid-tier estimates for two seats.",
+  applicationName: "Seattle Home Tickets",
+  appleWebApp: {
+    capable: true,
+    title: "SEA Homes",
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+  },
   openGraph: {
     title: "Seattle Home Tickets",
     description:
@@ -50,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteFooter />
           <ShortlistHost />
           <ToastHost />
+          <PwaRegister />
           <Analytics />
         </AuthSessionProvider>
       </body>

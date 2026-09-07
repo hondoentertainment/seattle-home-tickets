@@ -68,7 +68,7 @@ export function useExplorerState() {
 
   useEffect(() => {
     const query = explorerStateKey(state);
-    writeStoredIds(state.ids);
+    if (!state.invite) writeStoredIds(state.ids);
     writeStoredQty(state.qty);
     if (query === lastWritten.current) return;
     lastWritten.current = query;

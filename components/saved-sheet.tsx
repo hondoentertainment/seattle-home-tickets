@@ -15,16 +15,18 @@ export function SavedSheet({
   onRemove,
   onClear,
   onShare,
+  onInvite,
   onCopy,
   onShowCalendar,
 }: {
   games: Game[];
   qty: number;
-  copied: "link" | "summary" | null;
+  copied: "link" | "summary" | "invite" | null;
   onClose: () => void;
   onRemove: (id: string) => void;
   onClear: () => void;
   onShare: () => void;
+  onInvite: () => void;
   onCopy: () => void;
   onShowCalendar: () => void;
 }) {
@@ -112,6 +114,13 @@ export function SavedSheet({
               className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-background"
             >
               {copied === "link" ? "Copied" : "Share"}
+            </button>
+            <button
+              type="button"
+              onClick={onInvite}
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border border-card-border px-3 text-sm font-semibold text-foreground"
+            >
+              {copied === "invite" ? "Copied" : "Copy invite"}
             </button>
           </div>
         ) : null}

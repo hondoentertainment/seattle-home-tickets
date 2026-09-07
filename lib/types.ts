@@ -39,6 +39,10 @@ export type VenueProfile = {
   rideshare: string;
   traffic: string;
   officialTickets: string;
+  arriveBy?: string;
+  rainPlan?: string;
+  after?: string;
+  eatWalk?: string;
 };
 
 export type TicketLink = {

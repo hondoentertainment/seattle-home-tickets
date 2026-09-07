@@ -4,9 +4,14 @@ import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import { SaveToggle } from "@/components/save-toggle";
 import { venueFor } from "@/lib/catalog";
+import { toast } from "@/lib/feedback";
 import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
+import { estimateSpreadLabel, priceBandId, PRICE_BAND_LABELS } from "@/lib/price-band";
 import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
+import { formatLastCheckedShort, refreshStamp } from "@/lib/refresh";
+import { gameSummary } from "@/lib/share";
 import { ticketLinks } from "@/lib/tickets";
+import { arrivalSuggestion } from "@/lib/trip-kit";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
 export function GameDetail({
@@ -92,10 +97,16 @@ export function GameDetail({
         </div>
 
         <div className="sheet-scroll min-h-0 flex-1 px-4 py-4">
-          <p className="flex flex-wrap items-baseline gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">Trip kit</p>
+          <p className="mt-1 flex flex-wrap items-baseline gap-2">
             <span className="text-2xl font-bold tabular-nums text-accent">{formatUsd(group)}</span>
             <span className="text-sm text-muted">{qtyEstimateLabel(qty)}</span>
             <span className="text-sm text-muted">{formatUsd(game.estPriceEachUsd)} each</span>
+          </p>
+          <p className="mt-1 text-xs leading-5 text-muted">
+            Unofficial {PRICE_BAND_LABELS[priceBandId(game.estPriceEachUsd)].toLowerCase()} · typical
+            band {estimateSpreadLabel(game.estPriceEachUsd, qty)} · last checked{" "}
+            {formatLastCheckedShort(refreshStamp.lastChecked)}. Not live inventory.
           </p>
           {game.specialTags.length ? (
             <div className="mt-2 flex flex-wrap gap-1.5">
@@ -106,6 +117,40 @@ export function GameDetail({
               ))}
             </div>
           ) : null}
+
+          <div className="mt-4 space-y-3 text-sm text-muted">
+            <p>
+              <span className="font-medium text-foreground">Arrive. </span>
+              {arrivalSuggestion(game, venue)}
+            </p>
+            {weather ? (
+              <p>
+                <span className="font-medium text-foreground">Weather. </span>
+                {weather.label}. {weather.detail}
+                {venue ? ` ${venue.indoor ? "Indoor — travel-day note." : "Outdoor."}` : ""}
+              </p>
+            ) : (
+              <p>Loading Seattle weather…</p>
+            )}
+            {venue ? (
+              <p>
+                <span className="font-medium text-foreground">Transit. </span>
+                {venue.transit}
+              </p>
+            ) : null}
+          </div>
+
+          <button
+            type="button"
+            onClick={async () => {
+              const extra = `\nArrive: ${arrivalSuggestion(game, venue)}`;
+              await navigator.clipboard.writeText(`${gameSummary(game, weather, qty)}${extra}`);
+              toast("Trip kit copied");
+            }}
+            className="mt-4 inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs font-semibold text-foreground"
+          >
+            Share trip kit
+          </button>
 
           {market.length ? (
             <details className="mt-4 rounded-2xl border border-card-border px-3 py-2">
@@ -148,31 +193,18 @@ export function GameDetail({
             </details>
           ) : null}
 
-          <details className="mt-3 rounded-2xl border border-card-border px-3 py-2 text-sm text-muted">
-            <summary className="cursor-pointer font-medium text-foreground">
-              Weather
-              {weather ? ` · ${weather.label}` : ""}
-            </summary>
-            {weather ? (
-              <p className="mt-2 text-xs leading-5">
-                <span className="text-foreground">{weather.label}.</span> {weather.detail}
-                {venue ? ` ${venue.indoor ? "Indoor venue — travel-day note." : "Outdoor venue."}` : ""}
-              </p>
-            ) : (
-              <p className="mt-2 text-xs">Loading Seattle weather…</p>
-            )}
-          </details>
-
           {venue ? (
             <details className="mt-3 rounded-2xl border border-card-border px-3 py-2 text-sm text-muted">
               <summary className="cursor-pointer font-medium text-foreground">
-                Getting there · {venue.neighborhood}
+                Neighborhood playbook · {venue.neighborhood}
               </summary>
               <div className="mt-2 space-y-2 text-xs leading-5">
                 <p>{venue.address}</p>
-                <p>
-                  <span className="text-foreground">Transit.</span> {venue.transit}
-                </p>
+                {venue.arriveBy ? (
+                  <p>
+                    <span className="text-foreground">Door time.</span> {venue.arriveBy}
+                  </p>
+                ) : null}
                 <p>
                   <span className="text-foreground">Parking.</span> {venue.parking}
                 </p>
@@ -182,6 +214,21 @@ export function GameDetail({
                 <p>
                   <span className="text-foreground">Traffic.</span> {venue.traffic}
                 </p>
+                {venue.rainPlan ? (
+                  <p>
+                    <span className="text-foreground">Rain.</span> {venue.rainPlan}
+                  </p>
+                ) : null}
+                {venue.eatWalk ? (
+                  <p>
+                    <span className="text-foreground">After.</span> {venue.eatWalk}
+                    {venue.after ? ` ${venue.after}` : ""}
+                  </p>
+                ) : venue.after ? (
+                  <p>
+                    <span className="text-foreground">After.</span> {venue.after}
+                  </p>
+                ) : null}
               </div>
             </details>
           ) : null}

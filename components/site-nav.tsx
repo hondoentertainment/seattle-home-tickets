@@ -19,6 +19,7 @@ const MORE = [
   { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
   { href: "/venues", label: "Venues" },
+  { href: "/alerts", label: "Alerts" },
   { href: "/contact", label: "Contact" },
   { href: "/about", label: "FAQ" },
 ] as const;
