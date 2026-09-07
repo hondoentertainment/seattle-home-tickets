@@ -280,6 +280,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           }}
         />
       ) : null}
+      {filterPanel}
       {variant === "home" ? (
         <MyTeamsBar
           allTeams={allTeams}
@@ -303,7 +304,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <BundleNights />
         </div>
       ) : null}
-      {filterPanel}
       <FilterSheet open={filtersOpen} onClose={() => setFiltersOpen(false)}>
         <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         <div className="grid gap-3 sm:grid-cols-2">
