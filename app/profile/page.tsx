@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ProfileClient } from "@/components/profile-client";
+import { PRODUCT_NAME, pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Profile — Seattle Home Tickets",
-  description:
-    "Your Seattle Home Tickets profile: My teams, Saved, alert prefs, and optional Google sign-in.",
+  title: pageTitle("Profile"),
+  description: `Your ${PRODUCT_NAME} profile: My teams, Saved, alert prefs, and optional Google sign-in.`,
 };
 
 export default function ProfilePage() {

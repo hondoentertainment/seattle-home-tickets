@@ -7,10 +7,12 @@ export function FilterSheet({
   open,
   onClose,
   children,
+  title = "Filters",
 }: {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
+  title?: string;
 }) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -43,7 +45,7 @@ export function FilterSheet({
       <button
         type="button"
         className="absolute inset-0 bg-[#020806]/80"
-        aria-label="Close filters"
+        aria-label={`Close ${title.toLowerCase()}`}
         onClick={onClose}
       />
       <aside
@@ -56,7 +58,7 @@ export function FilterSheet({
       >
         <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border px-4 pt-[env(safe-area-inset-top,0px)]">
           <p id={titleId} className="text-sm font-semibold text-foreground">
-            Filters
+            {title}
           </p>
           <button
             ref={closeRef}

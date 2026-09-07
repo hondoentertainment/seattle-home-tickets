@@ -1,10 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { PickTeamsPrompt } from "@/components/pick-teams-prompt";
+import { SegmentedControl } from "@/components/segmented-control";
 import { TeamMark } from "@/components/team-mark";
-import { FIELD_CHIP } from "@/lib/field-control";
-import { DEFAULT_PINNED_TEAMS } from "@/lib/my-teams";
+import { TeamPickerSheet } from "@/components/team-picker-sheet";
+import { IconCheck, IconPlus } from "@/components/ui-icons";
+import { persistPinnedTeams } from "@/lib/my-teams";
 import { displayMark } from "@/lib/teams";
+import { useHasStoredPinnedTeams } from "@/lib/use-my-teams";
+
+const HOME_VIEW = [
+  { value: "mine", label: "My teams" },
+  { value: "all", label: "All" },
+] as const;
 
 export function MyTeamsBar({
   allTeams,
@@ -24,127 +33,125 @@ export function MyTeamsBar({
   variant?: "home" | "profile";
 }) {
   const [open, setOpen] = useState(false);
+  const hasStored = useHasStoredPinnedTeams();
   const viewingMine = mine && pinned.length > 0;
+  const showPrompt = !hasStored;
+
+  function closePicker() {
+    setOpen(false);
+    persistPinnedTeams();
+  }
+
+  function skipPrompt() {
+    persistPinnedTeams();
+  }
+
+  const picker = (
+    <TeamPickerSheet
+      open={open}
+      onClose={closePicker}
+      allTeams={allTeams}
+      pinned={pinned}
+      onTogglePin={onTogglePin}
+    />
+  );
 
   if (variant === "home") {
     return (
-      <div>
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-semibold text-muted">My teams</p>
-          <div className="flex items-center gap-2">
-            {viewingMine ? (
-              <button
-                type="button"
-                onClick={onShowAll}
-                className="inline-flex min-h-11 items-center text-xs font-semibold text-muted hover:text-foreground"
-              >
-                All
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={onShowMine}
-                className="inline-flex min-h-11 items-center text-xs font-semibold text-accent"
-              >
-                My teams
-              </button>
-            )}
-            <button
-              type="button"
-              aria-expanded={open}
-              onClick={() => setOpen((value) => !value)}
-              className="inline-flex min-h-11 items-center text-xs font-semibold text-accent"
-            >
-              {open ? "Done" : "Edit"}
-            </button>
+      <div className="space-y-3">
+        {showPrompt ? <PickTeamsPrompt onChoose={() => setOpen(true)} onSkip={skipPrompt} /> : null}
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm font-semibold text-foreground">My teams</p>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="inline-flex min-h-11 items-center gap-1 text-xs font-semibold text-accent"
+          >
+            <IconPlus className="size-4" />
+            {pinned.length ? "Edit" : "Add"}
+          </button>
+        </div>
+        <SegmentedControl
+          ariaLabel="Home default view"
+          size="compact"
+          value={viewingMine ? "mine" : "all"}
+          options={HOME_VIEW}
+          onChange={(value) => {
+            if (value === "mine") onShowMine();
+            else onShowAll();
+          }}
+        />
+        {pinned.length === 0 ? (
+          <p className="text-xs leading-5 text-muted">
+            Pin clubs to filter Home. Tap Add to choose.
+          </p>
+        ) : (
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            {pinned.map((team) => {
+              const mark = displayMark(team);
+              return (
+                <button
+                  key={team}
+                  type="button"
+                  aria-pressed={viewingMine}
+                  onClick={onShowMine}
+                  className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-2.5 text-xs font-semibold ${
+                    viewingMine
+                      ? "border-accent bg-accent/20 text-foreground"
+                      : "border-dashed border-card-border bg-card text-muted"
+                  }`}
+                >
+                  <TeamMark mark={mark} size="chip" />
+                  {mark.short}
+                  {viewingMine ? <IconCheck className="size-3.5 text-accent" /> : null}
+                </button>
+              );
+            })}
           </div>
-        </div>
-        {!open && pinned.length === 0 ? (
-          <p className="text-xs leading-5 text-muted">Pin clubs with Edit to filter Home.</p>
-        ) : null}
-        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-          {(open ? allTeams : pinned).map((team) => {
-            const active = pinned.includes(team);
-            const mark = displayMark(team);
-            return (
-              <button
-                key={team}
-                type="button"
-                aria-pressed={open ? active : viewingMine}
-                onClick={() => (open ? onTogglePin(team) : onShowMine())}
-                className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-2.5 text-xs font-medium ${
-                  open
-                    ? active
-                      ? "border-accent bg-accent/15 text-accent"
-                      : "border-card-border bg-card text-muted"
-                    : "border-card-border bg-card text-foreground"
-                }`}
-              >
-                <TeamMark mark={mark} size="chip" />
-                {mark.short}
-              </button>
-            );
-          })}
-        </div>
+        )}
+        {picker}
       </div>
     );
   }
 
   return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted">My teams</p>
-      <div className="mt-3 flex flex-wrap items-center gap-3">
-        {pinned.map((team) => {
-          const mark = displayMark(team);
-          return (
-            <button
-              key={team}
-              type="button"
-              aria-label={`Unpin ${team}`}
-              onClick={() => onTogglePin(team)}
-              className="flex flex-col items-center gap-1"
-            >
-              <TeamMark mark={mark} size="card" />
-              <span className="max-w-14 truncate text-[10px] font-medium text-muted">{mark.short}</span>
-            </button>
-          );
-        })}
+    <section className="space-y-3 rounded-2xl border border-card-border bg-card/80 p-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-semibold text-foreground">My teams</p>
         <button
           type="button"
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-          className="flex flex-col items-center gap-1"
+          onClick={() => setOpen(true)}
+          className="inline-flex min-h-11 items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-3 text-xs font-semibold text-accent"
         >
-          <span className="grid size-11 place-items-center rounded-full border border-dashed border-muted text-lg leading-none text-muted">
-            +
-          </span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">Add</span>
+          <IconPlus className="size-4" />
+          Add
         </button>
       </div>
-      {open ? (
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Pin Seattle teams">
-          {allTeams.map((team) => {
-            const active = pinned.includes(team);
+      {showPrompt ? <PickTeamsPrompt onChoose={() => setOpen(true)} onSkip={skipPrompt} /> : null}
+      {pinned.length ? (
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Pinned teams">
+          {pinned.map((team) => {
+            const mark = displayMark(team);
             return (
               <button
                 key={team}
                 type="button"
-                aria-pressed={active}
+                aria-pressed
+                aria-label={`Unpin ${team}`}
                 onClick={() => onTogglePin(team)}
-                className={`${FIELD_CHIP} ${
-                  active ? "border-accent bg-accent/15 text-accent" : "border-card-border bg-card text-muted"
-                }`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-accent bg-accent/20 px-2.5 text-xs font-semibold text-foreground"
               >
-                {team.replace("Seattle ", "").replace("Washington ", "")}
+                <TeamMark mark={mark} size="chip" />
+                {mark.short}
+                <IconCheck className="size-3.5 text-accent" />
               </button>
             );
           })}
         </div>
-      ) : pinned.length === 0 ? (
-        <p className="mt-2 text-xs leading-5 text-muted">
-          Pin clubs to filter Home. Defaults were {DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.
-        </p>
+      ) : hasStored ? (
+        <p className="text-xs leading-5 text-muted">No teams pinned yet. Tap Add to pick clubs.</p>
       ) : null}
-    </div>
+      {picker}
+    </section>
   );
 }

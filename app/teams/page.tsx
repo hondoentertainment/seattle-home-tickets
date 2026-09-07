@@ -3,10 +3,11 @@ import Link from "next/link";
 import { PinTeamButton } from "@/components/pin-team-button";
 import { TeamMark } from "@/components/team-mark";
 import { catalog } from "@/lib/catalog";
+import { pageTitle } from "@/lib/brand";
 import { isSchoolTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
 
 export const metadata: Metadata = {
-  title: "Teams — Seattle Home Tickets",
+  title: pageTitle("Teams"),
   description:
     "Seattle home teams as original color tiles. College and high-school tiles include the sport so football and basketball stay distinct.",
 };

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { HeaderRefreshButton } from "@/components/header-refresh-button";
+import { PRODUCT_NAME } from "@/lib/brand";
 import {
   IconBell,
   IconCalendar,
@@ -174,7 +175,7 @@ export function SiteNav() {
                 onProfile ? "pl-1 text-base lg:text-sm" : "text-base lg:text-sm lg:font-semibold"
               }`}
             >
-              {onProfile ? "Profile" : "Seattle Home"}
+              {onProfile ? "Profile" : PRODUCT_NAME}
             </Link>
           </div>
           <nav aria-label="Primary" className="hidden flex-wrap items-center justify-end gap-0.5 lg:flex">

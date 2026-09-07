@@ -145,23 +145,32 @@ export function QuantityStepper({
   onChange: (qty: number) => void;
 }) {
   return (
-    <div className="inline-flex items-center rounded-full bg-card" role="group" aria-label="Default ticket quantity">
+    <div
+      className="inline-flex items-center rounded-2xl border border-card-border bg-card p-1"
+      role="group"
+      aria-label="Default ticket quantity"
+    >
       <button
         type="button"
         aria-label="Decrease quantity"
         disabled={value <= MIN_QTY}
         onClick={() => onChange(clampQty(value - 1))}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center text-lg text-foreground disabled:opacity-40"
+        className="inline-flex size-11 items-center justify-center rounded-xl bg-background text-xl font-semibold text-foreground disabled:opacity-40"
       >
         −
       </button>
-      <span className="min-w-6 text-center text-sm font-semibold tabular-nums text-foreground">{value}</span>
+      <span className="min-w-[4.25rem] px-2 text-center">
+        <span className="block text-lg font-bold tabular-nums leading-5 text-foreground">{value}</span>
+        <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted">
+          {qtyNoun(value)}
+        </span>
+      </span>
       <button
         type="button"
         aria-label="Increase quantity"
         disabled={value >= MAX_QTY}
         onClick={() => onChange(clampQty(value + 1))}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center text-lg text-foreground disabled:opacity-40"
+        className="inline-flex size-11 items-center justify-center rounded-xl bg-background text-xl font-semibold text-foreground disabled:opacity-40"
       >
         +
       </button>

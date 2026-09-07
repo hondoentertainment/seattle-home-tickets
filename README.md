@@ -1,16 +1,18 @@
-# Seattle Home Tickets
+# Seattle Home Games
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — Search + Filters, My teams monogram chips, game cards (date, monograms, price for qty, heart Save). Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
+The GitHub repo and Vercel project stay `seattle-home-tickets`. User-facing name is **Seattle Home Games**.
+
+- **Home (`/`)** — Search + Filters, My teams chips + Home default control, game cards (date, monograms, price for qty, heart Save). First visit can pick teams in one short prompt. Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **Venues (`/venues`)** — neighborhood playbooks (arrive / rain / after) and a Home venue filter
-- **Profile (`/profile`)** — identity, My teams pins, Saved, Alerts, default qty / Home view. Guest prefs work without Google
-- **Alerts (`/alerts`)** — in-app prefs only (no email or web-push yet)
+- **Profile (`/profile`)** — identity, My teams pin sheet, Saved, Alerts, default qty stepper / Home default control. Guest prefs work without Google
+- **Alerts (`/alerts`)** — in-app prefs only (price chips + toggles; no email or web-push yet)
 - **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
 - **FAQ (`/about`)** — short Q&A. `/faq` redirects here
 - **PWA** — installable; offline shell can reopen Home after a first visit
@@ -41,7 +43,7 @@ Away games are excluded. If a conference basketball slate, HS conference week, o
 
 ## My teams, bundles, and group Saved
 
-Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). **All teams** clears the view without deleting pins. Pins are this-browser only.
+Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). A first-visit **Pick your teams** prompt can change that in one sheet. **All** clears the view without deleting pins. Pins are this-browser only.
 
 **Same-weekend slates** group two or more published homes on the same Fri–Sun window (holiday tags when present). Not a ticket package.
 
@@ -115,7 +117,7 @@ Authorized redirect URIs:
 - `https://seattle-home-tickets.vercel.app/api/auth/callback/google`
 - each Vercel Preview origin you need, `https://<deployment>.vercel.app/api/auth/callback/google` (Google does not allow `*.vercel.app` wildcards)
 
-OAuth consent screen: External, app name **Seattle Home Tickets**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
+OAuth consent screen: External, app name **Seattle Home Games**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
 
 Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` to **Production**. Add `AUTH_URL=https://seattle-home-tickets.vercel.app` to **Production only**. Preview sign-in is optional (add the same Google pair to Preview, leave `AUTH_URL` unset, and register that preview callback in Google Cloud). The calendar still deploys if these are missing.
 

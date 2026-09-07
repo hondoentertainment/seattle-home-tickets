@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { pageTitle } from "@/lib/brand";
+
 export const metadata: Metadata = {
-  title: "Offline — Seattle Home Tickets",
+  title: pageTitle("Offline"),
 };
 
 export default function OfflinePage() {

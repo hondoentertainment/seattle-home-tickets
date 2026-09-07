@@ -4,15 +4,22 @@ import Link from "next/link";
 import { AuthControls } from "@/components/auth-controls";
 import { MyTeamsBar } from "@/components/my-teams-bar";
 import { QuantityStepper } from "@/components/quantity-picker";
+import { SegmentedControl } from "@/components/segmented-control";
 import { IconBell, IconBookmark, IconChevron, IconShield } from "@/components/ui-icons";
 import { allTeams } from "@/lib/catalog";
 import { writeHomeMine } from "@/lib/home-prefs";
 import { NO_TICKET_SALES_LINE, UNOFFICIAL_ESTIMATE_LINE } from "@/lib/legal";
 import { togglePinnedTeam } from "@/lib/my-teams";
+import { qtyNoun } from "@/lib/quantity";
 import { useHomeMine } from "@/lib/use-home-prefs";
 import { usePinnedTeams } from "@/lib/use-my-teams";
 import { useStoredShortlist } from "@/lib/shortlist";
 import { requestShortlistOpen, writeStoredQty } from "@/lib/url-state";
+
+const HOME_DEFAULT = [
+  { value: "mine", label: "My teams" },
+  { value: "all", label: "All" },
+] as const;
 
 export function ProfileClient() {
   const pinned = usePinnedTeams();
@@ -65,35 +72,34 @@ export function ProfileClient() {
         </Link>
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-card-border bg-card/80 p-4">
-        <div className="flex min-h-11 items-center justify-between gap-3">
-          <p className="text-sm font-medium text-foreground">Default ticket quantity</p>
-          <QuantityStepper value={qty} onChange={writeStoredQty} />
-        </div>
-        <div className="flex min-h-11 items-center justify-between gap-3">
-          <p className="text-sm font-medium text-foreground">Home default</p>
-          <div className="inline-flex rounded-full bg-background p-1" role="group" aria-label="Home default view">
-            <button
-              type="button"
-              aria-pressed={homeMine}
-              onClick={() => writeHomeMine(true)}
-              className={`inline-flex min-h-10 items-center rounded-full px-3 text-xs font-semibold ${
-                homeMine ? "bg-accent/20 text-foreground" : "text-muted"
-              }`}
-            >
-              My teams
-            </button>
-            <button
-              type="button"
-              aria-pressed={!homeMine}
-              onClick={() => writeHomeMine(false)}
-              className={`inline-flex min-h-10 items-center rounded-full px-3 text-xs font-semibold ${
-                !homeMine ? "bg-accent/20 text-foreground" : "text-muted"
-              }`}
-            >
-              All
-            </button>
+      <section className="space-y-5 rounded-2xl border border-card-border bg-card/80 p-4">
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Default ticket quantity</p>
+            <p className="mt-0.5 text-xs leading-5 text-muted">
+              Scales unofficial estimates on Home and Saved.
+            </p>
           </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm text-muted">
+              {qty} {qtyNoun(qty)}
+            </p>
+            <QuantityStepper value={qty} onChange={writeStoredQty} />
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Home default</p>
+            <p className="mt-0.5 text-xs leading-5 text-muted">
+              What Home opens to. Pins stay either way.
+            </p>
+          </div>
+          <SegmentedControl
+            ariaLabel="Home default view"
+            value={homeMine ? "mine" : "all"}
+            options={HOME_DEFAULT}
+            onChange={(value) => writeHomeMine(value === "mine")}
+          />
         </div>
       </section>
 

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageTitle } from "@/lib/brand";
 import { catalog } from "@/lib/catalog";
 import { venueCards, venueHref } from "@/lib/venue-index";
 
 export const metadata: Metadata = {
-  title: "Venues — Seattle Home Tickets",
+  title: pageTitle("Venues"),
   description:
     "Seattle-area venues on the published home calendar: address, transit, parking, indoor vs outdoor, and which teams play there.",
 };
