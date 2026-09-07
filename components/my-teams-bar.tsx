@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { PickTeamsPrompt } from "@/components/pick-teams-prompt";
 import { SegmentedControl } from "@/components/segmented-control";
 import { TeamMark } from "@/components/team-mark";
@@ -37,14 +37,14 @@ export function MyTeamsBar({
   const viewingMine = mine && pinned.length > 0;
   const showPrompt = !hasStored;
 
-  function closePicker() {
+  const closePicker = useCallback(() => {
     setOpen(false);
     persistPinnedTeams();
-  }
+  }, []);
 
-  function skipPrompt() {
+  const skipPrompt = useCallback(() => {
     persistPinnedTeams();
-  }
+  }, []);
 
   const picker = (
     <TeamPickerSheet
