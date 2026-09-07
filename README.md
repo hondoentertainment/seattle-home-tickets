@@ -51,9 +51,9 @@ The header stats show:
 Each game’s detail panel (click **Tickets** on a card, or the team name on desktop) links out to check live prices:
 
 - Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, O'Dea / Eastside Catholic athletics, Seattle Public Schools digital tickets, plus venue Ticketmaster where useful)
-- Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats
+- Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats, and a **Facebook Marketplace** Seattle search (`/marketplace/seattle/search/?query=`)
 
-Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. No affiliate parameters.
+Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. Facebook Marketplace is peer listings — the user finishes any purchase on Facebook. There is no Marketplace purchase API on this site. No affiliate parameters.
 
 ## Weather
 

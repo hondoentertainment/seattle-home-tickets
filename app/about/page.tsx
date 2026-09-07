@@ -137,8 +137,9 @@ const faqs: { q: string; a: ReactNode }[] = [
         <Link href="/promotions" className="text-accent hover:underline">
           Promotions
         </Link>{" "}
-        lists published theme nights and giveaways only — incomplete club calendars
-        are marked, nothing is filled in.
+        is a date-first list of published theme nights and giveaways. Tap a night
+        for tickets or Save. Incomplete club calendars stay empty — nothing is
+        filled in.
       </>
     ),
   },
@@ -187,9 +188,10 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "Do you have affiliates or sell tickets?",
     a: (
       <>
-        No affiliate parameters and no ticket sales. Marketplace URLs are search
-        links for team + opponent + date, not reserved inventory. For a real
-        purchase or refund, use{" "}
+        No affiliate parameters and no ticket sales. Marketplace URLs (including
+        Facebook Marketplace in Seattle) are search links for team + opponent +
+        date, not reserved inventory or in-app checkout. For a real purchase or
+        refund, use{" "}
         <Link href="/contact" className="text-accent hover:underline">
           Contact
         </Link>{" "}

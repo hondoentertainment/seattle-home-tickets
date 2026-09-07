@@ -19,6 +19,10 @@ export function venueFor(name: string): VenueProfile | undefined {
   return venues[name];
 }
 
+export function gameForId(id: string) {
+  return catalog.games.find((game) => game.id === id);
+}
+
 export function monthLabel(yyyyMm: string): string {
   const [year, month] = yyyyMm.split("-");
   const date = new Date(Date.UTC(Number(year), Number(month) - 1, 1));

@@ -110,6 +110,10 @@ export function GameDetail({
           {market.length ? (
             <details className="mt-4 rounded-2xl border border-card-border px-3 py-2">
               <summary className="cursor-pointer text-sm font-medium text-foreground">Other sellers</summary>
+              <p className="mt-2 text-xs leading-5 text-muted">
+                Search links only — including Facebook Marketplace peer listings. Finish any
+                purchase on that site. We do not sell tickets or show Marketplace inventory.
+              </p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {(official.length > 1 ? official.slice(1) : []).concat(market).map((link) => (
                   <a
@@ -117,6 +121,16 @@ export function GameDetail({
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    title={
+                      link.label === "Facebook Marketplace"
+                        ? "Opens Facebook Marketplace search in Seattle. Peer listings; finish any purchase on Facebook."
+                        : undefined
+                    }
+                    aria-label={
+                      link.label === "Facebook Marketplace"
+                        ? "Facebook Marketplace search for this game (opens Facebook)"
+                        : undefined
+                    }
                     className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-muted hover:text-foreground"
                   >
                     {link.label}
