@@ -41,6 +41,23 @@ export function ProfileClient() {
       />
 
       <section className="rounded-2xl border border-card-border bg-card/80 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted">Saved</p>
+        <button
+          type="button"
+          onClick={() => requestShortlistOpen()}
+          aria-label={ids.length ? `Open Saved, ${ids.length} games` : "Open Saved"}
+          className="mt-3 inline-flex min-h-11 w-full items-center justify-between rounded-xl bg-accent/10 px-3 text-left text-sm font-semibold text-accent"
+        >
+          <span>Open Saved</span>
+          <span className="text-xs font-medium text-muted">{ids.length ? `${ids.length}` : "None yet"}</span>
+        </button>
+        <p className="mt-2 text-xs leading-5 text-muted">
+          Tap Save on a game or trip kit. Share and invite still use{" "}
+          <code className="text-foreground">ids=</code>.
+        </p>
+      </section>
+
+      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted">Home default</p>
         <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Home default view">
           <button
@@ -76,15 +93,6 @@ export function ProfileClient() {
 
       <section className="rounded-2xl border border-card-border bg-card/80 p-4">
         <div className="flex flex-col gap-2">
-          <button
-            type="button"
-            onClick={() => requestShortlistOpen()}
-            aria-label={ids.length ? `Open Saved, ${ids.length} games` : "Open Saved"}
-            className="inline-flex min-h-11 items-center justify-between rounded-xl px-1 text-left text-sm font-medium text-foreground"
-          >
-            <span>Saved</span>
-            <span className="text-xs text-muted">{ids.length ? `${ids.length} · Open` : "Open"}</span>
-          </button>
           <Link
             href="/alerts"
             className="inline-flex min-h-11 items-center justify-between rounded-xl px-1 text-sm font-medium text-foreground"

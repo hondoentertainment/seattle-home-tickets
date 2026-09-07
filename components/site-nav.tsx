@@ -4,8 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useStoredShortlist } from "@/lib/shortlist";
-import { requestShortlistOpen } from "@/lib/url-state";
 
 const PRIMARY = [
   { href: "/", label: "Home" },
@@ -32,7 +30,6 @@ function isActive(pathname: string, href: string) {
 
 export function SiteNav() {
   const pathname = usePathname();
-  const { ids } = useStoredShortlist();
   const [menuPath, setMenuPath] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -40,15 +37,9 @@ export function SiteNav() {
   const menuTitleId = useId();
   const menuOpen = menuPath === pathname;
   const moreActive = MORE.some((link) => link.href !== "/profile" && isActive(pathname, link.href));
-  const savedCount = ids.length;
 
   function closeMenu() {
     setMenuPath(null);
-  }
-
-  function openSaved() {
-    closeMenu();
-    requestShortlistOpen();
   }
 
   useEffect(() => {
@@ -112,14 +103,6 @@ export function SiteNav() {
           </button>
         </div>
         <nav aria-label="More pages" className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain bg-[#06110e] p-2">
-          <button
-            type="button"
-            onClick={openSaved}
-            className="inline-flex min-h-11 items-center justify-between rounded-xl px-3 text-left text-sm font-medium text-foreground hover:bg-card"
-          >
-            <span>Saved</span>
-            <span className="text-xs text-muted">{savedCount || "0"}</span>
-          </button>
           {MORE.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -164,14 +147,6 @@ export function SiteNav() {
                 </Link>
               );
             })}
-            <button
-              type="button"
-              onClick={openSaved}
-              className="inline-flex min-h-11 items-center rounded-full px-3 text-sm text-muted hover:text-foreground"
-              aria-label={savedCount ? `Saved events, ${savedCount}` : "Saved events"}
-            >
-              Saved{savedCount ? ` · ${savedCount}` : ""}
-            </button>
             <Link
               href="/profile"
               aria-current={isActive(pathname, "/profile") ? "page" : undefined}
@@ -183,14 +158,6 @@ export function SiteNav() {
             </Link>
           </nav>
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
-            <button
-              type="button"
-              onClick={openSaved}
-              className="inline-flex min-h-11 items-center rounded-xl border border-card-border bg-card px-3 text-sm font-semibold leading-5 text-foreground"
-              aria-label={savedCount ? `Saved games, ${savedCount}` : "Saved games"}
-            >
-              Saved{savedCount ? ` · ${savedCount}` : ""}
-            </button>
             <Link
               href="/profile"
               aria-current={isActive(pathname, "/profile") ? "page" : undefined}
