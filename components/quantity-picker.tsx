@@ -88,8 +88,9 @@ export function QuantityPicker({
         }}
         className={FIELD_TRIGGER}
       >
-        <span className="truncate text-sm font-semibold leading-5 text-foreground">
-          {value} {qtyNoun(value)}
+        <span className="truncate text-sm leading-5 text-foreground">
+          <span className="text-muted">Tickets</span>{" "}
+          <span className="font-semibold">{value}</span>
         </span>
         <span className="text-sm leading-5 text-muted" aria-hidden>
           {open ? "▴" : "▾"}

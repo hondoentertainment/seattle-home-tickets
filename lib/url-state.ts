@@ -108,6 +108,7 @@ const STORAGE_KEY = "seattle-home-tickets:shortlist";
 const QTY_STORAGE_KEY = "seattle-home-tickets:qty";
 
 export const SHORTLIST_CHANGE_EVENT = "sht:shortlist-change";
+export const SHORTLIST_STORAGE_EVENT = "sht:shortlist-storage";
 export const QTY_CHANGE_EVENT = "sht:qty-change";
 export const SHORTLIST_OPEN_EVENT = "sht:shortlist-open";
 export const SHORTLIST_FILTER_EVENT = "sht:shortlist-filter";
@@ -123,12 +124,17 @@ export function readStoredIds(): string[] {
   }
 }
 
-export function writeStoredIds(ids: string[]) {
+export function writeStoredIds(ids: string[], options?: { silent?: boolean }) {
   try {
     const next = JSON.stringify(ids);
     if (localStorage.getItem(STORAGE_KEY) === next) return;
     localStorage.setItem(STORAGE_KEY, next);
-    window.dispatchEvent(new CustomEvent<string[]>(SHORTLIST_CHANGE_EVENT, { detail: ids }));
+    window.dispatchEvent(
+      new CustomEvent<string[]>(
+        options?.silent ? SHORTLIST_STORAGE_EVENT : SHORTLIST_CHANGE_EVENT,
+        { detail: ids },
+      ),
+    );
   } catch {
     // private mode / quota
   }

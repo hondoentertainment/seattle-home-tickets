@@ -18,7 +18,7 @@ export function qtyNoun(qty: number): string {
 
 export function qtyEstimateLabel(qty: number): string {
   const n = clampQty(qty);
-  return `est. for ${n} ${qtyNoun(n)}`;
+  return `for ${n} ${qtyNoun(n)}`;
 }
 
 export const QTY_OPTIONS = Array.from({ length: MAX_QTY - MIN_QTY + 1 }, (_, i) => i + MIN_QTY);

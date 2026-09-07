@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { formatLastCheckedShort, refreshStamp } from "@/lib/refresh";
+import { AuthControls } from "@/components/auth-controls";
 import { useStoredShortlist } from "@/lib/shortlist";
 import { requestShortlistOpen } from "@/lib/url-state";
 
@@ -16,7 +16,7 @@ const PRIMARY = [
 ] as const;
 
 const MORE = [
-  { href: "/stats", label: "Ticket Stats" },
+  { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
   { href: "/venues", label: "Venues" },
   { href: "/contact", label: "Contact" },
@@ -119,6 +119,9 @@ export function SiteNav() {
             <span>Saved</span>
             <span className="text-xs text-muted">{savedCount || "0"}</span>
           </button>
+          <div className="px-1 py-2">
+            <AuthControls variant="menu" />
+          </div>
           {MORE.map((link) => {
             const active = isActive(pathname, link.href);
             return (
@@ -171,22 +174,34 @@ export function SiteNav() {
             >
               Saved{savedCount ? ` · ${savedCount}` : ""}
             </button>
+            <AuthControls variant="nav" />
           </nav>
-          <button
-            ref={menuButtonRef}
-            type="button"
-            className={`inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border px-3.5 text-sm font-semibold leading-5 lg:hidden ${
-              menuOpen || moreActive
-                ? "border-accent bg-accent/10 text-accent"
-                : "border-card-border bg-card text-accent"
-            }`}
-            aria-expanded={menuOpen}
-            aria-controls="site-menu"
-            aria-haspopup="dialog"
-            onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
-          >
-            Menu
-          </button>
+          <div className="flex shrink-0 items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={openSaved}
+              className="inline-flex min-h-11 items-center rounded-xl border border-card-border bg-card px-3 text-sm font-semibold leading-5 text-foreground"
+              aria-label={savedCount ? `Saved games, ${savedCount}` : "Saved games"}
+            >
+              Saved{savedCount ? ` · ${savedCount}` : ""}
+            </button>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              className={`inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border px-3.5 text-sm font-semibold leading-5 ${
+                menuOpen || moreActive
+                  ? "border-accent bg-accent/10 text-accent"
+                  : "border-card-border bg-card text-accent"
+              }`}
+              aria-label="More pages"
+              aria-expanded={menuOpen}
+              aria-controls="site-menu"
+              aria-haspopup="dialog"
+              onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
+            >
+              More
+            </button>
+          </div>
         </div>
 
         <nav aria-label="Primary" className="grid w-full grid-cols-4 gap-2 lg:hidden">
@@ -206,10 +221,6 @@ export function SiteNav() {
             );
           })}
         </nav>
-
-        <p className="text-[11px] leading-4 text-muted">
-          Catalog last checked {formatLastCheckedShort(refreshStamp.lastChecked)} · estimates not live
-        </p>
       </div>
 
       {typeof document !== "undefined" && menu ? createPortal(menu, document.body) : null}

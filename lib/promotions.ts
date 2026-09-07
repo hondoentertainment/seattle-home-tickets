@@ -38,7 +38,11 @@ export const promotionsCatalog = promotionsJson as PromotionsCatalog;
 export const promoTeams = [...new Set(promotionsCatalog.coverage.map((row) => row.team))];
 
 export function promoHref(promo: Promotion): string {
-  return `/?ids=${encodeURIComponent(promo.gameId)}`;
+  const params = new URLSearchParams();
+  params.set("teams", promo.team);
+  params.set("from", promo.date);
+  params.set("to", promo.date);
+  return `/?${params.toString()}`;
 }
 
 export const CATEGORY_LABELS: Record<PromoCategory, string> = {

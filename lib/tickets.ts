@@ -20,14 +20,23 @@ const TEAM_TICKET_HUBS: Record<string, string> = {
   "Seattle Torrent": "https://www.thepwhl.com/en/teams/seattle-torrent/tickets",
 };
 
-function searchQuery(game: Game): string {
-  const pretty = new Date(`${game.date}T12:00:00Z`).toLocaleDateString("en-US", {
+function prettyGameDate(game: Game): string {
+  return new Date(`${game.date}T12:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
   });
-  return `${game.team} vs ${game.opponent} ${pretty}`;
+}
+
+function searchQuery(game: Game): string {
+  return `${game.team} vs ${game.opponent} ${prettyGameDate(game)}`;
+}
+
+/** Public Marketplace search in Seattle. No API, inventory, or in-app checkout. */
+export function facebookMarketplaceSearchUrl(game: Game): string {
+  const query = `${game.team} vs ${game.opponent} tickets ${prettyGameDate(game)} Seattle`;
+  return `https://www.facebook.com/marketplace/seattle/search/?query=${encodeURIComponent(query)}`;
 }
 
 export function ticketLinks(game: Game, venue?: VenueProfile, qty = 2): TicketLink[] {
@@ -70,6 +79,11 @@ export function ticketLinks(game: Game, venue?: VenueProfile, qty = 2): TicketLi
       href: `https://www.vividseats.com/search?searchTerm=${q}&quantity=${qty}`,
       kind: "marketplace",
       qtyApplied: true,
+    },
+    {
+      label: "Facebook Marketplace",
+      href: facebookMarketplaceSearchUrl(game),
+      kind: "marketplace",
     },
   );
   return links;

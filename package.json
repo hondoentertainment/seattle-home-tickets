@@ -12,8 +12,12 @@
     "refresh-prices": "python3 scripts/refresh-prices.py"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@tanstack/react-table": "^9.2.4",
+    "@upstash/redis": "^1.35.3",
+    "@vercel/analytics": "^1.5.0",
     "next": "16.3.4",
+    "next-auth": "5.0.0-beta.32",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

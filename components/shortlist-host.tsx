@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { SavedSheet } from "@/components/saved-sheet";
 import { gamesForIds, useStoredShortlist } from "@/lib/shortlist";
+import { useSavedSync } from "@/lib/saved-sync";
 import { shortlistMarkdown } from "@/lib/share";
 import type { WeatherBlurb } from "@/lib/types";
 import {
@@ -13,9 +14,11 @@ import {
   shortlistShareUrl,
   writeStoredIds,
 } from "@/lib/url-state";
+import { toast } from "@/lib/feedback";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
 export function ShortlistHost() {
+  useSavedSync();
   const { ids, qty } = useStoredShortlist();
   const pathname = usePathname();
   const router = useRouter();
@@ -54,12 +57,14 @@ export function ShortlistHost() {
   async function copyShareLink() {
     await navigator.clipboard.writeText(shortlistShareUrl(ids, qty));
     setCopied("link");
+    toast("Link copied");
     window.setTimeout(() => setCopied(null), 2000);
   }
 
   async function copySummary() {
     await navigator.clipboard.writeText(shortlistMarkdown(games, weatherByDate, qty));
     setCopied("summary");
+    toast("Copied");
     window.setTimeout(() => setCopied(null), 2000);
   }
 
@@ -71,8 +76,14 @@ export function ShortlistHost() {
       qty={qty}
       copied={copied}
       onClose={close}
-      onRemove={(id) => writeStoredIds(ids.filter((item) => item !== id))}
-      onClear={() => writeStoredIds([])}
+      onRemove={(id) => {
+        writeStoredIds(ids.filter((item) => item !== id));
+        toast("Removed");
+      }}
+      onClear={() => {
+        writeStoredIds([]);
+        toast("Cleared Saved list");
+      }}
       onShare={copyShareLink}
       onCopy={copySummary}
       onShowCalendar={() => {

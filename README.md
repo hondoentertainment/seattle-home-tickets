@@ -1,8 +1,8 @@
 # Seattle Home Tickets
 
-A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates for **two seats**. Search, filter, sort, shortlist, and share the slate in the browser — no auth, no live ticket API.
+A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, shortlist
+- **Home (`/`)** — ticket quantity, filters, searchable/sortable grid, Saved list
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles (college and high-school tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
@@ -48,12 +48,12 @@ The header stats show:
 
 ## Ticket links
 
-Each game’s detail panel (click the team name, or **Details** on mobile) links out to check live prices:
+Each game’s detail panel (click **Tickets** on a card, or the team name on desktop) links out to check live prices:
 
 - Official / primary hubs (mlb.com/mariners, seahawks.com, nhl.com/kraken, soundersfc.com, reignfc.com, storm.wnba.com, gohuskies.com, goseattleu.com, SPU ticket page, O'Dea / Eastside Catholic athletics, Seattle Public Schools digital tickets, plus venue Ticketmaster where useful)
-- Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats
+- Marketplaces: Ticketmaster, StubHub, SeatGeek, TickPick, Vivid Seats, and a **Facebook Marketplace** Seattle search (`/marketplace/seattle/search/?query=`)
 
-Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. No affiliate parameters.
+Marketplace URLs are **search links** for team + opponent + date, not reserved inventory. Facebook Marketplace is peer listings — the user finishes any purchase on Facebook. There is no Marketplace purchase API on this site. No affiliate parameters.
 
 ## Weather
 
@@ -65,16 +65,50 @@ Outdoor venues (T-Mobile Park, Lumen Field, Husky Stadium, Husky Soccer Stadium,
 
 Venue profiles live in [`data/venues.json`](data/venues.json): address, neighborhood, transit (Link / bus), parking, rideshare, and Seattle traffic caveats. Surfaced in the same detail panel as tickets and weather.
 
-## Shortlist and sharing
+## Saved list and sharing
 
-Check **Interested** on any row. That builds a **Saved** list (count on the chip, Menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same shortlist. **Copy** writes markdown with date, matchup, venue, pair estimate, weather blurb, travel one-liner, and ticket links. If the URL gets too long, share falls back to ids-only.
+Tap **Save** on any row (the control reads **Saved** when it is on). That builds a **Saved** list (count on the header, More menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same slate without signing in. **Copy** writes markdown with date, matchup, venue, unofficial quantity estimate, weather blurb, travel one-liner, ticket search links, and a no-sales disclaimer. If the URL gets too long, share falls back to ids-only.
+
+Signed out, Saved stays in this browser. After **Sign in with Google**, the client unions local + server once per login session, writes the union to the account, then treats the server copy as source of truth. Toggles PUT `/api/saved`. If Redis/Neon secrets are missing, Google login can still work and Saved stays on-device.
+
+## Google sign-in (Auth.js)
+
+Auth.js (`next-auth` v5) with the Google provider. The public calendar is not behind a login. Only `/api/saved` requires a session.
+
+Copy [`.env.example`](.env.example) to `.env.local` and paste real values. Do not commit secrets.
+
+| Variable | Required for | Notes |
+| --- | --- | --- |
+| `AUTH_SECRET` | Real sign-in | `npx auth secret`. Build succeeds with a placeholder if unset |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google button | Aliases: `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` |
+| `AUTH_URL` | **Production only** | `https://seattle-home-tickets.vercel.app` on the Vercel Production environment. Optional locally (`http://localhost:3000`). **Do not set on Preview** — Auth.js uses `trustHost` and the request host |
+| `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Account Saved sync | Preferred store |
+| `DATABASE_URL` or `POSTGRES_URL` | Account Saved sync | Neon fallback; creates `saved_events` on first write |
+
+### Google Cloud Console
+
+Create an OAuth **Web application** client. Authorized JavaScript origins:
+
+- `http://localhost:3000`
+- `https://seattle-home-tickets.vercel.app`
+- any custom domain you add later (this repo does not buy or set DNS)
+
+Authorized redirect URIs:
+
+- `http://localhost:3000/api/auth/callback/google`
+- `https://seattle-home-tickets.vercel.app/api/auth/callback/google`
+- each Vercel Preview origin you need, `https://<deployment>.vercel.app/api/auth/callback/google` (Google does not allow `*.vercel.app` wildcards)
+
+OAuth consent screen: External, app name **Seattle Home Tickets**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
+
+Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` to **Production**. Add `AUTH_URL=https://seattle-home-tickets.vercel.app` to **Production only**. Preview sign-in is optional (add the same Google pair to Preview, leave `AUTH_URL` unset, and register that preview callback in Google Cloud). The calendar still deploys if these are missing.
 
 ## Filters
 
 Combine freely (also persisted in the URL):
 
-- Search with autocomplete; arrows highlight a suggestion, **Enter** or **Select** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query
-- Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Select** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
+- Search with autocomplete; arrows highlight a suggestion, **Enter** or **Search** applies it (or the typed query if nothing is highlighted). If the menu is closed, Enter opens it. Escape closes without changing filters. Team / sport / venue hits become filter chips; opponent and tag hits become a text query. Advanced filters stay behind **Filters**; active filters show as dismissible chips with **Clear all**
+- Sport, month, venue, and team **dropdowns**: type to narrow, arrows to move, **Enter** or **Add** applies the highlighted option immediately (same as click). Enter on a closed field opens the list. Escape closes without changing the selection
 - Ticket quantity is a styled 1–19 listbox (arrows + Enter; Enter opens when closed)
 - Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s / HS football → Men; NWSL/WNBA/NCAA women’s + volleyball / PWHL → Women; Exhibition / Touring → Open); arrows move between chips, Enter applies
 - Optional date range
@@ -107,7 +141,7 @@ What it **does not**:
 - Bump `games.json` `asOf` just because the clock moved
 - Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
-The site shows a short **last checked** stamp in the header and **catalog as of** + last checked in the footer. Prices remain unofficial mid-tier estimates.
+The site shows **last checked** (Pacific date and time) under the nav and **catalog as of** + last checked in the footer. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 
@@ -137,16 +171,21 @@ Standings live in [`data/standings.json`](data/standings.json) — the same seed
 
 - Next.js 16 App Router, TypeScript, Tailwind CSS v4
 - Client-side [TanStack Table](https://tanstack.com/table) v9 for column sort
-- Static JSON (no database, no auth)
+- Auth.js v5 (Google) + optional Upstash Redis or Neon for Saved
+- `@vercel/analytics` (privacy-friendly page views; no custom domain required)
+- Static published JSON for the catalog (no live score or ticket APIs)
 
 ## Deploy on Vercel
 
-This is a standard Next.js app. No `vercel.json` is required.
+This is a standard Next.js app. No `vercel.json` is required. Preview deploys are not gated on auth secrets.
 
 1. Push the repo to GitHub.
 2. In Vercel: **Add New Project** → import the repo.
 3. Framework preset: Next.js. Build command: `npm run build`. Output: default.
-4. Deploy. Subsequent pushes to `main` rebuild automatically if the project is git-linked.
+4. Add env vars from the table above when you are ready for Google sign-in / Saved sync.
+5. Deploy. Subsequent pushes to `main` rebuild automatically if the project is git-linked.
+
+**Custom domain (optional, not done in this repo):** in Vercel → Project → Settings → Domains, add the hostname you control, then create the DNS records Vercel shows (usually `A` / `CNAME`). Add that origin and `/api/auth/callback/google` in Google Cloud. Do not buy a domain from this codebase.
 
 Or with the Vercel CLI:
 

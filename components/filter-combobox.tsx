@@ -136,7 +136,7 @@ export function FilterCombobox<T extends string>({
             aria-activedescendant={showList && highlight >= 0 ? `${listId}-${highlight}` : undefined}
             aria-label={`Filter ${label}`}
             value={query}
-            placeholder={`Type, arrow, then Enter or Select`}
+            placeholder="Type to filter"
             onChange={(event) => {
               setQuery(event.target.value);
               setActive(0);
@@ -161,7 +161,7 @@ export function FilterCombobox<T extends string>({
             }}
             className={FIELD_ACTION}
           >
-            Select
+            Add
           </button>
         </div>
         {showList ? (

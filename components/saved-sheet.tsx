@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import { AuthControls } from "@/components/auth-controls";
 import { formatGameDateShort, formatUsd } from "@/lib/format";
+import { NO_TICKET_SALES_LINE, UNOFFICIAL_ESTIMATE_LINE } from "@/lib/legal";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import type { Game } from "@/lib/types";
 
@@ -64,7 +66,7 @@ export function SavedSheet({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[110]">
+    <div className="fixed inset-0 z-[110] overscroll-none">
       <button
         type="button"
         className="absolute inset-0 bg-[#020806]/80"
@@ -77,7 +79,7 @@ export function SavedSheet({
         aria-modal="true"
         aria-labelledby={titleId}
         style={{ backgroundColor: "#0c1c18" }}
-        className="absolute inset-x-0 bottom-0 z-10 isolate flex max-h-[min(88dvh,40rem)] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:max-h-none md:w-[min(28rem,100%)] md:rounded-none md:border-l"
+        className="absolute inset-x-0 bottom-0 z-10 isolate flex h-[min(92dvh,100svh)] max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-dvh md:max-h-dvh md:w-[min(28rem,100%)] md:rounded-none md:border-l"
       >
         <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border px-4 pt-[env(safe-area-inset-top,0px)]">
           <div>
@@ -85,9 +87,7 @@ export function SavedSheet({
               Saved{games.length ? ` · ${games.length}` : ""}
             </p>
             <p className="text-xs text-muted">
-              {games.length
-                ? `${formatUsd(total)} ${qtyEstimateLabel(qty)}`
-                : "Interested events stay on this device"}
+              {games.length ? `${formatUsd(total)} ${qtyEstimateLabel(qty)}` : "Tap Save on a game"}
             </p>
           </div>
           <button
@@ -100,44 +100,32 @@ export function SavedSheet({
           </button>
         </div>
 
+        <div className="shrink-0 empty:hidden border-b border-card-border px-4 py-3">
+          <AuthControls variant="sheet" />
+        </div>
+
         {games.length ? (
-          <div className="flex shrink-0 flex-wrap gap-2 border-b border-card-border px-4 py-3">
+          <div className="flex shrink-0 gap-2 border-b border-card-border px-4 py-3">
             <button
               type="button"
               onClick={onShare}
-              className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-background"
             >
               {copied === "link" ? "Copied" : "Share"}
-            </button>
-            <button
-              type="button"
-              onClick={onCopy}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              {copied === "summary" ? "Copied" : "Copy"}
-            </button>
-            <button
-              type="button"
-              onClick={onShowCalendar}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              On calendar
-            </button>
-            <button
-              type="button"
-              onClick={onClear}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              Clear
             </button>
           </div>
         ) : null}
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+        <div
+          className="sheet-scroll min-h-0 flex-1 px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]"
+          role="region"
+          aria-label="Saved games"
+        >
           {games.length === 0 ? (
             <p className="text-sm leading-6 text-muted">
-              Check <span className="text-foreground">Interested</span> on a home game to save it
-              here. The list persists in this browser and can be shared with prices from Home.
+              Tap <span className="text-foreground">Save</span> on a game to add it here.
+              Sign in to keep the list on your account. Share links still work without an
+              account.
             </p>
           ) : (
             <ul className="space-y-2">
@@ -178,6 +166,36 @@ export function SavedSheet({
               ))}
             </ul>
           )}
+          {games.length ? (
+            <div className="mt-4 space-y-3">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={onCopy}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  {copied === "summary" ? "Copied" : "Copy list"}
+                </button>
+                <button
+                  type="button"
+                  onClick={onShowCalendar}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  Show on Home
+                </button>
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  Clear all
+                </button>
+              </div>
+              <p className="text-xs leading-5 text-muted">
+                {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
+              </p>
+            </div>
+          ) : null}
         </div>
       </aside>
     </div>

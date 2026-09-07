@@ -9,9 +9,11 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FilterCombobox } from "@/components/filter-combobox";
+import { FilterSheet } from "@/components/filter-sheet";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
 import { QuantityPicker } from "@/components/quantity-picker";
+import { SaveToggle } from "@/components/save-toggle";
 import { SearchBox } from "@/components/search-box";
 import {
   GENDER_LABELS,
@@ -23,13 +25,13 @@ import {
   featuredHolidayGames,
   monthLabel,
 } from "@/lib/catalog";
+import { toast } from "@/lib/feedback";
 import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
-import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
-import { EMPTY_STATE, requestShortlistOpen, shareUrl } from "@/lib/url-state";
+import { EMPTY_STATE, type ExplorerState } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
@@ -45,18 +47,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   const holidayOnly = variant === "holidays";
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
-  const [copied, setCopied] = useState<string | null>(null);
-  const [filtersOpen, setFiltersOpen] = useState(
-    () =>
-      Boolean(
-        state.sports.length ||
-          state.teams.length ||
-          state.venues.length ||
-          state.months.length ||
-          state.from ||
-          state.to,
-      ),
-  );
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -80,21 +71,18 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   );
 
   const holidayGames = useMemo(() => featuredHolidayGames(6), []);
-  const holidayCount = catalog.games.filter((game) => game.specialTags.length > 0).length;
 
   const columns = useMemo(
     () =>
       helper.columns([
         helper.display({
           id: "select",
-          header: " ",
+          header: "Save",
           cell: (info) => (
-            <input
-              type="checkbox"
-              checked={selected.has(info.row.original.id)}
-              onChange={() => toggleId(info.row.original.id)}
-              aria-label={`Interested in ${info.row.original.team} vs ${info.row.original.opponent}`}
-              className="accent-accent"
+            <SaveToggle
+              saved={selected.has(info.row.original.id)}
+              onToggle={() => toggleId(info.row.original.id)}
+              matchup={`${info.row.original.team} vs ${info.row.original.opponent}`}
             />
           ),
         }),
@@ -109,28 +97,18 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           ),
         }),
         helper.accessor("team", {
-          header: "Team",
-          cell: (info) => <span className="font-medium">{info.getValue()}</span>,
-        }),
-        helper.accessor("sport", { header: "Sport" }),
-        helper.accessor("opponent", { header: "Opponent" }),
-        helper.accessor("venue", { header: "Venue" }),
-        helper.accessor("timePt", {
-          header: "Time",
+          header: "Game",
           cell: (info) => (
-            <div>
-              <div>{info.getValue()}</div>
-              <div className="text-xs text-muted">{info.row.original.tv}</div>
-            </div>
+            <span className="font-medium text-foreground">
+              {info.row.original.team} vs {info.row.original.opponent}
+            </span>
           ),
         }),
-        helper.accessor("estPriceEachUsd", {
-          header: "Est. each",
-          cell: (info) => <span className="tabular-nums">{formatUsd(info.getValue())}</span>,
-        }),
+        helper.accessor("venue", { header: "Venue" }),
+        helper.accessor("timePt", { header: "Time" }),
         helper.accessor((row) => estimateForQty(row.estPriceEachUsd, state.qty), {
           id: "estGroup",
-          header: qtyEstimateLabel(state.qty),
+          header: "Price",
           cell: (info) => (
             <span className="font-semibold tabular-nums text-accent">
               {formatUsd(info.getValue())}
@@ -153,11 +131,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     (tableState) => ({ sorting: tableState.sorting }),
   );
 
-  const groupTotal = filtered.reduce(
-    (sum, game) => sum + estimateForQty(game.estPriceEachUsd, state.qty),
-    0,
-  );
-  const selectedGames = catalog.games.filter((game) => selected.has(game.id));
   const openGame = catalog.games.find((game) => game.id === openId) ?? null;
   const currentSort = table.state.sorting[0] ?? { id: "date", desc: false };
   const extraFilterCount =
@@ -165,15 +138,17 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.teams.length +
     state.venues.length +
     state.months.length +
-    (state.genders.includes("open") ? 1 : 0) +
+    state.genders.length +
     (state.from ? 1 : 0) +
     (state.to ? 1 : 0);
 
   function toggleId(id: string) {
+    const removing = state.ids.includes(id);
     apply((prev) => ({
       ...prev,
       ids: prev.ids.includes(id) ? prev.ids.filter((item) => item !== id) : [...prev.ids, id],
     }));
+    toast(removing ? "Removed" : "Saved");
   }
 
   function toggleList(key: "sports" | "teams" | "venues" | "months", value: string) {
@@ -187,20 +162,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   function clearFilters() {
     setDraftQ("");
     apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids, qty: prev.qty }));
-  }
-
-  async function copyShareLink() {
-    const url = shareUrl({ ...state, selectedOnly: true });
-    await navigator.clipboard.writeText(url);
-    setCopied("link");
-    setTimeout(() => setCopied(null), 2000);
-  }
-
-  async function copySummary() {
-    const text = shortlistMarkdown(selectedGames, weatherByDate, state.qty);
-    await navigator.clipboard.writeText(text);
-    setCopied("summary");
-    setTimeout(() => setCopied(null), 2000);
   }
 
   const filterPanel = (
@@ -217,140 +178,135 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                 q: "",
                 [kind]: prev[kind].includes(value) ? prev[kind] : [...prev[kind], value],
               }));
-              setFiltersOpen(true);
             }}
           />
           <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:items-center">
-          <ToggleChip
-            active={state.selectedOnly || selected.size > 0}
-            onClick={requestShortlistOpen}
-          >
-            {selected.size ? `Saved · ${selected.size}` : "Saved"}
-          </ToggleChip>
-          {(["men", "women"] as const).map((value) => (
-            <ToggleChip
-              key={value}
-              active={state.genders.includes(value)}
-              onClick={() => toggleGender(value)}
-            >
-              {GENDER_LABELS[value]}
-            </ToggleChip>
-          ))}
+        <div className="flex items-center gap-2">
           <button
             type="button"
             aria-expanded={filtersOpen}
-            onClick={() => setFiltersOpen((open) => !open)}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowDown" && !filtersOpen) {
-                event.preventDefault();
-                setFiltersOpen(true);
-              }
-              if (event.key === "Escape" && filtersOpen) {
-                event.preventDefault();
-                setFiltersOpen(false);
-              }
-            }}
-            className={`${FIELD_CHIP} w-full sm:w-auto ${
-              filtersOpen || extraFilterCount
+            onClick={() => setFiltersOpen(true)}
+            className={`${FIELD_CHIP} ${
+              extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
                 : "border-card-border bg-card text-muted"
             }`}
           >
-            <span className="truncate">
-              Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
-            </span>
+            <span className="truncate">Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""}</span>
           </button>
-          {variant === "holidays" ? (
-            <span className={`${FIELD_CHIP} col-span-2 w-full border-gold/30 bg-gold/10 text-gold sm:col-auto sm:w-auto`}>
-              Holiday games
-            </span>
-          ) : null}
-          <span className="hidden text-xs leading-5 text-muted sm:ml-auto sm:inline">
-            {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
+          <span className="ml-auto text-xs leading-5 text-muted">
+            {filtered.length} {filtered.length === 1 ? "game" : "games"}
           </span>
         </div>
-
-        {filtersOpen ? (
-          <div className="space-y-4 border-t border-card-border/70 pt-3">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
-                <input
-                  type="date"
-                  value={state.from}
-                  onChange={(event) => patch({ from: event.target.value })}
-                  className={FIELD_INPUT}
-                />
-              </label>
-              <label className="block">
-                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
-                <input
-                  type="date"
-                  value={state.to}
-                  onChange={(event) => patch({ to: event.target.value })}
-                  className={FIELD_INPUT}
-                />
-              </label>
-            </div>
-            <FilterCombobox
-              label="Sport"
-              options={allSports}
-              selected={state.sports}
-              onToggle={(value) => toggleList("sports", value)}
-            />
-            <FilterCombobox
-              label="Month"
-              options={allMonths}
-              selected={state.months}
-              onToggle={(value) => toggleList("months", value)}
-              render={(value) => monthLabel(value)}
-            />
-            <ChipRow
-              label="Category"
-              options={["men", "women", "open"] as Gender[]}
-              selected={state.genders}
-              onToggle={(value) => toggleGender(value)}
-              render={(value) => GENDER_LABELS[value]}
-            />
-            <FilterCombobox
-              label="Venue"
-              options={allVenues}
-              selected={state.venues}
-              onToggle={(value) => toggleList("venues", value)}
-            />
-            <FilterCombobox
-              label="Teams"
-              options={allTeams}
-              selected={state.teams}
-              onToggle={(value) => toggleList("teams", value)}
-            />
-            <button
-              type="button"
-              onClick={clearFilters}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
-            >
-              Clear filters
-            </button>
-          </div>
-        ) : null}
+        <ActiveFilterChips
+          state={state}
+          draftQ={draftQ}
+          onClearQuery={() => {
+            setDraftQ("");
+            apply((prev) => ({ ...prev, q: "" }));
+          }}
+          onClearList={(key, value) => toggleList(key, value)}
+          onClearGender={(value) => toggleGender(value)}
+          onClearSelectedOnly={() => patch({ selectedOnly: false })}
+          onClearFrom={() => patch({ from: "" })}
+          onClearTo={() => patch({ to: "" })}
+          onClearAll={clearFilters}
+        />
       </div>
   );
 
   return (
-    <section className="space-y-4 pb-24">
+    <section className="space-y-4 pb-8">
       {variant === "holidays" ? (
         <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
       ) : null}
       {filterPanel}
-      <p className="text-xs text-muted">
-        {filtered.length} events · {formatUsd(groupTotal)} {qtyEstimateLabel(state.qty)}
-        {filtered.length
-          ? ` · avg ${formatUsd(Math.round(groupTotal / filtered.length))}`
-          : ""}
-      </p>
+      <FilterSheet open={filtersOpen} onClose={() => setFiltersOpen(false)}>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
+            <input
+              type="date"
+              value={state.from}
+              onChange={(event) => patch({ from: event.target.value })}
+              className={FIELD_INPUT}
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
+            <input
+              type="date"
+              value={state.to}
+              onChange={(event) => patch({ to: event.target.value })}
+              className={FIELD_INPUT}
+            />
+          </label>
+        </div>
+        <FilterCombobox
+          label="Sport"
+          options={allSports}
+          selected={state.sports}
+          onToggle={(value) => toggleList("sports", value)}
+        />
+        <FilterCombobox
+          label="Month"
+          options={allMonths}
+          selected={state.months}
+          onToggle={(value) => toggleList("months", value)}
+          render={(value) => monthLabel(value)}
+        />
+        <ChipRow
+          label="Category"
+          options={["men", "women", "open"] as Gender[]}
+          selected={state.genders}
+          onToggle={(value) => toggleGender(value)}
+          render={(value) => GENDER_LABELS[value]}
+        />
+        <FilterCombobox
+          label="Venue"
+          options={allVenues}
+          selected={state.venues}
+          onToggle={(value) => toggleList("venues", value)}
+        />
+        <FilterCombobox
+          label="Teams"
+          options={allTeams}
+          selected={state.teams}
+          onToggle={(value) => toggleList("teams", value)}
+        />
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">Sort</p>
+          <div className={FIELD_ROW}>
+            <select
+              value={currentSort.id}
+              onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
+              className={FIELD_INPUT}
+            >
+              <option value="date">Date</option>
+              <option value="team">Team</option>
+              <option value="venue">Venue</option>
+              <option value="timePt">Time</option>
+              <option value="estGroup">Price</option>
+            </select>
+            <button
+              type="button"
+              onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
+              className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
+            >
+              {currentSort.desc ? "Desc" : "Asc"}
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={clearFilters}
+          className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
+        >
+          Clear filters
+        </button>
+      </FilterSheet>
 
       <div className="hidden overflow-hidden rounded-2xl border border-card-border bg-card/70 md:block">
         <div className="overflow-x-auto">
@@ -381,16 +337,17 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-t border-card-border/70 align-top hover:bg-accent/5"
+                  className="cursor-pointer border-t border-card-border/70 align-top hover:bg-accent/5"
+                  onClick={() => setOpenId(row.original.id)}
                 >
                   {row.getAllCells().map((cell) => (
-                    <td key={cell.id} className="px-3 py-3 text-muted">
+                    <td
+                      key={cell.id}
+                      className="px-3 py-3 text-muted"
+                      onClick={cell.column.id === "select" ? (event) => event.stopPropagation() : undefined}
+                    >
                       {cell.column.id === "team" ? (
-                        <button
-                          type="button"
-                          className="text-left text-foreground hover:text-accent"
-                          onClick={() => setOpenId(row.original.id)}
-                        >
+                        <div>
                           <table.FlexRender cell={cell} />
                           {row.original.specialTags.length ? (
                             <div className="mt-1 flex flex-wrap gap-1">
@@ -401,7 +358,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                               ))}
                             </div>
                           ) : null}
-                        </button>
+                        </div>
                       ) : (
                         <table.FlexRender cell={cell} />
                       )}
@@ -417,136 +374,51 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         ) : null}
       </div>
 
-      <div className="space-y-3 md:hidden">
-        <div className={`${FIELD_ROW} text-sm`}>
-          <select
-            value={currentSort.id}
-            onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
-            className={FIELD_INPUT}
-          >
-            <option value="date">Date</option>
-            <option value="team">Team</option>
-            <option value="sport">Sport</option>
-            <option value="opponent">Opponent</option>
-            <option value="venue">Venue</option>
-            <option value="timePt">Time</option>
-            <option value="estPriceEachUsd">Est. each</option>
-            <option value="estGroup">{qtyEstimateLabel(state.qty)}</option>
-          </select>
-          <button
-            type="button"
-            onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
-            className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
-          >
-            {currentSort.desc ? "Desc" : "Asc"}
-          </button>
-        </div>
+      <div className="space-y-4 md:hidden">
         {filtered.length === 0 ? (
           <EmptyGames onClear={clearFilters} />
         ) : null}
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
           return (
-            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-3.5">
-              <div className="flex items-center justify-between gap-3">
-                <label className="flex min-h-11 items-center gap-2 text-xs text-muted">
-                  <input
-                    type="checkbox"
-                    checked={selected.has(game.id)}
-                    onChange={() => toggleId(game.id)}
-                    className="size-4 accent-accent"
-                  />
-                  Interested
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setOpenId(game.id)}
-                  className="inline-flex min-h-11 items-center text-sm font-semibold text-accent"
-                >
-                  Details
-                </button>
-              </div>
-              {game.specialTags.length ? (
-                <div className="mt-1 flex flex-wrap gap-1.5">
-                  {game.specialTags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md bg-gold/15 px-2 py-1 text-[10px] font-medium text-gold"
-                    >
-                      {formatSpecialTag(tag)}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-              <h2 className="mt-2 text-[15px] font-bold text-foreground">
-                {game.team} vs {game.opponent}
-              </h2>
-              <p className="mt-1 text-xs text-muted">
-                {formatGameDateShort(game.date)} · {game.timePt} · {game.venue}
-              </p>
-              <p className="mt-2 flex flex-wrap items-baseline gap-2 text-sm">
-                <span className="text-[13px] text-muted">
-                  {formatUsd(game.estPriceEachUsd)} each
-                </span>
-                <span className="text-base font-bold text-accent">
+            <article key={game.id} className="flex gap-3 rounded-2xl border border-card-border bg-card p-4">
+              <button
+                type="button"
+                onClick={() => setOpenId(game.id)}
+                className="min-w-0 flex-1 text-left"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+                  {formatGameDateShort(game.date)} · {game.timePt}
+                </p>
+                <h2 className="mt-1 text-[17px] font-bold leading-6 text-foreground">
+                  {game.team} vs {game.opponent}
+                </h2>
+                <p className="mt-1 text-sm text-muted">{game.venue}</p>
+                <p className="mt-3 text-xl font-bold tabular-nums text-accent">
                   {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
+                  <span className="ml-2 text-xs font-medium text-muted">{qtyEstimateLabel(state.qty)}</span>
+                </p>
+                <span className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
+                  Tickets
                 </span>
-                <span className="text-xs text-muted">{qtyEstimateLabel(state.qty)}</span>
-              </p>
+              </button>
+              <SaveToggle
+                saved={selected.has(game.id)}
+                onToggle={() => toggleId(game.id)}
+                matchup={`${game.team} vs ${game.opponent}`}
+              />
             </article>
           );
         })}
       </div>
-
-      {selectedGames.length ? (
-        <div className="page-gutter fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] backdrop-blur">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={requestShortlistOpen}
-              className="text-left text-sm text-foreground"
-            >
-              {selectedGames.length} saved
-            </button>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={copyShareLink}
-                className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
-              >
-                {copied === "link" ? "Copied" : "Share"}
-              </button>
-              <button
-                type="button"
-                onClick={copySummary}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                {copied === "summary" ? "Copied" : "Copy"}
-              </button>
-              <button
-                type="button"
-                onClick={requestShortlistOpen}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                List
-              </button>
-              <button
-                type="button"
-                onClick={() => patch({ ids: [], selectedOnly: false })}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
 
       {openGame ? (
         <GameDetail
           game={openGame}
           weather={weatherByDate[openGame.date]}
           qty={state.qty}
+          saved={selected.has(openGame.id)}
+          onToggleSave={() => toggleId(openGame.id)}
           onClose={() => setOpenId(null)}
         />
       ) : null}
@@ -642,25 +514,71 @@ function ChipRow<T extends string>({
   );
 }
 
-function ToggleChip({
-  active,
-  onClick,
-  children,
+function ActiveFilterChips({
+  state,
+  draftQ,
+  onClearQuery,
+  onClearList,
+  onClearGender,
+  onClearSelectedOnly,
+  onClearFrom,
+  onClearTo,
+  onClearAll,
 }: {
-  active: boolean;
-  onClick: () => void;
-  children: string;
+  state: ExplorerState;
+  draftQ: string;
+  onClearQuery: () => void;
+  onClearList: (key: "sports" | "teams" | "venues" | "months", value: string) => void;
+  onClearGender: (value: Gender) => void;
+  onClearSelectedOnly: () => void;
+  onClearFrom: () => void;
+  onClearTo: () => void;
+  onClearAll: () => void;
 }) {
+  const query = draftQ || state.q;
+  const chips: Array<{ key: string; label: string; onClear: () => void }> = [];
+  if (query) chips.push({ key: "q", label: `“${query}”`, onClear: onClearQuery });
+  if (state.selectedOnly) chips.push({ key: "saved", label: "Saved only", onClear: onClearSelectedOnly });
+  if (state.from) chips.push({ key: "from", label: `From ${formatGameDateShort(state.from)}`, onClear: onClearFrom });
+  if (state.to) chips.push({ key: "to", label: `To ${formatGameDateShort(state.to)}`, onClear: onClearTo });
+  for (const value of state.genders) {
+    chips.push({ key: `g-${value}`, label: GENDER_LABELS[value], onClear: () => onClearGender(value) });
+  }
+  for (const value of state.sports) {
+    chips.push({ key: `s-${value}`, label: value, onClear: () => onClearList("sports", value) });
+  }
+  for (const value of state.months) {
+    chips.push({ key: `m-${value}`, label: monthLabel(value), onClear: () => onClearList("months", value) });
+  }
+  for (const value of state.venues) {
+    chips.push({ key: `v-${value}`, label: value, onClear: () => onClearList("venues", value) });
+  }
+  for (const value of state.teams) {
+    chips.push({ key: `t-${value}`, label: value, onClear: () => onClearList("teams", value) });
+  }
+  if (!chips.length) return null;
+
   return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={`${FIELD_CHIP} w-full sm:w-auto ${
-        active ? "border-gold bg-gold/15 text-gold" : "border-card-border bg-card text-muted"
-      }`}
-    >
-      <span className="truncate">{children}</span>
-    </button>
+    <div className="flex flex-wrap items-center gap-2" aria-label="Active filters">
+      {chips.map((chip) => (
+        <button
+          key={chip.key}
+          type="button"
+          onClick={chip.onClear}
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 text-xs font-medium text-accent"
+        >
+          <span>{chip.label}</span>
+          <span aria-hidden>×</span>
+          <span className="sr-only">Remove {chip.label}</span>
+        </button>
+      ))}
+      <button
+        type="button"
+        onClick={onClearAll}
+        className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-muted hover:text-foreground"
+      >
+        Clear all
+      </button>
+    </div>
   );
 }

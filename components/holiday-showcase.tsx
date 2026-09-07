@@ -14,7 +14,7 @@ export function HolidayShowcase({
   if (!games.length) return null;
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-semibold text-gold">Holiday / special</h2>
+      <h2 className="text-sm font-semibold text-foreground">Coming up</h2>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {games.map((game) => (
           <button
@@ -23,17 +23,18 @@ export function HolidayShowcase({
             onClick={() => onOpen(game)}
             className="rounded-2xl border border-gold/25 bg-gold/8 p-4 text-left transition hover:border-gold/50"
           >
-            <p className="text-xs font-medium text-gold">
-              {game.specialTags.map(formatSpecialTag).join(" · ")}
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+              {formatGameDate(game.date)} · {game.timePt}
             </p>
             <p className="mt-1 font-semibold text-foreground">
               {game.team} vs {game.opponent}
             </p>
-            <p className="mt-1 text-sm text-muted">
-              {formatGameDate(game.date)} · {game.timePt} · {game.venue}
-            </p>
-            <p className="mt-2 text-sm text-accent">
+            <p className="mt-1 text-sm text-muted">{game.venue}</p>
+            <p className="mt-2 text-sm font-semibold text-accent">
               {formatUsd(estimateForQty(game.estPriceEachUsd, qty))} {qtyEstimateLabel(qty)}
+            </p>
+            <p className="mt-2 text-xs font-medium text-gold">
+              {game.specialTags.map(formatSpecialTag).join(" · ")}
             </p>
           </button>
         ))}

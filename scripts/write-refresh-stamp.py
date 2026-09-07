@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Write data/refresh.json after a catalog validation run."""
+"""Write data/refresh.json after a catalog validation run.
+
+lastChecked is the real America/Los_Angeles clock at stamp time.
+catalogAsOf is copied from data/games.json — never invented.
+This script does not scrape tickets, standings, or promotions.
+"""
 
 from __future__ import annotations
 
