@@ -87,22 +87,17 @@ export function SiteNav() {
   }, [menuOpen]);
 
   const menu = menuOpen ? (
-    <div className="fixed inset-0 z-50 lg:hidden">
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/70"
-        aria-label="Close menu"
-        onClick={closeMenu}
-      />
+    <div className="fixed inset-0 z-[100] lg:hidden">
       <div
         id="site-menu"
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={menuTitleId}
-        className="absolute inset-y-0 right-0 isolate flex h-full w-[min(20rem,calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)))] max-w-[88vw] flex-col border-l border-card-border bg-background pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] shadow-2xl"
+        style={{ backgroundColor: "#06110e" }}
+        className="absolute inset-0 z-10 flex h-dvh max-h-dvh w-full flex-col bg-[#06110e] pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)]"
       >
-        <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border bg-background px-4">
+        <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border bg-[#06110e] px-4">
           <p id={menuTitleId} className="text-sm font-semibold text-foreground">
             More
           </p>
@@ -115,7 +110,7 @@ export function SiteNav() {
             Close
           </button>
         </div>
-        <nav aria-label="More pages" className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain bg-background p-2">
+        <nav aria-label="More pages" className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain bg-[#06110e] p-2">
           <button
             type="button"
             onClick={openSaved}

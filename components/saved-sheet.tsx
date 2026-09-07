@@ -64,10 +64,10 @@ export function SavedSheet({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[60]">
+    <div className="fixed inset-0 z-[110]">
       <button
         type="button"
-        className="absolute inset-0 bg-black/70"
+        className="absolute inset-0 bg-[#020806]/80"
         aria-label="Close saved list"
         onClick={onClose}
       />
@@ -76,7 +76,8 @@ export function SavedSheet({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="absolute inset-x-0 bottom-0 isolate flex max-h-[min(88dvh,40rem)] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-card shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:max-h-none md:w-[min(28rem,100%)] md:rounded-none md:border-l"
+        style={{ backgroundColor: "#0c1c18" }}
+        className="absolute inset-x-0 bottom-0 z-10 isolate flex max-h-[min(88dvh,40rem)] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-full md:max-h-none md:w-[min(28rem,100%)] md:rounded-none md:border-l"
       >
         <div className="flex min-h-14 shrink-0 items-center justify-between gap-3 border-b border-card-border px-4 pt-[env(safe-area-inset-top,0px)]">
           <div>
