@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AuthSessionProvider } from "@/components/auth-session-provider";
 import { ShortlistHost } from "@/components/shortlist-host";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
+import { isGoogleAuthConfigured } from "@/lib/auth-env";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,16 +38,21 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const googleEnabled = isGoogleAuthConfigured();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <SiteNav />
-        <div className="flex flex-1 flex-col">{children}</div>
-        <SiteFooter />
-        <ShortlistHost />
+        <AuthSessionProvider googleEnabled={googleEnabled}>
+          <SiteNav />
+          <div className="flex flex-1 flex-col">{children}</div>
+          <SiteFooter />
+          <ShortlistHost />
+          <Analytics />
+        </AuthSessionProvider>
       </body>
     </html>
   );

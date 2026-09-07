@@ -15,8 +15,9 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         A planning board for published Seattle-area <span className="text-foreground">home</span>{" "}
-        sporting events. Scan the slate, shortlist nights, and jump to official or
-        marketplace pages. It is not a box office and does not sell tickets.
+        sporting events. Scan the slate, save nights, and jump to official or
+        marketplace pages. It is unofficial: not a box office, not affiliated with
+        the clubs or schools, and it does not sell tickets.
       </>
     ),
   },
@@ -26,9 +27,10 @@ const faqs: { q: string; a: ReactNode }[] = [
       <>
         No. Each row is an unofficial mid-tier estimate per seat (not cheapest upper
         deck, not club). Group totals are{" "}
-        <span className="text-foreground">est. each × quantity</span>. They will be
-        wrong the moment inventory moves. Always confirm on the official club or
-        school site. {catalog.priceDisclaimer}
+        <span className="text-foreground">est. each × quantity</span>. They are not
+        quotes, face values, or reserved inventory, and they will be wrong the
+        moment listings move. Always confirm on the official club or school site
+        before you buy. {catalog.priceDisclaimer}
       </>
     ),
   },
@@ -85,10 +87,12 @@ const faqs: { q: string; a: ReactNode }[] = [
       <>
         Check <span className="text-foreground">Interested</span> on a row to add it to
         Saved. Open the list from the <span className="text-foreground">Saved</span> chip,
-        the Menu entry, or the desktop nav. The count updates as you add or remove
-        nights. Selection is stored in localStorage and <code className="text-foreground">ids=</code>{" "}
-        in the URL so you can share the same slate with prices. Copy writes markdown with
-        date, matchup, venue, estimate, weather, travel, and ticket links.
+        the Menu entry, or the desktop nav. Signed out, the list stays in this
+        browser&apos;s localStorage. Sign in with Google to merge that list onto your
+        account (union on first login this session, then the server copy wins). Share
+        URLs still use <code className="text-foreground">ids=</code> so a friend can
+        open the same slate without an account. Copied markdown includes unofficial
+        estimates, weather, travel, and ticket search links — not a checkout.
       </>
     ),
   },
@@ -158,8 +162,12 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         A GitHub Action re-validates the published seed every day at 7:00 AM Pacific
-        and stamps “last checked” under the nav and in the footer. It does not scrape
-        live prices, invent unpublished dates, or pull standings.
+        and writes a real last-checked timestamp under the nav and in the footer. It
+        does not scrape live prices, invent unpublished dates, or pull standings.
+        Catalog “as of” comes from the seed file, not from the clock. If the seed and{" "}
+        <code className="text-foreground">data/games.json</code> differ, the stamp
+        says seed review pending and the job opens a PR instead of silently changing
+        the slate.
       </>
     ),
   },
@@ -168,7 +176,9 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         No. Tiles are original monograms, not official or trademarked club marks.
-        We do not ship team logo files.
+        We do not ship team logo files. Club, league, venue, and school names remain
+        trademarks of their owners. This site is unofficial and is not endorsed by
+        those organizations.
       </>
     ),
   },
@@ -176,12 +186,25 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "Do you have affiliates or sell tickets?",
     a: (
       <>
-        No affiliate parameters. Marketplace URLs are search links for team +
-        opponent + date, not reserved inventory. For a real purchase or refund, use{" "}
+        No affiliate parameters and no ticket sales. Marketplace URLs are search
+        links for team + opponent + date, not reserved inventory. For a real
+        purchase or refund, use{" "}
         <Link href="/contact" className="text-accent hover:underline">
           Contact
         </Link>{" "}
         to reach the official ticket office.
+      </>
+    ),
+  },
+  {
+    q: "Can I sign in with Google?",
+    a: (
+      <>
+        Yes, when the operator has set Google OAuth secrets. Sign-in is only for
+        syncing Saved nights to your account. The calendar, estimates, and share
+        links stay public. If secrets are missing, the Sign in control explains that
+        and the site still builds. Saved stays on this device until a Redis or Neon
+        store is configured.
       </>
     ),
   },

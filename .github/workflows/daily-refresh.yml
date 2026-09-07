@@ -1,5 +1,11 @@
 name: Daily catalog refresh
 
+# Honesty rules:
+# - lastChecked is the real Pacific timestamp from scripts/write-refresh-stamp.py
+# - catalogAsOf is copied from data/games.json (published seed), never invented
+# - This job does not scrape live ticket APIs, standings, or promo calendars
+# - Unpublished conference / HS / touring dates stay omitted
+
 on:
   schedule:
     # GitHub cron is UTC-only. 14:00 = 7am PDT; 15:00 = 7am PST.
@@ -81,6 +87,8 @@ jobs:
           fi
 
       - name: Stamp last-checked
+        # Writes data/refresh.json from the actual America/Los_Angeles clock
+        # plus catalog.asOf. Does not bump game dates or invent W–L / prices.
         run: python3 scripts/write-refresh-stamp.py
 
       - name: Install

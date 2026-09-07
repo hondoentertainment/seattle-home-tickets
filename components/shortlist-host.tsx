@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { SavedSheet } from "@/components/saved-sheet";
 import { gamesForIds, useStoredShortlist } from "@/lib/shortlist";
+import { useSavedSync } from "@/lib/saved-sync";
 import { shortlistMarkdown } from "@/lib/share";
 import type { WeatherBlurb } from "@/lib/types";
 import {
@@ -16,6 +17,7 @@ import {
 import { getForecast, weatherForDate } from "@/lib/weather";
 
 export function ShortlistHost() {
+  useSavedSync();
   const { ids, qty } = useStoredShortlist();
   const pathname = usePathname();
   const router = useRouter();

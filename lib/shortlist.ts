@@ -7,6 +7,7 @@ import type { Game } from "@/lib/types";
 import {
   QTY_CHANGE_EVENT,
   SHORTLIST_CHANGE_EVENT,
+  SHORTLIST_STORAGE_EVENT,
   parseExplorerState,
   readStoredIds,
   readStoredQty,
@@ -50,7 +51,11 @@ function subscribeIds(onStoreChange: () => void) {
     onStoreChange();
   }
   window.addEventListener(SHORTLIST_CHANGE_EVENT, onChange);
-  return () => window.removeEventListener(SHORTLIST_CHANGE_EVENT, onChange);
+  window.addEventListener(SHORTLIST_STORAGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener(SHORTLIST_CHANGE_EVENT, onChange);
+    window.removeEventListener(SHORTLIST_STORAGE_EVENT, onChange);
+  };
 }
 
 function getIdsSnapshot() {

@@ -506,7 +506,10 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               onClick={requestShortlistOpen}
               className="text-left text-sm text-foreground"
             >
-              {selectedGames.length} saved
+              <span className="block">{selectedGames.length} saved</span>
+              <span className="block text-[11px] font-normal text-muted">
+                Unofficial estimates · not a box office
+              </span>
             </button>
             <div className="flex flex-wrap gap-2">
               <button

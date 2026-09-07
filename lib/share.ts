@@ -1,6 +1,7 @@
 import { ticketLinks } from "@/lib/tickets";
 import { venueFor } from "@/lib/catalog";
 import { formatGameDate, formatUsd } from "@/lib/format";
+import { SHARE_DISCLAIMER } from "@/lib/legal";
 import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel, qtyNoun } from "@/lib/quantity";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
@@ -41,7 +42,7 @@ export function shortlistMarkdown(
   const header = [
     "# Seattle home tickets shortlist",
     "",
-    `Planning for ${qty} ${qtyNoun(qty)}. Mid-tier estimates, not quotes.`,
+    `Planning for ${qty} ${qtyNoun(qty)}. ${SHARE_DISCLAIMER}`,
     `Shortlist total ${qtyEstimateLabel(qty)}: ${formatUsd(total)}`,
   ].join("\n");
   return [header, "", ...games.map((game) => gameSummary(game, weatherByDate[game.date], qty)), ""]

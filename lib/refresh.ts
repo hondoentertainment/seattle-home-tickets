@@ -32,5 +32,8 @@ export function formatLastCheckedShort(iso: string): string {
     timeZone: "America/Los_Angeles",
     month: "short",
     day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
   });
 }

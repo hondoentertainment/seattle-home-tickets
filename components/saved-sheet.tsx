@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import { AuthControls } from "@/components/auth-controls";
 import { formatGameDateShort, formatUsd } from "@/lib/format";
+import { NO_TICKET_SALES_LINE, UNOFFICIAL_ESTIMATE_LINE } from "@/lib/legal";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import type { Game } from "@/lib/types";
 
@@ -86,8 +88,8 @@ export function SavedSheet({
             </p>
             <p className="text-xs text-muted">
               {games.length
-                ? `${formatUsd(total)} ${qtyEstimateLabel(qty)}`
-                : "Interested events stay on this device"}
+                ? `${formatUsd(total)} ${qtyEstimateLabel(qty)} · unofficial`
+                : "On this device until you sign in"}
             </p>
           </div>
           <button
@@ -98,6 +100,10 @@ export function SavedSheet({
           >
             Close
           </button>
+        </div>
+
+        <div className="shrink-0 border-b border-card-border px-4 py-3">
+          <AuthControls variant="sheet" />
         </div>
 
         {games.length ? (
@@ -137,7 +143,9 @@ export function SavedSheet({
           {games.length === 0 ? (
             <p className="text-sm leading-6 text-muted">
               Check <span className="text-foreground">Interested</span> on a home game to save it
-              here. The list persists in this browser and can be shared with prices from Home.
+              here. Signed out, the list stays in this browser. Sign in with Google to merge it
+              onto your account (share URLs with <code className="text-foreground">ids=</code>{" "}
+              still work). {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
             </p>
           ) : (
             <ul className="space-y-2">
@@ -178,6 +186,13 @@ export function SavedSheet({
               ))}
             </ul>
           )}
+          {games.length ? (
+            <p className="mt-4 text-xs leading-5 text-muted">
+              {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Share links keep{" "}
+              <code className="text-foreground">ids=</code> so a friend can open the same slate
+              without signing in.
+            </p>
+          ) : null}
         </div>
       </aside>
     </div>
