@@ -23,7 +23,7 @@ export default function VenuesPage() {
       </p>
 
       <ul className="mt-6 grid gap-4 lg:grid-cols-2">
-        {cards.map(({ venue, teams, sports, gameCount }) => (
+        {cards.map(({ venue, teams, gameCount }) => (
           <li key={venue.name} className="rounded-2xl border border-card-border bg-card/80 p-4">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <h2 className="font-semibold text-foreground">{venue.name}</h2>
