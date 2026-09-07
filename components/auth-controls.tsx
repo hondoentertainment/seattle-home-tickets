@@ -96,9 +96,7 @@ export function AuthControls({
   const compact = variant === "header";
 
   if (status === "loading" || (enabled === null && !data?.user)) {
-    return compact ? null : (
-      <span className="inline-flex min-h-11 items-center px-2 text-xs text-muted">Checking sign-in…</span>
-    );
+    return null;
   }
 
   if (data?.user) {

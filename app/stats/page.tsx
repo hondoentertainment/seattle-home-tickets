@@ -19,15 +19,23 @@ export default function StatsPage() {
         Ticket stats
       </h1>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-        Catalog counts and unofficial mid-tier totals at 2 tickets
+        Unofficial mid-tier totals at 2 tickets
         {stats.dateFrom && stats.dateTo
           ? ` (${formatGameDate(stats.dateFrom)} – ${formatGameDate(stats.dateTo)})`
           : ""}
-        . Not live prices, and not team W–L — that is on{" "}
+        . Not live prices. Records are on{" "}
         <Link href="/standings" className="text-accent hover:underline">
           Standings
         </Link>
         .
+      </p>
+      <p className="mt-4">
+        <Link
+          href="/"
+          className="inline-flex min-h-11 items-center rounded-xl bg-accent px-4 text-sm font-semibold text-background"
+        >
+          See games
+        </Link>
       </p>
 
       <dl className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AuthControls } from "@/components/auth-controls";
-import { formatLastCheckedShort, refreshStamp } from "@/lib/refresh";
 import { useStoredShortlist } from "@/lib/shortlist";
 import { requestShortlistOpen } from "@/lib/url-state";
 
@@ -178,7 +177,14 @@ export function SiteNav() {
             <AuthControls variant="nav" />
           </nav>
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
-            <AuthControls variant="header" />
+            <button
+              type="button"
+              onClick={openSaved}
+              className="inline-flex min-h-11 items-center rounded-xl border border-card-border bg-card px-3 text-sm font-semibold leading-5 text-foreground"
+              aria-label={savedCount ? `Saved games, ${savedCount}` : "Saved games"}
+            >
+              Saved{savedCount ? ` · ${savedCount}` : ""}
+            </button>
             <button
               ref={menuButtonRef}
               type="button"
@@ -215,12 +221,6 @@ export function SiteNav() {
             );
           })}
         </nav>
-
-        <p className="text-[11px] leading-4 text-muted">
-          Catalog last checked {formatLastCheckedShort(refreshStamp.lastChecked)}
-          {refreshStamp.catalogMatchesSeed ? "" : " · seed review pending"}
-          {" · unofficial estimates, not live"}
-        </p>
       </div>
 
       {typeof document !== "undefined" && menu ? createPortal(menu, document.body) : null}

@@ -91,7 +91,7 @@ export function GameDetail({
           </button>
         </div>
 
-        <div className="sheet-scroll min-h-0 flex-1 px-4 py-4 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))]">
+        <div className="sheet-scroll min-h-0 flex-1 px-4 py-4">
           <p className="flex flex-wrap items-baseline gap-2">
             <span className="text-2xl font-bold tabular-nums text-accent">{formatUsd(group)}</span>
             <span className="text-sm text-muted">{qtyEstimateLabel(qty)}</span>
@@ -106,30 +106,6 @@ export function GameDetail({
               ))}
             </div>
           ) : null}
-
-          {onToggleSave ? (
-            <div className="mt-4">
-              <SaveToggle
-                saved={saved}
-                onToggle={onToggleSave}
-                matchup={`${game.team} vs ${game.opponent}`}
-              />
-            </div>
-          ) : null}
-
-          {primary ? (
-            <a
-              href={primary.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-accent px-4 text-base font-semibold text-background"
-            >
-              Get tickets
-            </a>
-          ) : null}
-          <p className="mt-2 text-xs leading-5 text-muted">
-            Official and marketplace links — this site does not sell tickets. Estimates are unofficial.
-          </p>
 
           {market.length ? (
             <details className="mt-4 rounded-2xl border border-card-border px-3 py-2">
@@ -195,6 +171,31 @@ export function GameDetail({
               </div>
             </details>
           ) : null}
+        </div>
+
+        <div className="shrink-0 space-y-2 border-t border-card-border px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
+          <div className="flex gap-2">
+            {onToggleSave ? (
+              <SaveToggle
+                saved={saved}
+                onToggle={onToggleSave}
+                matchup={`${game.team} vs ${game.opponent}`}
+              />
+            ) : null}
+            {primary ? (
+              <a
+                href={primary.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center rounded-2xl bg-accent px-4 text-base font-semibold text-background"
+              >
+                Get tickets
+              </a>
+            ) : null}
+          </div>
+          <p className="text-center text-[11px] leading-4 text-muted">
+            We don’t sell tickets. Estimates are unofficial.
+          </p>
         </div>
       </aside>
     </div>,

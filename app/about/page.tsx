@@ -87,8 +87,8 @@ const faqs: { q: string; a: ReactNode }[] = [
       <>
         Tap <span className="text-foreground">Save</span> on a row (it switches to{" "}
         <span className="text-foreground">Saved</span>) to add it to the Saved list.
-        Open that list from the <span className="text-foreground">Saved</span> chip,
-        the Menu entry, or the desktop nav. Signed out, the list stays in this
+        Open that list from <span className="text-foreground">Saved</span> in the
+        header, More, or the desktop nav. Signed out, the list stays in this
         browser&apos;s localStorage. Sign in with Google to merge that list onto your
         account (union on first login this session, then the server copy wins). Share
         URLs still use <code className="text-foreground">ids=</code> so a friend can

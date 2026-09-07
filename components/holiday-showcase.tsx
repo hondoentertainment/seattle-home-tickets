@@ -36,7 +36,6 @@ export function HolidayShowcase({
             <p className="mt-2 text-xs font-medium text-gold">
               {game.specialTags.map(formatSpecialTag).join(" · ")}
             </p>
-            <p className="mt-3 text-sm font-semibold text-accent">Tickets</p>
           </button>
         ))}
       </div>

@@ -87,9 +87,7 @@ export function SavedSheet({
               Saved{games.length ? ` · ${games.length}` : ""}
             </p>
             <p className="text-xs text-muted">
-              {games.length
-                ? `${formatUsd(total)} ${qtyEstimateLabel(qty)} · unofficial`
-                : "Tap Save on a game to add it"}
+              {games.length ? `${formatUsd(total)} ${qtyEstimateLabel(qty)}` : "Tap Save on a game"}
             </p>
           </div>
           <button
@@ -107,34 +105,13 @@ export function SavedSheet({
         </div>
 
         {games.length ? (
-          <div className="flex shrink-0 flex-wrap gap-2 border-b border-card-border px-4 py-3">
+          <div className="flex shrink-0 gap-2 border-b border-card-border px-4 py-3">
             <button
               type="button"
               onClick={onShare}
-              className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-background"
             >
               {copied === "link" ? "Copied" : "Share"}
-            </button>
-            <button
-              type="button"
-              onClick={onCopy}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              {copied === "summary" ? "Copied" : "Copy"}
-            </button>
-            <button
-              type="button"
-              onClick={onShowCalendar}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              Show on Home
-            </button>
-            <button
-              type="button"
-              onClick={onClear}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
-            >
-              Clear
             </button>
           </div>
         ) : null}
@@ -190,10 +167,34 @@ export function SavedSheet({
             </ul>
           )}
           {games.length ? (
-            <p className="mt-4 text-xs leading-5 text-muted">
-              {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Share links keep the same
-              games without an account.
-            </p>
+            <div className="mt-4 space-y-3">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={onCopy}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  {copied === "summary" ? "Copied" : "Copy list"}
+                </button>
+                <button
+                  type="button"
+                  onClick={onShowCalendar}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  Show on Home
+                </button>
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
+                >
+                  Clear all
+                </button>
+              </div>
+              <p className="text-xs leading-5 text-muted">
+                {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
+              </p>
+            </div>
           ) : null}
         </div>
       </aside>

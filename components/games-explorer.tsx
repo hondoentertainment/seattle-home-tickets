@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FilterCombobox } from "@/components/filter-combobox";
+import { FilterSheet } from "@/components/filter-sheet";
 import { GameDetail } from "@/components/game-detail";
 import { HolidayShowcase } from "@/components/holiday-showcase";
 import { QuantityPicker } from "@/components/quantity-picker";
@@ -23,7 +24,6 @@ import {
   catalog,
   featuredHolidayGames,
   monthLabel,
-  venueFor,
 } from "@/lib/catalog";
 import { toast } from "@/lib/feedback";
 import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
@@ -31,7 +31,7 @@ import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
-import { EMPTY_STATE, requestShortlistOpen, shareUrl, type ExplorerState } from "@/lib/url-state";
+import { EMPTY_STATE, type ExplorerState } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
@@ -47,18 +47,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   const holidayOnly = variant === "holidays";
   const [openId, setOpenId] = useState<string | null>(null);
   const [weatherByDate, setWeatherByDate] = useState<Record<string, WeatherBlurb>>({});
-  const [copied, setCopied] = useState<string | null>(null);
-  const [filtersOpen, setFiltersOpen] = useState(
-    () =>
-      Boolean(
-        state.sports.length ||
-          state.teams.length ||
-          state.venues.length ||
-          state.months.length ||
-          state.from ||
-          state.to,
-      ),
-  );
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -82,7 +71,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
   );
 
   const holidayGames = useMemo(() => featuredHolidayGames(6), []);
-  const holidayCount = catalog.games.filter((game) => game.specialTags.length > 0).length;
 
   const columns = useMemo(
     () =>
@@ -109,28 +97,18 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           ),
         }),
         helper.accessor("team", {
-          header: "Team",
-          cell: (info) => <span className="font-medium">{info.getValue()}</span>,
-        }),
-        helper.accessor("sport", { header: "Sport" }),
-        helper.accessor("opponent", { header: "Opponent" }),
-        helper.accessor("venue", { header: "Venue" }),
-        helper.accessor("timePt", {
-          header: "Time",
+          header: "Game",
           cell: (info) => (
-            <div>
-              <div>{info.getValue()}</div>
-              <div className="text-xs text-muted">{info.row.original.tv}</div>
-            </div>
+            <span className="font-medium text-foreground">
+              {info.row.original.team} vs {info.row.original.opponent}
+            </span>
           ),
         }),
-        helper.accessor("estPriceEachUsd", {
-          header: "Est. each",
-          cell: (info) => <span className="tabular-nums">{formatUsd(info.getValue())}</span>,
-        }),
+        helper.accessor("venue", { header: "Venue" }),
+        helper.accessor("timePt", { header: "Time" }),
         helper.accessor((row) => estimateForQty(row.estPriceEachUsd, state.qty), {
           id: "estGroup",
-          header: qtyEstimateLabel(state.qty),
+          header: "Price",
           cell: (info) => (
             <span className="font-semibold tabular-nums text-accent">
               {formatUsd(info.getValue())}
@@ -153,11 +131,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     (tableState) => ({ sorting: tableState.sorting }),
   );
 
-  const groupTotal = filtered.reduce(
-    (sum, game) => sum + estimateForQty(game.estPriceEachUsd, state.qty),
-    0,
-  );
-  const selectedGames = catalog.games.filter((game) => selected.has(game.id));
   const openGame = catalog.games.find((game) => game.id === openId) ?? null;
   const currentSort = table.state.sorting[0] ?? { id: "date", desc: false };
   const extraFilterCount =
@@ -191,14 +164,6 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     apply((prev) => ({ ...EMPTY_STATE, ids: prev.ids, qty: prev.qty }));
   }
 
-  async function copyShareLink() {
-    const url = shareUrl({ ...state, selectedOnly: true });
-    await navigator.clipboard.writeText(url);
-    setCopied("link");
-    toast("Link copied");
-    setTimeout(() => setCopied(null), 2000);
-  }
-
   const filterPanel = (
       <div className="flex flex-col gap-2 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
         <div className="flex flex-col gap-2 md:flex-row md:items-stretch">
@@ -218,41 +183,21 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         </div>
 
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
-          <ToggleChip active={state.selectedOnly} onClick={requestShortlistOpen}>
-            {selected.size ? `Saved · ${selected.size}` : "Saved"}
-          </ToggleChip>
+        <div className="flex items-center gap-2">
           <button
             type="button"
             aria-expanded={filtersOpen}
-            onClick={() => setFiltersOpen((open) => !open)}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowDown" && !filtersOpen) {
-                event.preventDefault();
-                setFiltersOpen(true);
-              }
-              if (event.key === "Escape" && filtersOpen) {
-                event.preventDefault();
-                setFiltersOpen(false);
-              }
-            }}
-            className={`${FIELD_CHIP} w-full sm:w-auto ${
-              filtersOpen || extraFilterCount
+            onClick={() => setFiltersOpen(true)}
+            className={`${FIELD_CHIP} ${
+              extraFilterCount
                 ? "border-accent/50 bg-accent/10 text-accent"
                 : "border-card-border bg-card text-muted"
             }`}
           >
-            <span className="truncate">
-              Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""} {filtersOpen ? "▴" : "▾"}
-            </span>
+            <span className="truncate">Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""}</span>
           </button>
-          {variant === "holidays" ? (
-            <span className={`${FIELD_CHIP} w-full border-gold/30 bg-gold/10 text-gold sm:w-auto`}>
-              Holiday games
-            </span>
-          ) : null}
-          <span className="hidden text-xs leading-5 text-muted sm:ml-auto sm:inline">
-            {filtered.length} of {holidayOnly ? holidayCount : catalog.games.length}
+          <span className="ml-auto text-xs leading-5 text-muted">
+            {filtered.length} {filtered.length === 1 ? "game" : "games"}
           </span>
         </div>
         <ActiveFilterChips
@@ -269,90 +214,99 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           onClearTo={() => patch({ to: "" })}
           onClearAll={clearFilters}
         />
-        {selected.size === 0 ? (
-          <p className="text-[11px] leading-4 text-muted">
-            Tap <span className="text-foreground">Save</span> on a game to add it here.
-          </p>
-        ) : null}
-
-        {filtersOpen ? (
-          <div className="space-y-4 border-t border-card-border/70 pt-3">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
-                <input
-                  type="date"
-                  value={state.from}
-                  onChange={(event) => patch({ from: event.target.value })}
-                  className={FIELD_INPUT}
-                />
-              </label>
-              <label className="block">
-                <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
-                <input
-                  type="date"
-                  value={state.to}
-                  onChange={(event) => patch({ to: event.target.value })}
-                  className={FIELD_INPUT}
-                />
-              </label>
-            </div>
-            <FilterCombobox
-              label="Sport"
-              options={allSports}
-              selected={state.sports}
-              onToggle={(value) => toggleList("sports", value)}
-            />
-            <FilterCombobox
-              label="Month"
-              options={allMonths}
-              selected={state.months}
-              onToggle={(value) => toggleList("months", value)}
-              render={(value) => monthLabel(value)}
-            />
-            <ChipRow
-              label="Category"
-              options={["men", "women", "open"] as Gender[]}
-              selected={state.genders}
-              onToggle={(value) => toggleGender(value)}
-              render={(value) => GENDER_LABELS[value]}
-            />
-            <FilterCombobox
-              label="Venue"
-              options={allVenues}
-              selected={state.venues}
-              onToggle={(value) => toggleList("venues", value)}
-            />
-            <FilterCombobox
-              label="Teams"
-              options={allTeams}
-              selected={state.teams}
-              onToggle={(value) => toggleList("teams", value)}
-            />
-            <button
-              type="button"
-              onClick={clearFilters}
-              className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
-            >
-              Clear filters
-            </button>
-          </div>
-        ) : null}
       </div>
   );
 
   return (
-    <section className="space-y-4 pb-24">
+    <section className="space-y-4 pb-8">
       {variant === "holidays" ? (
         <HolidayShowcase games={holidayGames} qty={state.qty} onOpen={(game) => setOpenId(game.id)} />
       ) : null}
       {filterPanel}
-      <p className="text-xs text-muted">
-        {filtered.length} events · {formatUsd(groupTotal)} {qtyEstimateLabel(state.qty)}
-        {filtered.length
-          ? ` · avg ${formatUsd(Math.round(groupTotal / filtered.length))}`
-          : ""}
-      </p>
+      <FilterSheet open={filtersOpen} onClose={() => setFiltersOpen(false)}>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
+            <input
+              type="date"
+              value={state.from}
+              onChange={(event) => patch({ from: event.target.value })}
+              className={FIELD_INPUT}
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">To</span>
+            <input
+              type="date"
+              value={state.to}
+              onChange={(event) => patch({ to: event.target.value })}
+              className={FIELD_INPUT}
+            />
+          </label>
+        </div>
+        <FilterCombobox
+          label="Sport"
+          options={allSports}
+          selected={state.sports}
+          onToggle={(value) => toggleList("sports", value)}
+        />
+        <FilterCombobox
+          label="Month"
+          options={allMonths}
+          selected={state.months}
+          onToggle={(value) => toggleList("months", value)}
+          render={(value) => monthLabel(value)}
+        />
+        <ChipRow
+          label="Category"
+          options={["men", "women", "open"] as Gender[]}
+          selected={state.genders}
+          onToggle={(value) => toggleGender(value)}
+          render={(value) => GENDER_LABELS[value]}
+        />
+        <FilterCombobox
+          label="Venue"
+          options={allVenues}
+          selected={state.venues}
+          onToggle={(value) => toggleList("venues", value)}
+        />
+        <FilterCombobox
+          label="Teams"
+          options={allTeams}
+          selected={state.teams}
+          onToggle={(value) => toggleList("teams", value)}
+        />
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">Sort</p>
+          <div className={FIELD_ROW}>
+            <select
+              value={currentSort.id}
+              onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
+              className={FIELD_INPUT}
+            >
+              <option value="date">Date</option>
+              <option value="team">Team</option>
+              <option value="venue">Venue</option>
+              <option value="timePt">Time</option>
+              <option value="estGroup">Price</option>
+            </select>
+            <button
+              type="button"
+              onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
+              className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
+            >
+              {currentSort.desc ? "Desc" : "Asc"}
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={clearFilters}
+          className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs text-foreground hover:border-accent/50"
+        >
+          Clear filters
+        </button>
+      </FilterSheet>
 
       <div className="hidden overflow-hidden rounded-2xl border border-card-border bg-card/70 md:block">
         <div className="overflow-x-auto">
@@ -383,18 +337,18 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-t border-card-border/70 align-top hover:bg-accent/5"
+                  className="cursor-pointer border-t border-card-border/70 align-top hover:bg-accent/5"
+                  onClick={() => setOpenId(row.original.id)}
                 >
                   {row.getAllCells().map((cell) => (
-                    <td key={cell.id} className="px-3 py-3 text-muted">
+                    <td
+                      key={cell.id}
+                      className="px-3 py-3 text-muted"
+                      onClick={cell.column.id === "select" ? (event) => event.stopPropagation() : undefined}
+                    >
                       {cell.column.id === "team" ? (
-                        <button
-                          type="button"
-                          className="text-left text-foreground hover:text-accent"
-                          onClick={() => setOpenId(row.original.id)}
-                        >
+                        <div>
                           <table.FlexRender cell={cell} />
-                          <span className="mt-1 block text-xs font-semibold text-accent">Tickets</span>
                           {row.original.specialTags.length ? (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {row.original.specialTags.map((tag) => (
@@ -404,7 +358,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                               ))}
                             </div>
                           ) : null}
-                        </button>
+                        </div>
                       ) : (
                         <table.FlexRender cell={cell} />
                       )}
@@ -420,113 +374,43 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         ) : null}
       </div>
 
-      <div className="space-y-3 md:hidden">
-        <div className={`${FIELD_ROW} text-sm`}>
-          <select
-            value={currentSort.id}
-            onChange={(event) => table.setSorting([{ id: event.target.value, desc: currentSort.desc }])}
-            className={FIELD_INPUT}
-          >
-            <option value="date">Date</option>
-            <option value="team">Team</option>
-            <option value="sport">Sport</option>
-            <option value="opponent">Opponent</option>
-            <option value="venue">Venue</option>
-            <option value="timePt">Time</option>
-            <option value="estPriceEachUsd">Est. each</option>
-            <option value="estGroup">{qtyEstimateLabel(state.qty)}</option>
-          </select>
-          <button
-            type="button"
-            onClick={() => table.setSorting([{ id: currentSort.id, desc: !currentSort.desc }])}
-            className={`${FIELD_SHELL} inline-flex min-w-11 items-center justify-center bg-card`}
-          >
-            {currentSort.desc ? "Desc" : "Asc"}
-          </button>
-        </div>
+      <div className="space-y-4 md:hidden">
         {filtered.length === 0 ? (
           <EmptyGames onClear={clearFilters} />
         ) : null}
         {table.getRowModel().rows.map((row) => {
           const game = row.original;
-          const weather = weatherByDate[game.date];
-          const venue = venueFor(game.venue);
-          const extra = [
-            weather?.label,
-            venue?.neighborhood,
-            game.specialTags[0] ? formatSpecialTag(game.specialTags[0]) : null,
-          ]
-            .filter(Boolean)
-            .join(" · ");
           return (
-            <article key={game.id} className="rounded-2xl border border-card-border bg-card p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-                {formatGameDateShort(game.date)} · {game.timePt}
-              </p>
-              <h2 className="mt-1 text-[17px] font-bold leading-6 text-foreground">
-                {game.team} vs {game.opponent}
-              </h2>
-              <p className="mt-1 text-sm text-muted">{game.venue}</p>
-              <p className="mt-3 flex flex-wrap items-baseline gap-2">
-                <span className="text-xl font-bold tabular-nums text-accent">
+            <article key={game.id} className="flex gap-3 rounded-2xl border border-card-border bg-card p-4">
+              <button
+                type="button"
+                onClick={() => setOpenId(game.id)}
+                className="min-w-0 flex-1 text-left"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+                  {formatGameDateShort(game.date)} · {game.timePt}
+                </p>
+                <h2 className="mt-1 text-[17px] font-bold leading-6 text-foreground">
+                  {game.team} vs {game.opponent}
+                </h2>
+                <p className="mt-1 text-sm text-muted">{game.venue}</p>
+                <p className="mt-3 text-xl font-bold tabular-nums text-accent">
                   {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
-                </span>
-                <span className="text-xs text-muted">
-                  {qtyEstimateLabel(state.qty)} · {formatUsd(game.estPriceEachUsd)} each
-                </span>
-              </p>
-              {extra ? <p className="mt-2 text-xs leading-4 text-muted">{extra}</p> : null}
-              <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-                <button
-                  type="button"
-                  onClick={() => setOpenId(game.id)}
-                  className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-background"
-                >
+                  <span className="ml-2 text-xs font-medium text-muted">{qtyEstimateLabel(state.qty)}</span>
+                </p>
+                <span className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
                   Tickets
-                </button>
-                <SaveToggle
-                  saved={selected.has(game.id)}
-                  onToggle={() => toggleId(game.id)}
-                  matchup={`${game.team} vs ${game.opponent}`}
-                />
-              </div>
+                </span>
+              </button>
+              <SaveToggle
+                saved={selected.has(game.id)}
+                onToggle={() => toggleId(game.id)}
+                matchup={`${game.team} vs ${game.opponent}`}
+              />
             </article>
           );
         })}
       </div>
-
-      {selectedGames.length ? (
-        <div className="page-gutter fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] backdrop-blur">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={requestShortlistOpen}
-              className="text-left text-sm text-foreground"
-            >
-              <span className="block">{selectedGames.length} saved</span>
-              <span className="block text-[11px] font-normal text-muted">
-                Unofficial estimates · not a box office
-              </span>
-            </button>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={requestShortlistOpen}
-                className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs font-semibold"
-              >
-                View
-              </button>
-              <button
-                type="button"
-                onClick={copyShareLink}
-                className="inline-flex min-h-11 items-center rounded-full bg-accent px-3 text-xs font-semibold text-background"
-              >
-                {copied === "link" ? "Copied" : "Share"}
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
 
       {openGame ? (
         <GameDetail
@@ -696,28 +580,5 @@ function ActiveFilterChips({
         Clear all
       </button>
     </div>
-  );
-}
-
-function ToggleChip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: string;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={`${FIELD_CHIP} w-full sm:w-auto ${
-        active ? "border-gold bg-gold/15 text-gold" : "border-card-border bg-card text-muted"
-      }`}
-    >
-      <span className="truncate">{children}</span>
-    </button>
   );
 }
