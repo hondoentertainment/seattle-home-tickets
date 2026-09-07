@@ -9,7 +9,8 @@
     "lint": "eslint",
     "generate-games": "python3 scripts/generate-games.py",
     "refresh-stamp": "python3 scripts/write-refresh-stamp.py",
-    "refresh-prices": "python3 scripts/refresh-prices.py"
+    "refresh-prices": "python3 scripts/refresh-prices.py",
+    "validate-refresh": "python3 scripts/validate-refresh.py"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

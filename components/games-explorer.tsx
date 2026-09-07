@@ -26,6 +26,7 @@ import {
   monthLabel,
 } from "@/lib/catalog";
 import { toast } from "@/lib/feedback";
+import { CATALOG_REFRESH_EVENT } from "@/lib/refresh";
 import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
@@ -33,7 +34,7 @@ import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
 import { EMPTY_STATE, type ExplorerState } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
-import { getForecast, weatherForDate } from "@/lib/weather";
+import { getForecast, refreshForecast, weatherForDate } from "@/lib/weather";
 
 const features = tableFeatures({
   rowSortingFeature,
@@ -51,16 +52,26 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
 
   useEffect(() => {
     let cancelled = false;
-    getForecast().then((forecast) => {
+
+    function applyForecast(forecast: Awaited<ReturnType<typeof getForecast>>) {
       if (cancelled) return;
       const next: Record<string, WeatherBlurb> = {};
       for (const game of catalog.games) {
         next[game.date] = weatherForDate(game.date, forecast);
       }
       setWeatherByDate(next);
-    });
+    }
+
+    getForecast().then(applyForecast);
+
+    function onCatalogRefresh() {
+      refreshForecast().then(applyForecast);
+    }
+    window.addEventListener(CATALOG_REFRESH_EVENT, onCatalogRefresh);
+
     return () => {
       cancelled = true;
+      window.removeEventListener(CATALOG_REFRESH_EVENT, onCatalogRefresh);
     };
   }, []);
 

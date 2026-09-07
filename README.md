@@ -84,6 +84,7 @@ Copy [`.env.example`](.env.example) to `.env.local` and paste real values. Do no
 | `AUTH_URL` | **Production only** | `https://seattle-home-tickets.vercel.app` on the Vercel Production environment. Optional locally (`http://localhost:3000`). **Do not set on Preview** — Auth.js uses `trustHost` and the request host |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Account Saved sync | Preferred store |
 | `DATABASE_URL` or `POSTGRES_URL` | Account Saved sync | Neon fallback; creates `saved_events` on first write |
+| `GH_REFRESH_TOKEN` | Home **Refresh** → Action | Optional. Fine-grained PAT with Actions read/write. Cron still runs without it |
 
 ### Google Cloud Console
 
@@ -121,27 +122,47 @@ Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week
 
 ## Daily refresh
 
-A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles** and on `workflow_dispatch`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
+A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles**, on `workflow_dispatch` (Actions tab or the Home **Refresh** button), and on `repository_dispatch` type `catalog-refresh`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
 
-GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick).
+GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick). Manual / Home-button runs skip that gate.
 
 What it **does**:
 
+- Checks out `main` (not the triggering branch)
 - Regenerates `data/games.json` from `scripts/generate-games.py` (published-date seed)
 - Runs `scripts/refresh-prices.py` (stub — live marketplace scrapes are not implemented)
 - Writes `data/refresh.json` (`lastChecked`, `catalogAsOf`, whether the seed matched)
+- Validates the stamp (`npm run validate-refresh`)
 - Lints and builds
 - If the catalog drifted from the seed: opens a PR (`chore/catalog-seed-drift`) for review
-- If the catalog matched: commits the last-checked stamp to `main` so Vercel redeploys and the footer updates
+- If the catalog matched: commits the last-checked stamp to `main` (rebase/retry on race; stamp PR if push is blocked) so Vercel redeploys and Home / footer update
+- Writes a job summary so each run is visible in the Actions log
 
 What it **does not**:
 
 - Scrape official or secondary ticket sites for live prices
-- Invent unpublished conference basketball dates
+- Invent unpublished conference basketball dates, live scores, or standings
 - Bump `games.json` `asOf` just because the clock moved
 - Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
-The site shows **last checked** (Pacific date and time) under the nav and **catalog as of** + last checked in the footer. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
+### Home Refresh button
+
+Home (`/`) has a **Refresh** control at the top (44px tap target, both viewports). It:
+
+1. Reloads this page (`router.refresh()`) and refetches the Open-Meteo travel forecast
+2. Calls `POST /api/refresh`, which does **not** invent a new catalog
+3. If `GH_REFRESH_TOKEN` is set on Vercel, queues the GitHub Action (`workflow_dispatch`, reason `home-refresh-button`)
+4. Shows a toast with an honest result (queued / already running / recent / not configured / failed) plus last-checked time
+
+Without the token, Refresh still works: it reloads cached page data and tells you the last-checked stamp. It will not say the catalog was rebuilt. Filters, Saved, and Google auth are untouched.
+
+Optional Production secret:
+
+| Variable | Required for | Notes |
+| --- | --- | --- |
+| `GH_REFRESH_TOKEN` | Home button → Action | Fine-grained PAT with **Actions: Read and write** on this repo. Classic: `public_repo` + `workflow` (or `repo` if private). Not needed for the 7am cron. |
+
+The site shows **last checked** (Pacific date and time) on Home under the nav and **catalog as of** + last checked in the footer. If `main` has a newer stamp than this deploy, Home says a newer check is waiting for deploy. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 
@@ -157,7 +178,7 @@ npm run build
 npm start
 ```
 
-`npm run lint` runs ESLint.
+`npm run lint` runs ESLint. `npm run validate-refresh` checks `data/refresh.json` against `data/games.json` (same check the daily Action runs).
 
 Data lives in [`data/games.json`](data/games.json). Published promotions live in [`data/promotions.json`](data/promotions.json). Types are in [`lib/types.ts`](lib/types.ts). To regenerate the game catalog after editing [`scripts/generate-games.py`](scripts/generate-games.py):
 
@@ -184,6 +205,8 @@ This is a standard Next.js app. No `vercel.json` is required. Preview deploys ar
 3. Framework preset: Next.js. Build command: `npm run build`. Output: default.
 4. Add env vars from the table above when you are ready for Google sign-in / Saved sync.
 5. Deploy. Subsequent pushes to `main` rebuild automatically if the project is git-linked.
+
+**GitHub Actions permissions (required for the 7am stamp commit):** Repo → Settings → Actions → General → Workflow permissions → **Read and write**. Enable **Allow GitHub Actions to create and approve pull requests** so a seed-drift or blocked-push stamp PR can open. The Home button token (`GH_REFRESH_TOKEN`) is separate and only needed to queue that workflow from production.
 
 **Custom domain (optional, not done in this repo):** in Vercel → Project → Settings → Domains, add the hostname you control, then create the DNS records Vercel shows (usually `A` / `CNAME`). Add that origin and `/api/auth/callback/google` in Google Cloud. Do not buy a domain from this codebase.
 

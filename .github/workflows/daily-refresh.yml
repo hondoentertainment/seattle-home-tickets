@@ -5,14 +5,22 @@ name: Daily catalog refresh
 # - catalogAsOf is copied from data/games.json (published seed), never invented
 # - This job does not scrape live ticket APIs, standings, or promo calendars
 # - Unpublished conference / HS / touring dates stay omitted
+# - A successful stamp commit to main is what redeploys production on Vercel
 
 on:
   schedule:
     # GitHub cron is UTC-only. 14:00 = 7am PDT; 15:00 = 7am PST.
-    # The gate job no-ops unless America/Los_Angeles hour is 07–08 (or workflow_dispatch).
+    # The gate job no-ops unless America/Los_Angeles hour is 07–08 (or a manual trigger).
     - cron: "0 14 * * *"
     - cron: "0 15 * * *"
   workflow_dispatch:
+    inputs:
+      reason:
+        description: Why this refresh was triggered (schedule, Actions tab, or Home button)
+        required: false
+        default: manual
+  repository_dispatch:
+    types: [catalog-refresh]
 
 permissions:
   contents: write
@@ -33,7 +41,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "go=true" >> "$GITHUB_OUTPUT"
-            echo "Manual or non-schedule run."
+            echo "Manual, Home-button, or repository_dispatch run."
             exit 0
           fi
           HOUR=$(TZ=America/Los_Angeles date +%H)
@@ -50,10 +58,13 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
+          ref: main
+          fetch-depth: 0
           persist-credentials: true
 
       - name: Set up Python
@@ -91,6 +102,9 @@ jobs:
         # plus catalog.asOf. Does not bump game dates or invent W–L / prices.
         run: python3 scripts/write-refresh-stamp.py
 
+      - name: Validate refresh stamp
+        run: python3 scripts/validate-refresh.py
+
       - name: Install
         run: npm ci
 
@@ -104,11 +118,13 @@ jobs:
         if: steps.drift.outputs.changed == '1'
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: chore/catalog-seed-drift
           title: Regenerate games.json from the published seed
           commit-message: Regenerate games.json from the published seed
+          delete-branch: true
           body: |
-            The daily 7:00 AM Pacific job regenerated `data/games.json` from
+            The catalog refresh job regenerated `data/games.json` from
             `scripts/generate-games.py` and it differed from main.
 
             This is a seed/script mismatch, not a live scrape. Review the diff
@@ -119,6 +135,7 @@ jobs:
             data/refresh.json
 
       - name: Commit last-checked stamp to main
+        id: stamp
         if: steps.drift.outputs.changed != '1'
         run: |
           git config user.name "github-actions[bot]"
@@ -126,7 +143,72 @@ jobs:
           git add data/refresh.json
           if git diff --cached --quiet; then
             echo "Stamp unchanged."
+            echo "pushed=0" >> "$GITHUB_OUTPUT"
+            echo "unchanged=1" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          echo "unchanged=0" >> "$GITHUB_OUTPUT"
           git commit -m "Stamp daily catalog check (7:00 AM PT)"
-          git push origin HEAD:main
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then
+              echo "Pushed stamp to main (attempt $attempt)."
+              echo "pushed=1" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "Push failed (attempt $attempt). Rebasing stamp onto origin/main."
+            git fetch origin main
+            git reset --soft origin/main
+            git add data/refresh.json
+            if git diff --cached --quiet; then
+              echo "Stamp already matches origin/main."
+              echo "pushed=0" >> "$GITHUB_OUTPUT"
+              echo "unchanged=1" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            git commit -m "Stamp daily catalog check (7:00 AM PT)"
+            sleep $((attempt * 2))
+          done
+          echo "pushed=0" >> "$GITHUB_OUTPUT"
+          echo "Direct push to main failed after retries."
+
+      - name: Open stamp PR if main push was blocked
+        if: steps.drift.outputs.changed != '1' && steps.stamp.outputs.unchanged != '1' && steps.stamp.outputs.pushed != '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/daily-refresh-stamp
+          title: Stamp daily catalog check
+          commit-message: Stamp daily catalog check (7:00 AM PT)
+          delete-branch: true
+          body: |
+            The refresh job could not push `data/refresh.json` directly to
+            `main` (branch protection or a race). Merge this so Vercel
+            redeploys and the last-checked stamp updates.
+
+            This is a last-checked stamp only. It does not scrape live
+            prices, standings, or unpublished dates.
+          add-paths: |
+            data/refresh.json
+
+      - name: Summarize
+        if: always()
+        run: |
+          {
+            echo "## Catalog refresh"
+            echo ""
+            echo "- Event: \`${{ github.event_name }}\`"
+            echo "- Reason: \`${{ github.event.inputs.reason || github.event.client_payload.reason || 'schedule' }}\`"
+            if [ -f data/refresh.json ]; then
+              echo "- Stamp:"
+              echo ""
+              echo '```json'
+              cat data/refresh.json
+              echo '```'
+            else
+              echo "- Stamp file missing (job may have failed before write)."
+            fi
+            echo ""
+            echo "- Seed drift: \`${{ steps.drift.outputs.changed || 'n/a' }}\`"
+            echo "- Stamp pushed to main: \`${{ steps.stamp.outputs.pushed || 'n/a' }}\`"
+            echo "- This job does **not** scrape live scores, standings, or ticket prices."
+          } >> "$GITHUB_STEP_SUMMARY"
