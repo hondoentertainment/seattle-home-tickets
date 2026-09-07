@@ -129,7 +129,7 @@ export function PromotionsCalendar() {
       )}
 
       {months.length ? (
-        <details className="mt-8 rounded-2xl border border-card-border bg-card/60 px-4 py-3">
+        <details className="mt-8 overflow-x-hidden rounded-2xl border border-card-border bg-card/60 px-2 py-3 sm:px-4">
           <summary className="cursor-pointer text-sm font-medium text-foreground">Month view</summary>
           <div className="mt-4 space-y-8">
             {months.map((key) => (
@@ -228,41 +228,56 @@ function MonthGrid({
   ];
 
   return (
-    <section>
+    <section className="min-w-0 overflow-x-hidden">
       <h3 className="text-sm font-semibold text-foreground">{monthTitle(yyyyMm)}</h3>
-      <div className="mt-2 grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-wider text-muted">
+      <div className="mt-2 grid grid-cols-7 gap-0.5 text-center text-[10px] font-semibold uppercase tracking-wider text-muted sm:gap-1">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="py-1">
+          <div key={day} className="min-w-0 py-1">
             {day}
           </div>
         ))}
       </div>
-      <div className="mt-1 grid grid-cols-7 gap-1">
+      <div className="mt-1 grid grid-cols-7 gap-0.5 sm:gap-1">
         {cells.map((day, index) => {
-          if (!day) return <div key={`pad-${index}`} />;
+          if (!day) return <div key={`pad-${index}`} className="min-w-0" />;
           const iso = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
           const dayPromos = promos.filter((promo) => promo.date === iso);
+          const crowded = dayPromos.length >= 3;
           return (
             <div
               key={iso}
-              className={`min-h-16 rounded-lg border p-1.5 text-left ${
+              className={`flex min-h-16 min-w-0 flex-col overflow-hidden rounded-lg border px-1 py-1 text-left ${
                 dayPromos.length ? "border-gold/30 bg-gold/10" : "border-card-border/60 bg-card/40"
               }`}
             >
-              <div className="text-[11px] font-semibold text-muted">{day}</div>
-              <ul className="mt-1 space-y-1">
-                {dayPromos.map((promo) => (
-                  <li key={promo.id}>
-                    <button
-                      type="button"
-                      onClick={() => onOpen(promo.gameId)}
-                      className="block w-full text-left text-[10px] leading-tight text-accent"
-                    >
-                      {promo.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <div className="shrink-0 text-[10px] font-semibold leading-none tabular-nums text-muted">{day}</div>
+              {dayPromos.length ? (
+                <ul className={`mt-1 min-w-0 ${crowded ? "space-y-0.5" : "space-y-1"}`}>
+                  {dayPromos.map((promo) => (
+                    <li key={promo.id} className="min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => onOpen(promo.gameId)}
+                        title={`${promo.title} — ${promo.team}`}
+                        className="block w-full min-w-0 overflow-hidden text-left"
+                      >
+                        <span
+                          className={`block overflow-hidden font-semibold leading-tight text-accent [overflow-wrap:anywhere] ${
+                            crowded
+                              ? "line-clamp-1 text-[8px] sm:text-[10px]"
+                              : "line-clamp-2 text-[9px] sm:line-clamp-3 sm:text-[10px]"
+                          }`}
+                        >
+                          {promo.title}
+                        </span>
+                        <span className="mt-0.5 block truncate text-[8px] leading-tight text-muted sm:text-[9px]">
+                          {teamChipLabel(promo.team)}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </div>
           );
         })}
