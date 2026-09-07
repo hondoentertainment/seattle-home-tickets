@@ -81,7 +81,7 @@ Copy [`.env.example`](.env.example) to `.env.local` and paste real values. Do no
 | --- | --- | --- |
 | `AUTH_SECRET` | Real sign-in | `npx auth secret`. Build succeeds with a placeholder if unset |
 | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google button | Aliases: `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` |
-| `AUTH_URL` | Local + production | `http://localhost:3000` locally; production origin on Vercel. Leave unset on Preview so Auth.js infers the host (`trustHost: true`) |
+| `AUTH_URL` | **Production only** | `https://seattle-home-tickets.vercel.app` on the Vercel Production environment. Optional locally (`http://localhost:3000`). **Do not set on Preview** — Auth.js uses `trustHost` and the request host |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Account Saved sync | Preferred store |
 | `DATABASE_URL` or `POSTGRES_URL` | Account Saved sync | Neon fallback; creates `saved_events` on first write |
 
@@ -101,7 +101,7 @@ Authorized redirect URIs:
 
 OAuth consent screen: External, app name **Seattle Home Tickets**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
 
-Set the same env vars on the Vercel project for Production (and Preview if you want Preview sign-in). Redeploy after pasting secrets.
+Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` to **Production**. Add `AUTH_URL=https://seattle-home-tickets.vercel.app` to **Production only**. Preview sign-in is optional (add the same Google pair to Preview, leave `AUTH_URL` unset, and register that preview callback in Google Cloud). The calendar still deploys if these are missing.
 
 ## Filters
 

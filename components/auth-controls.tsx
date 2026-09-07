@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { signInWithGoogle, signOutUser } from "@/app/actions/auth";
 import { useGoogleAuthEnabled } from "@/components/auth-session-provider";
 
 function GoogleMark({ className }: { className?: string }) {
@@ -53,6 +55,34 @@ function Avatar({ src, alt }: { src?: string | null; alt: string }) {
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm font-medium leading-5 text-foreground hover:border-accent/50";
 
+function RedirectField() {
+  const pathname = usePathname();
+  return <input type="hidden" name="redirectTo" value={pathname || "/"} />;
+}
+
+function SignOutButton({ className = buttonClass }: { className?: string }) {
+  return (
+    <form action={signOutUser}>
+      <RedirectField />
+      <button type="submit" className={className}>
+        Sign out
+      </button>
+    </form>
+  );
+}
+
+function SignInButton({ compact, fullWidth }: { compact: boolean; fullWidth?: boolean }) {
+  return (
+    <form action={signInWithGoogle} className={fullWidth ? "w-full" : undefined}>
+      <RedirectField />
+      <button type="submit" className={`${buttonClass} ${fullWidth ? "w-full justify-start" : ""}`}>
+        <GoogleMark className="size-4 shrink-0" />
+        <span className="truncate">{compact ? "Sign in" : "Sign in with Google"}</span>
+      </button>
+    </form>
+  );
+}
+
 export function AuthControls({
   variant,
 }: {
@@ -62,7 +92,7 @@ export function AuthControls({
   const { data, status } = useSession();
   const compact = variant === "header";
 
-  if (status === "loading") {
+  if (status === "loading" || (enabled === null && !data?.user)) {
     return (
       <span className="inline-flex min-h-11 items-center px-2 text-xs text-muted">
         {compact ? "…" : "Checking sign-in…"}
@@ -82,11 +112,7 @@ export function AuthControls({
           {variant === "nav" ? (
             <span className="hidden max-w-[12rem] truncate text-xs text-muted xl:inline">{label}</span>
           ) : null}
-          {variant === "nav" ? (
-            <button type="button" onClick={() => signOut()} className={buttonClass}>
-              Sign out
-            </button>
-          ) : null}
+          {variant === "nav" ? <SignOutButton /> : null}
         </div>
       );
     }
@@ -104,9 +130,7 @@ export function AuthControls({
             <p className="truncate text-sm font-medium text-foreground">{data.user.name || "Signed in"}</p>
             <p className="truncate text-xs text-muted">{label}</p>
           </div>
-          <button type="button" onClick={() => signOut()} className={buttonClass}>
-            Sign out
-          </button>
+          <SignOutButton />
         </div>
         <p className="mt-2 text-xs leading-5 text-muted">
           Saved nights sync to this Google account when a store is configured.
@@ -120,20 +144,12 @@ export function AuthControls({
     return (
       <p className="rounded-xl border border-dashed border-card-border px-3 py-3 text-xs leading-5 text-muted">
         Sign in with Google is not configured on this deploy. Add{" "}
-        <code className="text-foreground">AUTH_GOOGLE_ID</code> and{" "}
-        <code className="text-foreground">AUTH_GOOGLE_SECRET</code> on Vercel.
+        <code className="text-foreground">AUTH_SECRET</code>,{" "}
+        <code className="text-foreground">AUTH_GOOGLE_ID</code>, and{" "}
+        <code className="text-foreground">AUTH_GOOGLE_SECRET</code> on Vercel Production.
       </p>
     );
   }
 
-  return (
-    <button
-      type="button"
-      onClick={() => signIn("google")}
-      className={`${buttonClass} ${variant === "menu" ? "w-full justify-start" : ""}`}
-    >
-      <GoogleMark className="size-4 shrink-0" />
-      <span className="truncate">{compact ? "Sign in" : "Sign in with Google"}</span>
-    </button>
-  );
+  return <SignInButton compact={compact} fullWidth={variant === "menu"} />;
 }
