@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { AuthControls } from "@/components/auth-controls";
 import { MyTeamsBar } from "@/components/my-teams-bar";
-import { QuantityPicker } from "@/components/quantity-picker";
+import { QuantityStepper } from "@/components/quantity-picker";
+import { IconBell, IconBookmark, IconChevron, IconShield } from "@/components/ui-icons";
 import { allTeams } from "@/lib/catalog";
-import { FIELD_CHIP } from "@/lib/field-control";
 import { writeHomeMine } from "@/lib/home-prefs";
 import { NO_TICKET_SALES_LINE, UNOFFICIAL_ESTIMATE_LINE } from "@/lib/legal";
 import { togglePinnedTeam } from "@/lib/my-teams";
@@ -20,12 +20,9 @@ export function ProfileClient() {
   const { ids, qty } = useStoredShortlist();
 
   return (
-    <div className="space-y-4">
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted">You</p>
-        <div className="mt-3">
-          <AuthControls variant="profile" />
-        </div>
+    <div className="space-y-6">
+      <section className="text-center">
+        <AuthControls variant="profile" />
       </section>
 
       <MyTeamsBar
@@ -40,78 +37,71 @@ export function ProfileClient() {
         onShowAll={() => writeHomeMine(false)}
       />
 
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted">Saved</p>
+      <section className="overflow-hidden rounded-2xl border border-card-border bg-card/80">
         <button
           type="button"
           onClick={() => requestShortlistOpen()}
           aria-label={ids.length ? `Open Saved, ${ids.length} games` : "Open Saved"}
-          className="mt-3 inline-flex min-h-11 w-full items-center justify-between rounded-xl bg-accent/10 px-3 text-left text-sm font-semibold text-accent"
+          className="flex min-h-14 w-full items-center gap-3 px-4 text-left"
         >
-          <span>Open Saved</span>
-          <span className="text-xs font-medium text-muted">{ids.length ? `${ids.length}` : "None yet"}</span>
+          <IconBookmark />
+          <span className="flex-1 text-sm font-medium text-foreground">Open Saved</span>
+          {ids.length ? (
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-semibold text-accent">
+              {ids.length}
+            </span>
+          ) : null}
+          <span className="text-muted">
+            <IconChevron />
+          </span>
         </button>
-        <p className="mt-2 text-xs leading-5 text-muted">
-          Tap Save on a game or trip kit. Share and invite still use{" "}
-          <code className="text-foreground">ids=</code>.
-        </p>
+        <div className="mx-4 border-t border-card-border" />
+        <Link href="/alerts" className="flex min-h-14 items-center gap-3 px-4">
+          <IconBell />
+          <span className="flex-1 text-sm font-medium text-foreground">Alerts</span>
+          <span className="text-muted">
+            <IconChevron />
+          </span>
+        </Link>
       </section>
 
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted">Home default</p>
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Home default view">
-          <button
-            type="button"
-            aria-pressed={homeMine}
-            onClick={() => writeHomeMine(true)}
-            className={`${FIELD_CHIP} ${
-              homeMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-            }`}
-          >
-            My teams
-          </button>
-          <button
-            type="button"
-            aria-pressed={!homeMine}
-            onClick={() => writeHomeMine(false)}
-            className={`${FIELD_CHIP} ${
-              !homeMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-            }`}
-          >
-            All teams
-          </button>
+      <section className="space-y-4 rounded-2xl border border-card-border bg-card/80 p-4">
+        <div className="flex min-h-11 items-center justify-between gap-3">
+          <p className="text-sm font-medium text-foreground">Default ticket quantity</p>
+          <QuantityStepper value={qty} onChange={writeStoredQty} />
         </div>
-        <p className="mt-2 text-xs leading-5 text-muted">
-          Used when Home has no <code className="text-foreground">mine=</code> in the URL.
-        </p>
-      </section>
-
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">Ticket quantity</p>
-        <QuantityPicker value={qty} onChange={writeStoredQty} />
-      </section>
-
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <div className="flex flex-col gap-2">
-          <Link
-            href="/alerts"
-            className="inline-flex min-h-11 items-center justify-between rounded-xl px-1 text-sm font-medium text-foreground"
-          >
-            <span>Alerts</span>
-            <span className="text-xs text-muted">In-app prefs</span>
-          </Link>
-          <Link
-            href="/teams"
-            className="inline-flex min-h-11 items-center rounded-xl px-1 text-sm font-medium text-accent"
-          >
-            All team tiles
-          </Link>
+        <div className="flex min-h-11 items-center justify-between gap-3">
+          <p className="text-sm font-medium text-foreground">Home default</p>
+          <div className="inline-flex rounded-full bg-background p-1" role="group" aria-label="Home default view">
+            <button
+              type="button"
+              aria-pressed={homeMine}
+              onClick={() => writeHomeMine(true)}
+              className={`inline-flex min-h-10 items-center rounded-full px-3 text-xs font-semibold ${
+                homeMine ? "bg-accent/20 text-foreground" : "text-muted"
+              }`}
+            >
+              My teams
+            </button>
+            <button
+              type="button"
+              aria-pressed={!homeMine}
+              onClick={() => writeHomeMine(false)}
+              className={`inline-flex min-h-10 items-center rounded-full px-3 text-xs font-semibold ${
+                !homeMine ? "bg-accent/20 text-foreground" : "text-muted"
+              }`}
+            >
+              All
+            </button>
+          </div>
         </div>
       </section>
 
-      <p className="text-xs leading-5 text-muted">
-        {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Alerts do not send email or
-        web-push.
+      <p className="flex items-start gap-2 text-xs leading-5 text-muted">
+        <span className="mt-0.5 text-muted">
+          <IconShield />
+        </span>
+        {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
       </p>
     </div>
   );

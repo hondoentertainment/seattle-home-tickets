@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BundleNights } from "@/components/bundle-nights";
 import { FilterCombobox } from "@/components/filter-combobox";
 import { FilterSheet } from "@/components/filter-sheet";
+import { GameCard } from "@/components/game-card";
 import { GameDetail } from "@/components/game-detail";
 import { GroupInviteBanner } from "@/components/group-invite-banner";
 import { HolidayShowcase } from "@/components/holiday-showcase";
@@ -18,6 +19,7 @@ import { MyTeamsBar } from "@/components/my-teams-bar";
 import { QuantityPicker } from "@/components/quantity-picker";
 import { SaveToggle } from "@/components/save-toggle";
 import { SearchBox } from "@/components/search-box";
+import { IconSliders } from "@/components/ui-icons";
 import {
   GENDER_LABELS,
   allMonths,
@@ -33,12 +35,11 @@ import { DISCOVERY_TAGS, LEVEL_LABELS, type DiscoveryTag, type GameLevel } from 
 import { writeHomeMine } from "@/lib/home-prefs";
 import { togglePinnedTeam } from "@/lib/my-teams";
 import { usePinnedTeams } from "@/lib/use-my-teams";
-import { estimateSpreadLabel } from "@/lib/price-band";
 import { CATALOG_REFRESH_EVENT } from "@/lib/refresh";
-import { FIELD_CHIP, FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
+import { FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
 import { filterGames } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
-import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
+import { estimateForQty } from "@/lib/quantity";
 import { readStoredIds, writeStoredIds } from "@/lib/url-state";
 import { unionSavedIds } from "@/lib/saved-ids";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
@@ -113,6 +114,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           header: "Save",
           cell: (info) => (
             <SaveToggle
+              variant="heart"
               saved={selected.has(info.row.original.id)}
               onToggle={() => toggleId(info.row.original.id)}
               matchup={`${info.row.original.team} vs ${info.row.original.opponent}`}
@@ -212,8 +214,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     inviteIds.length > 0 && inviteIds.every((id) => storedSaved.includes(id));
 
   const filterPanel = (
-      <div className="flex flex-col gap-2 rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-        <div className="flex flex-col gap-2 md:flex-row md:items-stretch">
+      <div className="space-y-2">
+        <div className="flex items-stretch gap-2">
           <SearchBox
             value={draftQ}
             onChange={setDraftQ}
@@ -227,25 +229,17 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               }));
             }}
           />
-          <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
-        </div>
-
-        <div className="flex items-center gap-2">
           <button
             type="button"
             aria-expanded={filtersOpen}
             onClick={() => setFiltersOpen(true)}
-            className={`${FIELD_CHIP} ${
-              extraFilterCount
-                ? "border-accent/50 bg-accent/10 text-accent"
-                : "border-card-border bg-card text-muted"
+            className={`${FIELD_SHELL} inline-flex shrink-0 items-center gap-2 bg-card px-3 text-sm font-semibold ${
+              extraFilterCount ? "border-accent/50 text-accent" : "text-foreground"
             }`}
           >
-            <span className="truncate">Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""}</span>
+            <IconSliders />
+            <span>Filters{extraFilterCount ? ` · ${extraFilterCount}` : ""}</span>
           </button>
-          <span className="ml-auto text-xs leading-5 text-muted">
-            {filtered.length} {filtered.length === 1 ? "game" : "games"}
-          </span>
         </div>
         <ActiveFilterChips
           state={state}
@@ -286,6 +280,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           }}
         />
       ) : null}
+      {filterPanel}
       {variant === "home" ? (
         <MyTeamsBar
           allTeams={allTeams}
@@ -304,41 +299,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
           }}
         />
       ) : null}
-      {variant === "home" ? <BundleNights /> : null}
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Discovery">
-        {(["pro", "college", "hs"] as GameLevel[]).map((level) => (
-          <button
-            key={level}
-            type="button"
-            aria-pressed={state.levels.includes(level)}
-            onClick={() => toggleLevel(level)}
-            className={`${FIELD_CHIP} ${
-              state.levels.includes(level)
-                ? "border-accent/50 bg-accent/10 text-accent"
-                : "border-card-border bg-card text-muted"
-            }`}
-          >
-            {LEVEL_LABELS[level]}
-          </button>
-        ))}
-        {DISCOVERY_TAGS.map((tag) => (
-          <button
-            key={tag}
-            type="button"
-            aria-pressed={state.focusTags.includes(tag)}
-            onClick={() => toggleFocusTag(tag)}
-            className={`${FIELD_CHIP} ${
-              state.focusTags.includes(tag)
-                ? "border-accent/50 bg-accent/10 text-accent"
-                : "border-card-border bg-card text-muted"
-            }`}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
-      {filterPanel}
+      {variant === "home" ? (
+        <div className="hidden md:block">
+          <BundleNights />
+        </div>
+      ) : null}
       <FilterSheet open={filtersOpen} onClose={() => setFiltersOpen(false)}>
+        <QuantityPicker value={state.qty} onChange={(qty) => patch({ qty })} />
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
@@ -472,7 +439,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                     <td
                       key={cell.id}
                       className="px-3 py-3 text-muted"
-                      onClick={cell.column.id === "select" ? (event) => event.stopPropagation() : undefined}
+                      onClick={
+                      cell.column.id === "select"
+                        ? (event) => {
+                            event.stopPropagation();
+                          }
+                        : undefined
+                    }
                     >
                       {cell.column.id === "team" ? (
                         <div>
@@ -488,12 +461,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                           ) : null}
                         </div>
                       ) : cell.column.id === "estGroup" ? (
-                        <div>
-                          <table.FlexRender cell={cell} />
-                          <div className="mt-1 text-[10px] text-muted">
-                            Band {estimateSpreadLabel(row.original.estPriceEachUsd, state.qty)} · unofficial
-                          </div>
-                        </div>
+                        <table.FlexRender cell={cell} />
                       ) : (
                         <table.FlexRender cell={cell} />
                       )}
@@ -509,45 +477,20 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
         ) : null}
       </div>
 
-      <div className="space-y-4 md:hidden">
+      <div className="space-y-3 md:hidden">
         {filtered.length === 0 ? (
           <EmptyGames onClear={clearFilters} />
         ) : null}
-        {table.getRowModel().rows.map((row) => {
-          const game = row.original;
-          return (
-            <article key={game.id} className="flex gap-3 rounded-2xl border border-card-border bg-card p-4">
-              <button
-                type="button"
-                onClick={() => setOpenId(game.id)}
-                className="min-w-0 flex-1 text-left"
-              >
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-                  {formatGameDateShort(game.date)} · {game.timePt}
-                </p>
-                <h2 className="mt-1 text-[17px] font-bold leading-6 text-foreground">
-                  {game.team} vs {game.opponent}
-                </h2>
-                <p className="mt-1 text-sm text-muted">{game.venue}</p>
-                <p className="mt-3 text-xl font-bold tabular-nums text-accent">
-                  {formatUsd(estimateForQty(game.estPriceEachUsd, state.qty))}
-                  <span className="ml-2 text-xs font-medium text-muted">{qtyEstimateLabel(state.qty)}</span>
-                </p>
-                <p className="mt-1 text-xs text-muted">
-                  Unofficial band {estimateSpreadLabel(game.estPriceEachUsd, state.qty)} · not live
-                </p>
-                <span className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-accent">
-                  Tickets
-                </span>
-              </button>
-              <SaveToggle
-                saved={selected.has(game.id)}
-                onToggle={() => toggleId(game.id)}
-                matchup={`${game.team} vs ${game.opponent}`}
-              />
-            </article>
-          );
-        })}
+        {table.getRowModel().rows.map((row) => (
+          <GameCard
+            key={row.original.id}
+            game={row.original}
+            qty={state.qty}
+            saved={selected.has(row.original.id)}
+            onOpen={() => setOpenId(row.original.id)}
+            onToggleSave={() => toggleId(row.original.id)}
+          />
+        ))}
       </div>
 
       {openGame ? (

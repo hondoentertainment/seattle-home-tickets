@@ -2,7 +2,7 @@
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — My teams, Refresh, discovery chips (Pro / College / HS / Rivalry), same-weekend slates, filters, trip-kit sheet
+- **Home (`/`)** — Search + Filters, My teams monogram chips, game cards (date, monograms, price for qty, heart Save). Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
@@ -99,7 +99,7 @@ Copy [`.env.example`](.env.example) to `.env.local` and paste real values. Do no
 | `AUTH_URL` | **Production only** | `https://seattle-home-tickets.vercel.app` on the Vercel Production environment. Optional locally (`http://localhost:3000`). **Do not set on Preview** — Auth.js uses `trustHost` and the request host |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Account Saved sync | Preferred store |
 | `DATABASE_URL` or `POSTGRES_URL` | Account Saved sync | Neon fallback; creates `saved_events` on first write |
-| `GH_REFRESH_TOKEN` | Home **Refresh** → Action | Optional. Fine-grained PAT with Actions read/write. Cron still runs without it |
+| `GH_REFRESH_TOKEN` | Header **Refresh** → Action | Optional. Fine-grained PAT with Actions read/write. Cron still runs without it |
 
 ### Google Cloud Console
 
@@ -137,9 +137,9 @@ Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week
 
 ## Daily refresh
 
-A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles**, on `workflow_dispatch` (Actions tab or the Home **Refresh** button), and on `repository_dispatch` type `catalog-refresh`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
+A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles**, on `workflow_dispatch` (Actions tab or the header **Refresh** icon), and on `repository_dispatch` type `catalog-refresh`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
 
-GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick). Manual / Home-button runs skip that gate.
+GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick). Manual / header-icon runs skip that gate.
 
 What it **does**:
 
@@ -160,9 +160,9 @@ What it **does not**:
 - Bump `games.json` `asOf` just because the clock moved
 - Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
-### Home Refresh button
+### Header Refresh icon
 
-Home (`/`) has a **Refresh** control at the top (44px tap target, both viewports). It:
+The site header has an icon-only **Refresh** control (circular arrows, 44px tap target, `aria-label="Refresh"`) next to Profile on mobile and desktop. It:
 
 1. Reloads this page (`router.refresh()`) and refetches the Open-Meteo travel forecast
 2. Calls `POST /api/refresh`, which does **not** invent a new catalog
@@ -175,9 +175,9 @@ Optional Production secret:
 
 | Variable | Required for | Notes |
 | --- | --- | --- |
-| `GH_REFRESH_TOKEN` | Home button → Action | Fine-grained PAT with **Actions: Read and write** on this repo. Classic: `public_repo` + `workflow` (or `repo` if private). Not needed for the 7am cron. |
+| `GH_REFRESH_TOKEN` | Header icon → Action | Fine-grained PAT with **Actions: Read and write** on this repo. Classic: `public_repo` + `workflow` (or `repo` if private). Not needed for the 7am cron. |
 
-The site shows **last checked** (Pacific date and time) on Home under the nav and **catalog as of** + last checked in the footer. If `main` has a newer stamp than this deploy, Home says a newer check is waiting for deploy. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
+The site shows **catalog as of** + last checked in the footer. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 
@@ -222,7 +222,7 @@ This is a standard Next.js app. No `vercel.json` is required. Preview deploys ar
 4. Add env vars from the table above when you are ready for Google sign-in / Saved sync.
 5. Deploy. Subsequent pushes to `main` rebuild automatically if the project is git-linked.
 
-**GitHub Actions permissions (required for the 7am stamp commit):** Repo → Settings → Actions → General → Workflow permissions → **Read and write**. Enable **Allow GitHub Actions to create and approve pull requests** so a seed-drift or blocked-push stamp PR can open. The Home button token (`GH_REFRESH_TOKEN`) is separate and only needed to queue that workflow from production.
+**GitHub Actions permissions (required for the 7am stamp commit):** Repo → Settings → Actions → General → Workflow permissions → **Read and write**. Enable **Allow GitHub Actions to create and approve pull requests** so a seed-drift or blocked-push stamp PR can open. The header Refresh token (`GH_REFRESH_TOKEN`) is separate and only needed to queue that workflow from production.
 
 **Custom domain (optional, not done in this repo):** in Vercel → Project → Settings → Domains, add the hostname you control, then create the DNS records Vercel shows (usually `A` / `CNAME`). Add that origin and `/api/auth/callback/google` in Google Cloud. Do not buy a domain from this codebase.
 

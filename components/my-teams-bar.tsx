@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { TeamMark } from "@/components/team-mark";
 import { FIELD_CHIP } from "@/lib/field-control";
 import { DEFAULT_PINNED_TEAMS } from "@/lib/my-teams";
+import { displayMark } from "@/lib/teams";
 
 export function MyTeamsBar({
   allTeams,
@@ -21,45 +23,102 @@ export function MyTeamsBar({
   onShowAll: () => void;
   variant?: "home" | "profile";
 }) {
-  const [open, setOpen] = useState(variant === "profile");
+  const [open, setOpen] = useState(false);
   const viewingMine = mine && pinned.length > 0;
-  const pinCount = pinned.length;
 
-  return (
-    <div className="rounded-2xl border border-card-border bg-card/80 p-3 sm:p-4">
-      <div className="flex flex-wrap items-center gap-2">
-        {variant === "home" ? (
-          <>
-            <button
-              type="button"
-              aria-pressed={viewingMine}
-              onClick={viewingMine ? onShowAll : onShowMine}
-              className={`${FIELD_CHIP} ${
-                viewingMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-              }`}
-            >
-              {viewingMine ? `My teams · ${pinCount}` : pinCount ? "Show my teams" : "My teams"}
-            </button>
+  if (variant === "home") {
+    return (
+      <div>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm font-semibold text-muted">My teams</p>
+          <div className="flex items-center gap-2">
             {viewingMine ? (
               <button
                 type="button"
                 onClick={onShowAll}
-                className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-muted hover:text-foreground"
+                className="inline-flex min-h-11 items-center text-xs font-semibold text-muted hover:text-foreground"
               >
-                All teams
+                All
               </button>
-            ) : null}
-          </>
-        ) : (
-          <p className="text-sm font-semibold text-foreground">My teams · {pinCount}</p>
-        )}
+            ) : (
+              <button
+                type="button"
+                onClick={onShowMine}
+                className="inline-flex min-h-11 items-center text-xs font-semibold text-accent"
+              >
+                My teams
+              </button>
+            )}
+            <button
+              type="button"
+              aria-expanded={open}
+              onClick={() => setOpen((value) => !value)}
+              className="inline-flex min-h-11 items-center text-xs font-semibold text-accent"
+            >
+              {open ? "Done" : "Edit"}
+            </button>
+          </div>
+        </div>
+        {!open && pinned.length === 0 ? (
+          <p className="text-xs leading-5 text-muted">Pin clubs with Edit to filter Home.</p>
+        ) : null}
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {(open ? allTeams : pinned).map((team) => {
+            const active = pinned.includes(team);
+            const mark = displayMark(team);
+            return (
+              <button
+                key={team}
+                type="button"
+                aria-pressed={open ? active : viewingMine}
+                onClick={() => (open ? onTogglePin(team) : onShowMine())}
+                className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-2.5 text-xs font-medium ${
+                  open
+                    ? active
+                      ? "border-accent bg-accent/15 text-accent"
+                      : "border-card-border bg-card text-muted"
+                    : "border-card-border bg-card text-foreground"
+                }`}
+              >
+                <TeamMark mark={mark} size="chip" />
+                {mark.short}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted">My teams</p>
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        {pinned.map((team) => {
+          const mark = displayMark(team);
+          return (
+            <button
+              key={team}
+              type="button"
+              aria-label={`Unpin ${team}`}
+              onClick={() => onTogglePin(team)}
+              className="flex flex-col items-center gap-1"
+            >
+              <TeamMark mark={mark} size="card" />
+              <span className="max-w-14 truncate text-[10px] font-medium text-muted">{mark.short}</span>
+            </button>
+          );
+        })}
         <button
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex min-h-11 items-center rounded-full px-2 text-xs font-semibold text-accent"
+          className="flex flex-col items-center gap-1"
         >
-          {open ? "Done" : "Edit pins"}
+          <span className="grid size-11 place-items-center rounded-full border border-dashed border-muted text-lg leading-none text-muted">
+            +
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">Add</span>
         </button>
       </div>
       {open ? (
@@ -72,10 +131,8 @@ export function MyTeamsBar({
                 type="button"
                 aria-pressed={active}
                 onClick={() => onTogglePin(team)}
-                className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium ${
-                  active
-                    ? "border-accent bg-accent/15 text-accent"
-                    : "border-card-border bg-background text-muted"
+                className={`${FIELD_CHIP} ${
+                  active ? "border-accent bg-accent/15 text-accent" : "border-card-border bg-card text-muted"
                 }`}
               >
                 {team.replace("Seattle ", "").replace("Washington ", "")}
@@ -83,19 +140,11 @@ export function MyTeamsBar({
             );
           })}
         </div>
-      ) : (
+      ) : pinned.length === 0 ? (
         <p className="mt-2 text-xs leading-5 text-muted">
-          {variant === "profile"
-            ? pinCount
-              ? "Pins stay on this device. Home uses them when My teams is the default view."
-              : `Pin clubs to filter Home. Defaults were ${DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.`
-            : viewingMine
-              ? "Home is showing pinned clubs. All teams clears the view without deleting pins."
-              : pinCount
-                ? "Pins stay saved. Tap Show my teams to filter Home."
-                : `Pin clubs to filter Home. Defaults were ${DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.`}
+          Pin clubs to filter Home. Defaults were {DEFAULT_PINNED_TEAMS.length} Seattle teams + Huskies.
         </p>
-      )}
+      ) : null}
     </div>
   );
 }
