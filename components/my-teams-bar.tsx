@@ -23,7 +23,7 @@ export function MyTeamsBar({
   onShowAll: () => void;
   variant?: "home" | "profile";
 }) {
-  const [open, setOpen] = useState(variant === "profile");
+  const [open, setOpen] = useState(false);
   const viewingMine = mine && pinned.length > 0;
 
   if (variant === "home") {

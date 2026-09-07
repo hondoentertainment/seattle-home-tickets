@@ -44,7 +44,13 @@ export function GameCard({
           <span className="block text-[11px] text-muted">for {qty}</span>
         </span>
       </button>
-      <SaveToggle variant="heart" saved={saved} onToggle={onToggleSave} matchup={matchup} />
+      <div
+        className="relative z-10 shrink-0"
+        onClick={(event) => event.stopPropagation()}
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        <SaveToggle variant="heart" saved={saved} onToggle={onToggleSave} matchup={matchup} />
+      </div>
     </article>
   );
 }

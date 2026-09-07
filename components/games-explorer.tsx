@@ -439,7 +439,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
                     <td
                       key={cell.id}
                       className="px-3 py-3 text-muted"
-                      onClick={cell.column.id === "select" ? (event) => event.stopPropagation() : undefined}
+                      onClick={
+                      cell.column.id === "select"
+                        ? (event) => {
+                            event.stopPropagation();
+                          }
+                        : undefined
+                    }
                     >
                       {cell.column.id === "team" ? (
                         <div>
