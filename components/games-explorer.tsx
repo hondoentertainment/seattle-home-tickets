@@ -29,7 +29,7 @@ import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parse
 import { estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
 import { shortlistMarkdown } from "@/lib/share";
 import type { Game, Gender, WeatherBlurb } from "@/lib/types";
-import { EMPTY_STATE, shareUrl } from "@/lib/url-state";
+import { EMPTY_STATE, requestShortlistOpen, shareUrl } from "@/lib/url-state";
 import { toggleListValue, useExplorerState } from "@/lib/use-explorer-state";
 import { getForecast, weatherForDate } from "@/lib/weather";
 
@@ -225,10 +225,10 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
 
         <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:items-center">
           <ToggleChip
-            active={state.selectedOnly}
-            onClick={() => patch({ selectedOnly: !state.selectedOnly })}
+            active={state.selectedOnly || selected.size > 0}
+            onClick={requestShortlistOpen}
           >
-            Selected
+            {selected.size ? `Saved · ${selected.size}` : "Saved"}
           </ToggleChip>
           {(["men", "women"] as const).map((value) => (
             <ToggleChip
@@ -501,9 +501,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
       {selectedGames.length ? (
         <div className="page-gutter fixed inset-x-0 bottom-0 z-30 border-t border-card-border bg-background/95 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] backdrop-blur">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-foreground">
-              {selectedGames.length} selected
-            </p>
+            <button
+              type="button"
+              onClick={requestShortlistOpen}
+              className="text-left text-sm text-foreground"
+            >
+              {selectedGames.length} saved
+            </button>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -521,10 +525,10 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
               </button>
               <button
                 type="button"
-                onClick={() => patch({ selectedOnly: true })}
+                onClick={requestShortlistOpen}
                 className="inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs"
               >
-                Review
+                List
               </button>
               <button
                 type="button"

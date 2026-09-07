@@ -75,7 +75,7 @@ const faqs: { q: string; a: ReactNode }[] = [
         query if nothing is highlighted). Filter dropdowns work the same: type,
         arrow, then Enter or Select. Enter on a closed field opens the list. Escape
         closes without changing filters. Sport, team, venue, month, men/women, date
-        range, and Selected combine freely in the URL.
+        range, and Saved combine freely in the URL.
       </>
     ),
   },
@@ -83,9 +83,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "What is a shortlist?",
     a: (
       <>
-        Check <span className="text-foreground">Interested</span> on a row. Selection
-        is stored in localStorage and <code className="text-foreground">ids=</code> in
-        the URL so you can share the same slate. Copy summary writes markdown with
+        Check <span className="text-foreground">Interested</span> on a row to add it to
+        Saved. Open the list from the <span className="text-foreground">Saved</span> chip,
+        the Menu entry, or the desktop nav. The count updates as you add or remove
+        nights. Selection is stored in localStorage and <code className="text-foreground">ids=</code>{" "}
+        in the URL so you can share the same slate with prices. Copy writes markdown with
         date, matchup, venue, estimate, weather, travel, and ticket links.
       </>
     ),
