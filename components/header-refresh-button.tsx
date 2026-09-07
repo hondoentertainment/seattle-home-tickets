@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IconRefresh } from "@/components/ui-icons";
 import { toast } from "@/lib/feedback";
 import {
   formatLastCheckedShort,
@@ -9,21 +10,6 @@ import {
   requestCatalogClientRefresh,
   type RefreshStatus,
 } from "@/lib/refresh";
-
-function RefreshIcon({ spinning }: { spinning: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={`size-5 ${spinning ? "animate-spin" : ""}`}
-      aria-hidden
-    >
-      <path
-        fill="currentColor"
-        d="M17.65 6.35A7.96 7.96 0 0 0 12 4C7.58 4 4.01 7.58 4.01 12S7.58 20 12 20c3.73 0 6.84-2.55 7.73-6h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
-      />
-    </svg>
-  );
-}
 
 export function HeaderRefreshButton() {
   const router = useRouter();
@@ -57,9 +43,11 @@ export function HeaderRefreshButton() {
       disabled={pending}
       aria-label="Refresh"
       aria-busy={pending}
-      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl border border-card-border bg-card text-foreground hover:border-accent/50 hover:text-accent disabled:opacity-60 lg:rounded-full"
+      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-card-border bg-card text-foreground hover:border-accent/50 hover:text-accent disabled:opacity-60"
     >
-      <RefreshIcon spinning={pending} />
+      <span className={pending ? "animate-spin" : undefined}>
+        <IconRefresh />
+      </span>
     </button>
   );
 }

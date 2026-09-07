@@ -30,7 +30,7 @@ function GoogleMark({ className }: { className?: string }) {
 }
 
 function Avatar({ src, alt, large }: { src?: string | null; alt: string; large?: boolean }) {
-  const px = large ? 56 : 36;
+  const px = large ? 72 : 36;
   if (src) {
     return (
       <Image
@@ -38,7 +38,7 @@ function Avatar({ src, alt, large }: { src?: string | null; alt: string; large?:
         alt={alt}
         width={px}
         height={px}
-        className={`${large ? "size-14" : "size-9"} rounded-full bg-card object-cover`}
+        className={`${large ? "size-[4.5rem]" : "size-9"} rounded-full bg-card object-cover`}
         referrerPolicy="no-referrer"
       />
     );
@@ -46,7 +46,7 @@ function Avatar({ src, alt, large }: { src?: string | null; alt: string; large?:
   return (
     <span
       aria-hidden
-      className={`inline-flex ${large ? "size-14 text-lg" : "size-9 text-xs"} items-center justify-center rounded-full bg-accent/15 font-semibold text-accent`}
+      className={`inline-flex ${large ? "size-[4.5rem] text-2xl" : "size-9 text-xs"} items-center justify-center rounded-full bg-accent/15 font-semibold text-accent`}
     >
       {alt.slice(0, 1).toUpperCase() || "?"}
     </span>
@@ -57,7 +57,7 @@ const outlineButton =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm font-medium leading-5 text-foreground hover:border-accent/50";
 
 const primaryButton =
-  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 text-sm font-semibold leading-5 text-background";
+  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-foreground px-3 text-sm font-semibold leading-5 text-background";
 
 function RedirectField() {
   const pathname = usePathname();
@@ -99,17 +99,15 @@ export function AuthControls({
   if (status === "loading" || (enabled === null && !data?.user)) {
     if (variant === "profile") {
       return (
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center gap-2">
           <span
             aria-hidden
-            className="inline-flex size-14 items-center justify-center rounded-full bg-card text-sm font-semibold text-muted"
+            className="inline-flex size-16 items-center justify-center rounded-full bg-card text-sm font-semibold text-muted"
           >
             ·
           </span>
-          <div>
-            <p className="text-base font-semibold text-muted">Checking sign-in…</p>
-            <p className="text-xs leading-5 text-muted">Local prefs still work.</p>
-          </div>
+          <p className="text-xl font-semibold text-muted">Checking sign-in…</p>
+          <p className="text-sm text-muted">Local prefs still work.</p>
         </div>
       );
     }
@@ -136,15 +134,11 @@ export function AuthControls({
     }
     if (variant === "profile") {
       return (
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-center gap-3">
           <Avatar src={data.user.image} alt={data.user.name || label} large />
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-base font-semibold text-foreground">{data.user.name || "Signed in"}</p>
+          <div className="min-w-0">
+            <p className="truncate text-2xl font-bold text-foreground">{data.user.name || "Signed in"}</p>
             {data.user.email ? <p className="truncate text-sm text-muted">{data.user.email}</p> : null}
-            <p className="mt-1 text-xs leading-5 text-muted">
-              Saved and alert prefs can sync to this account when Redis or Neon is configured.
-              Otherwise they stay on this device.
-            </p>
           </div>
           <SignOutButton />
         </div>
@@ -165,15 +159,13 @@ export function AuthControls({
   if (!enabled) {
     if (variant === "profile") {
       return (
-        <div className="flex items-start gap-3">
+        <div className="flex flex-col items-center gap-2">
           <Avatar alt="Guest" large />
-          <div>
-            <p className="text-base font-semibold text-foreground">Guest</p>
-            <p className="mt-1 text-sm leading-6 text-muted">
-              My teams, alerts, ticket quantity, and Saved stay on this device. Google
-              sign-in is not configured on this deploy.
-            </p>
-          </div>
+          <p className="text-2xl font-bold text-foreground">Guest</p>
+          <p className="text-sm text-muted">Sign in for a better experience</p>
+          <p className="max-w-sm text-xs leading-5 text-muted">
+            Google sign-in is not configured on this deploy. Prefs stay on this device.
+          </p>
         </div>
       );
     }
@@ -182,16 +174,11 @@ export function AuthControls({
 
   if (variant === "profile") {
     return (
-      <div className="space-y-3">
-        <div className="flex items-start gap-3">
+      <div className="space-y-4">
+        <div className="flex flex-col items-center gap-2">
           <Avatar alt="Guest" large />
-          <div>
-            <p className="text-base font-semibold text-foreground">Guest</p>
-            <p className="mt-1 text-sm leading-6 text-muted">
-              Prefs stay on this device until you sign in. Saved and alerts can sync after
-              Google + Redis/Neon are set.
-            </p>
-          </div>
+          <p className="text-2xl font-bold text-foreground">Guest</p>
+          <p className="text-sm text-muted">Sign in for a better experience</p>
         </div>
         <SignInButton compact={false} prominent />
       </div>

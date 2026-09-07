@@ -57,7 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <AuthSessionProvider>
           <SiteNav />
-          <div className="flex flex-1 flex-col">{children}</div>
+          <div className="flex flex-1 flex-col pb-20 lg:pb-0">{children}</div>
           <SiteFooter />
           <ShortlistHost />
           <ToastHost />

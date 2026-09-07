@@ -2,7 +2,7 @@
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — My teams, discovery chips (Pro / College / HS / Rivalry), same-weekend slates, filters, trip-kit sheet. Header **Refresh** icon reloads the page and can queue the catalog Action
+- **Home (`/`)** — Search + Filters, My teams monogram chips, game cards (date, monograms, price for qty, heart Save). Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
 - **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records

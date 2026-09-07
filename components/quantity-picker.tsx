@@ -3,7 +3,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { FIELD_LIST, FIELD_TRIGGER } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
-import { QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
+import { clampQty, MAX_QTY, MIN_QTY, QTY_OPTIONS, qtyNoun } from "@/lib/quantity";
 
 export function QuantityPicker({
   value,
@@ -133,6 +133,38 @@ export function QuantityPicker({
           })}
         </ul>
       ) : null}
+    </div>
+  );
+}
+
+export function QuantityStepper({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (qty: number) => void;
+}) {
+  return (
+    <div className="inline-flex items-center rounded-full bg-card" role="group" aria-label="Default ticket quantity">
+      <button
+        type="button"
+        aria-label="Decrease quantity"
+        disabled={value <= MIN_QTY}
+        onClick={() => onChange(clampQty(value - 1))}
+        className="inline-flex min-h-11 min-w-11 items-center justify-center text-lg text-foreground disabled:opacity-40"
+      >
+        −
+      </button>
+      <span className="min-w-6 text-center text-sm font-semibold tabular-nums text-foreground">{value}</span>
+      <button
+        type="button"
+        aria-label="Increase quantity"
+        disabled={value >= MAX_QTY}
+        onClick={() => onChange(clampQty(value + 1))}
+        className="inline-flex min-h-11 min-w-11 items-center justify-center text-lg text-foreground disabled:opacity-40"
+      >
+        +
+      </button>
     </div>
   );
 }
