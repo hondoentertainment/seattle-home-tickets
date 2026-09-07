@@ -1,0 +1,537 @@
+{
+  "asOf": "2026-09-07",
+  "title": "Library",
+  "disclaimer": "Unofficial fan and editorial reading list. Not affiliated with any league, club, or school. Book, article, and podcast links leave this site. Titles were checked against publisher pages, official team media, and major outlets — nothing invented to fill a slot.",
+  "collections": [
+    {
+      "id": "seahawks",
+      "team": "Seattle Seahawks",
+      "short": "Seahawks",
+      "sport": "NFL",
+      "coverage": "full",
+      "coverageNote": null,
+      "books": [
+        {
+          "id": "seahawks-100-things",
+          "title": "100 Things Seahawks Fans Should Know & Do Before They Die",
+          "author": "John Morgan",
+          "year": 2014,
+          "blurb": "Triumph’s franchise checklist: lore, Super Bowl XLVIII, Pete Carroll, and 12s culture. Updated from the 2010 first edition.",
+          "href": "https://www.triumphbooks.com/100-things-seahawks-fans-should-know---do-before-they-die-products-9781600789588.php",
+          "hrefLabel": "Triumph Books"
+        },
+        {
+          "id": "seahawks-sideline-tales",
+          "title": "Tales from the Seattle Seahawks Sideline",
+          "author": "Steve Raible with Mike Sando",
+          "year": 2017,
+          "blurb": "Revised locker-room and broadcast-booth stories from the original wideout and longtime KIRO voice, covering Largent through the Holmgren years.",
+          "href": "https://www.skyhorsepublishing.com/sports-publishing/9781683581406/tales-from-the-seattle-seahawks-sideline/",
+          "hrefLabel": "Sports Publishing"
+        },
+        {
+          "id": "seahawks-win-forever",
+          "title": "Win Forever: Live, Work, and Play Like a Champion",
+          "author": "Pete Carroll with Yogi Roth and Kristoffer A. Garin",
+          "year": 2011,
+          "blurb": "Carroll’s “always compete” philosophy. The Portfolio paperback adds a chapter on his first Seahawks season after the 2010 hardcover.",
+          "href": "https://www.penguinrandomhouse.com/books/306479/win-forever-by-pete-carroll-with-yogi-roth-and-kristoffer-a-garin/",
+          "hrefLabel": "Penguin Random House"
+        }
+      ],
+      "articles": [
+        {
+          "id": "seahawks-sb48-gamer",
+          "title": "Seahawks dominate Denver from start to finish to win Super Bowl",
+          "outlet": "The Seattle Times",
+          "date": "2014-02-02",
+          "href": "https://www.seattletimes.com/sports/seahawks/seahawks-dominate-denver-from-start-to-finish-to-win-super-bowl/"
+        },
+        {
+          "id": "seahawks-sb48-brewer",
+          "title": "At long last, the Lombardi Trophy is coming to Seattle",
+          "outlet": "The Seattle Times",
+          "date": "2014-02-02",
+          "href": "https://www.seattletimes.com/sports/at-long-last-the-lombardi-trophy-is-coming-to-seattle/"
+        },
+        {
+          "id": "seahawks-wilson-trade",
+          "title": "‘I don’t think there’s any trust’: The irreconcilable differences of Russell Wilson, Seahawks",
+          "outlet": "The Athletic",
+          "date": "2022-03-09",
+          "href": "https://www.nytimes.com/athletic/3171850/2022/03/09/i-dont-think-theres-any-trust-the-irreconcilable-differences-of-russell-wilson-seahawks/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "seahawks-insiders",
+          "show": "Seahawks Insiders",
+          "hosts": "Jen Mueller and John Boyle",
+          "note": "Official club show: weekly game breakdowns from the sideline reporter and the team’s senior digital reporter.",
+          "href": "https://www.seahawks.com/audio/podcasts/seahawks-insiders/",
+          "hrefLabel": "seahawks.com"
+        },
+        {
+          "id": "locked-on-seahawks",
+          "show": "Locked On Seahawks",
+          "hosts": "Corbin Smith and Rob Rang",
+          "note": "Daily independent beat-and-draft show in the Locked On network.",
+          "href": "https://lockedonpodcasts.com/podcasts/locked-on-seahawks/",
+          "hrefLabel": "Locked On"
+        }
+      ]
+    },
+    {
+      "id": "mariners",
+      "team": "Seattle Mariners",
+      "short": "Mariners",
+      "sport": "MLB",
+      "coverage": "full",
+      "coverageNote": null,
+      "books": [
+        {
+          "id": "mariners-dugout-tales",
+          "title": "Tales from the Seattle Mariners Dugout",
+          "author": "Kirby Arnold",
+          "year": 2019,
+          "blurb": "Revised dugout history from the 1970s losses through Griffey, Unit, Edgar, and the 1995 “Refuse to Lose” rise. Arnold covered the club for The Herald.",
+          "href": "https://www.skyhorsepublishing.com/9781683582847/tales-from-the-seattle-mariners-dugout/",
+          "hrefLabel": "Sports Publishing"
+        },
+        {
+          "id": "mariners-100-things",
+          "title": "100 Things Mariners Fans Should Know & Do Before They Die",
+          "author": "Michael Emmerich",
+          "year": 2015,
+          "blurb": "King’s Court, Felix’s perfect game, the 116-win 2001 club, two Griffeys, and the Pilots footnote.",
+          "href": "https://www.triumphbooks.com/100-things-mariners-fans-should-know---do-before-they-die-products-9781629370705.php",
+          "hrefLabel": "Triumph Books"
+        },
+        {
+          "id": "mariners-pitchers-of-beer",
+          "title": "Pitchers of Beer: The Story of the Seattle Rainiers",
+          "author": "Dan Raley",
+          "year": 2011,
+          "blurb": "University of Nebraska Press history of Seattle’s PCL club (1937–1964) — the civic baseball story before the Mariners arrived in 1977.",
+          "href": "https://seattle.bibliocommons.com/v2/record/S30C2711274",
+          "hrefLabel": "Seattle Public Library"
+        }
+      ],
+      "articles": [
+        {
+          "id": "mariners-ichiro-hof",
+          "title": "Ichiro becomes third Mariners legend to enter Baseball Hall of Fame",
+          "outlet": "The Seattle Times",
+          "date": "2025-07-27",
+          "href": "https://www.seattletimes.com/sports/mariners/ichiro-becomes-third-mariners-legend-to-enter-baseball-hall-of-fame/"
+        },
+        {
+          "id": "mariners-116-win",
+          "title": "October 6, 2001: Seattle Mariners catch the 1906 Cubs with record-tying 116th win",
+          "outlet": "Society for American Baseball Research",
+          "date": null,
+          "href": "https://sabr.org/gamesproj/game/october-6-2001-seattle-mariners-catch-the-1906-cubs-with-record-tying-116th-win/"
+        },
+        {
+          "id": "mariners-legacy-plaza",
+          "title": "Mariners open ‘Legacy Plaza’ featuring statue of iconic 2001 American flag moment",
+          "outlet": "The Seattle Times",
+          "date": "2026-09-03",
+          "href": "https://www.seattletimes.com/sports/mariners/mariners-open-legacy-plaza-featuring-statue-of-iconic-2001-american-flag-moment/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "mariners-official-podcast",
+          "show": "Seattle Mariners Podcast",
+          "hosts": "Gary Hill",
+          "note": "Official club feed: highlights, interviews, and MLB.com extras.",
+          "href": "https://www.iheart.com/podcast/269-seattle-mariners-podcast-102774073/",
+          "hrefLabel": "iHeart"
+        },
+        {
+          "id": "locked-on-mariners",
+          "show": "Locked On Mariners",
+          "hosts": "Ty Dane Gonzalez and Colby Patnode",
+          "note": "Daily independent Mariners show in the Locked On network.",
+          "href": "https://lockedonpodcasts.com/podcasts/locked-on-mariners/",
+          "hrefLabel": "Locked On"
+        }
+      ]
+    },
+    {
+      "id": "kraken",
+      "team": "Seattle Kraken",
+      "short": "Kraken",
+      "sport": "NHL",
+      "coverage": "thin",
+      "coverageNote": "The club is young (2021). One substantial origin book, plus expansion reporting and official audio — not a deep bookshelf yet.",
+      "books": [
+        {
+          "id": "kraken-rising-from-the-deep",
+          "title": "Rising From the Deep: The Seattle Kraken, a Tenacious Push for Expansion, and the Emerald City’s Sports Revival",
+          "author": "Geoff Baker",
+          "year": 2022,
+          "blurb": "Seattle Times hockey reporter on how NHL Seattle was built after the Sonics left, from Metropolitans history to Climate Pledge Arena.",
+          "href": "https://www.triumphbooks.com/rising-from-the-deep-products-9781637270622.php",
+          "hrefLabel": "Triumph Books"
+        }
+      ],
+      "articles": [
+        {
+          "id": "kraken-expansion-faq",
+          "title": "Seattle approved as 32nd NHL franchise, to start play in 2021-22",
+          "outlet": "NHL.com",
+          "date": "2018-12-04",
+          "href": "https://www.nhl.com/news/seattle-is-32nd-nhl-franchise-will-start-play-in-2021-22-302583844"
+        },
+        {
+          "id": "kraken-joins-nhl",
+          "title": "‘Dream of Seattle and the NHL comes true’ as Kraken pays off expansion fee and officially joins league",
+          "outlet": "The Seattle Times",
+          "date": "2021-04-30",
+          "href": "https://www.seattletimes.com/sports/kraken/kraken-owner-david-bonderman-hails-dream-of-seattle-and-the-nhl-coming-true-as-32nd-franchise-approved/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "kraken-signals",
+          "show": "Signals From The Deep",
+          "hosts": "Piper Shaw and JT Brown",
+          "note": "Official Kraken podcast: interviews, analysis, and road dispatches.",
+          "href": "https://podcasts.apple.com/us/podcast/signals-from-the-deep/id1674688735",
+          "hrefLabel": "Apple Podcasts"
+        },
+        {
+          "id": "locked-on-kraken",
+          "show": "Locked On Kraken",
+          "hosts": "Zaiem Beg",
+          "note": "Daily independent Kraken show in the Locked On network.",
+          "href": "https://lockedonpodcasts.com/podcasts/locked-on-kraken/",
+          "hrefLabel": "Locked On"
+        }
+      ]
+    },
+    {
+      "id": "sounders",
+      "team": "Seattle Sounders FC",
+      "short": "Sounders",
+      "sport": "MLS",
+      "coverage": "full",
+      "coverageNote": null,
+      "books": [
+        {
+          "id": "sounders-100-things",
+          "title": "100 Things Sounders Fans Should Know & Do Before They Die",
+          "author": "Geoff Baker",
+          "year": 2018,
+          "blurb": "USL roots through the 2016 MLS Cup run, tifo culture, and Dempsey / Lodeiro-era nights. Baker then covered the club for The Seattle Times.",
+          "href": "https://www.triumphbooks.com/100-things-sounders-fans-should-know---do-before-they-die-products-9781629375670.php",
+          "hrefLabel": "Triumph Books"
+        },
+        {
+          "id": "sounders-sound-and-glory",
+          "title": "The Sound and the Glory: How the Seattle Sounders Showed Major League Soccer How to Win Over America",
+          "author": "Matt Pentz",
+          "year": 2019,
+          "blurb": "ECW Press narrative of the 2016 title — crowds, egos, and the first MLS Cup — by the Times beat writer who covered that run.",
+          "href": "https://ecwpress.com/products/sound-and-the-glory",
+          "hrefLabel": "ECW Press"
+        }
+      ],
+      "articles": [
+        {
+          "id": "sounders-mls-cup-2016",
+          "title": "First impressions: Sounders win first MLS Cup title in penalty-kick shootout",
+          "outlet": "The Seattle Times",
+          "date": "2016-12-10",
+          "href": "https://www.seattletimes.com/sports/sounders/first-impressions-sounders-win-first-mls-cup-title-in-penalty-kick-shootout/"
+        },
+        {
+          "id": "sounders-mls-cup-live",
+          "title": "Complete coverage: Sounders take down Toronto FC in PK’s to capture first MLS Cup title",
+          "outlet": "The Seattle Times",
+          "date": "2016-12-10",
+          "href": "https://www.seattletimes.com/sports/sounders/sounders-at-toronto-fc-live-updates-as-seattle-takes-aim-at-first-mls-cup/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "sounders-nos-audietis",
+          "show": "Nos Audietis (Sounder at Heart)",
+          "hosts": "Jeremiah Oshan and Sounder at Heart",
+          "note": "Long-running independent Sounders podcast from the SB Nation club site.",
+          "href": "https://www.sounderatheart.com/tag/podcast/",
+          "hrefLabel": "Sounder at Heart"
+        },
+        {
+          "id": "sounders-kjr-shows",
+          "show": "Seattle Soccer Shows",
+          "hosts": "Jackson Felts (Sounders Weekly)",
+          "note": "KJR FM club-week show plus full-match and postgame audio.",
+          "href": "https://www.iheart.com/podcast/59-seattle-soccer-shows-28305930/",
+          "hrefLabel": "iHeart / KJR"
+        }
+      ]
+    },
+    {
+      "id": "storm",
+      "team": "Seattle Storm",
+      "short": "Storm",
+      "sport": "WNBA",
+      "coverage": "full",
+      "coverageNote": null,
+      "books": [
+        {
+          "id": "storm-game-on",
+          "title": "Game On!: How Women’s Basketball Took Seattle by Storm",
+          "author": "Jayda Evans",
+          "year": 2006,
+          "blurb": "Early Storm history from the Times beat writer, through Lin Dunn, Lauren Jackson, and Betty Lennox in the league’s first Seattle decade.",
+          "href": "https://bookshop.org/search?keywords=9781570614774",
+          "hrefLabel": "Bookshop"
+        },
+        {
+          "id": "storm-lauren-jackson",
+          "title": "My Story",
+          "author": "Lauren Jackson",
+          "year": 2018,
+          "blurb": "Allen & Unwin memoir of the Australian star’s career, including 12 Storm seasons and the first foreign WNBA MVP.",
+          "href": "https://www.booktopia.com.au/my-story-lauren-jackson/book/9781760294878.html",
+          "hrefLabel": "Booktopia / Allen & Unwin"
+        },
+        {
+          "id": "storm-heart-of-the-storm",
+          "title": "The Heart of the Storm: A Biography of Sue Bird",
+          "author": "Sharon Mentyka, illustrated by Ellen Rooney",
+          "year": 2022,
+          "blurb": "Sasquatch / Little Bigfoot picture-book biography of Bird’s path from UConn to four Storm titles. Written for ages 5–9.",
+          "href": "https://sasquatchbooks.com/little-bigfoot/books/the-heart-of-the-storm/",
+          "hrefLabel": "Sasquatch Books"
+        }
+      ],
+      "articles": [
+        {
+          "id": "storm-2020-champs",
+          "title": "CHAMPS! Seattle Storm completes sweep of Aces to capture fourth WNBA title",
+          "outlet": "The Seattle Times",
+          "date": "2020-10-06",
+          "href": "https://www.seattletimes.com/sports/storm/champs-seattle-storm-completes-sweep-of-aces-to-capture-fourth-wnba-title/"
+        },
+        {
+          "id": "storm-sue-bird-last-game",
+          "title": "‘Thank you, Sue’ crowd chants as Sue Bird’s career ends with Storm playoff loss",
+          "outlet": "The Seattle Times",
+          "date": "2022-09-06",
+          "href": "https://www.seattletimes.com/sports/storm/thank-you-sue-crowd-chants-as-sue-birds-career-comes-to-end-after-storm-eliminated-by-aces/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "storm-tempestade",
+          "show": "Tempestade Talk",
+          "hosts": "Erica L. Ayala and Roberta Rodrigues",
+          "note": "Independent Storm show from Black Rosie Media — recaps and roster talk, not a club production.",
+          "href": "https://tempestadetalkpod.transistor.fm/",
+          "hrefLabel": "Tempestade Talk"
+        }
+      ]
+    },
+    {
+      "id": "reign",
+      "team": "Seattle Reign FC",
+      "short": "Reign",
+      "sport": "NWSL",
+      "coverage": "thin",
+      "coverageNote": "Few club-specific books. Rapinoe’s memoir is the main long-form title; the rest is Times reporting and KJR’s Reign Weekly.",
+      "books": [
+        {
+          "id": "reign-one-life",
+          "title": "One Life",
+          "author": "Megan Rapinoe with Emma Brockes",
+          "year": 2020,
+          "blurb": "Penguin Press memoir from the Reign and USWNT star — coming out, kneeling, equal pay, and Seattle years. Instant New York Times bestseller.",
+          "href": "https://www.penguinrandomhouse.com/books/634994/one-life-by-megan-rapinoe-with-emma-brockes/",
+          "hrefLabel": "Penguin Random House"
+        }
+      ],
+      "articles": [
+        {
+          "id": "reign-rapinoe-one-life",
+          "title": "Soccer star Megan Rapinoe talks about her new memoir ‘One Life,’ activism, pay equity and more",
+          "outlet": "The Seattle Times",
+          "date": "2020-11-10",
+          "href": "https://www.seattletimes.com/entertainment/books/soccer-star-megan-rapinoe-talks-about-her-new-memoir-one-life-activism-pay-equity-and-more/"
+        },
+        {
+          "id": "reign-rapinoe-farewell",
+          "title": "Megan Rapinoe getting retirement celebration fit for a Seattle sports legend",
+          "outlet": "The Seattle Times",
+          "date": "2023-10-05",
+          "href": "https://www.seattletimes.com/sports/reign/megan-rapinoe-getting-retirement-celebration-fit-for-a-seattle-sports-legend/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "reign-weekly",
+          "show": "Reign Weekly (Seattle Soccer Shows)",
+          "hosts": "Keely Dunning and Laura Schott",
+          "note": "KJR FM weekly Reign recap and interviews, bundled with Sounders audio on the same feed.",
+          "href": "https://www.iheart.com/podcast/59-seattle-soccer-shows-28305930/",
+          "hrefLabel": "iHeart / KJR"
+        }
+      ]
+    },
+    {
+      "id": "huskies",
+      "team": "Washington Huskies",
+      "short": "Huskies",
+      "sport": "NCAA",
+      "coverage": "full",
+      "coverageNote": "Football, basketball, and crew share this list. Rowing is not on the ticket calendar, but The Boys in the Boat is the best-known UW sports book.",
+      "books": [
+        {
+          "id": "huskies-boys-in-the-boat",
+          "title": "The Boys in the Boat: Nine Americans and Their Epic Quest for Gold at the 1936 Berlin Olympics",
+          "author": "Daniel James Brown",
+          "year": 2013,
+          "blurb": "Viking narrative of the UW eight that won Olympic gold in Berlin, centered on Joe Rantz, Al Ulbrickson, and George Pocock.",
+          "href": "https://www.penguinrandomhouse.com/books/310727/the-boys-in-the-boat-by-daniel-james-brown/",
+          "hrefLabel": "Penguin Random House"
+        },
+        {
+          "id": "huskies-100-things",
+          "title": "100 Things Washington Fans Should Know & Do Before They Die",
+          "author": "Adam Jude, foreword by Damon Huard",
+          "year": 2017,
+          "blurb": "Times Huskies beat writer on 1991, Quarterback U, Don James through Chris Petersen, and basketball notes including Kelsey Plum.",
+          "href": "https://www.triumphbooks.com/100-things-washington-fans-should-know---do-before-they-die-products-9781629373416.php",
+          "hrefLabel": "Triumph Books"
+        },
+        {
+          "id": "huskies-sixkiller",
+          "title": "Sonny Sixkiller’s Tales from the Huskies Sideline",
+          "author": "Sonny Sixkiller and Bob Condotta",
+          "year": 2002,
+          "blurb": "Former UW quarterback on Rose Bowls, Don James, Warren Moon, and the 1991 title season.",
+          "href": "https://bookshop.org/search?keywords=9781582614075",
+          "hrefLabel": "Bookshop"
+        }
+      ],
+      "articles": [
+        {
+          "id": "huskies-1991-ncaa",
+          "title": "Throwback Thursday: Washington posts undefeated championship season in 1991",
+          "outlet": "NCAA.com",
+          "date": "2016-12-01",
+          "href": "https://www.ncaa.com/news/football/article/2016-12-01/college-football-throwback-thursday-washingtons-unbeaten"
+        },
+        {
+          "id": "huskies-boys-uw-news",
+          "title": "New book tells stirring story of UW crew winning Olympic gold",
+          "outlet": "UW News",
+          "date": "2013-06-02",
+          "href": "https://www.washington.edu/news/2013/06/02/new-book-tells-stirring-story-of-uw-crew-winning-olympic-gold/"
+        }
+      ],
+      "podcasts": [
+        {
+          "id": "locked-on-huskies",
+          "show": "Locked On Huskies",
+          "hosts": "Roman Tomashoff",
+          "note": "Daily independent football and basketball show in the Locked On network.",
+          "href": "https://podcasts.apple.com/us/podcast/locked-on-huskies-daily-podcast-on-washington-huskies/id1580591348",
+          "hrefLabel": "Apple Podcasts"
+        }
+      ]
+    },
+    {
+      "id": "torrent",
+      "team": "Seattle Torrent",
+      "short": "Torrent",
+      "sport": "PWHL",
+      "coverage": "thin",
+      "coverageNote": "PWHL Seattle is new. No book-length club histories yet. Name-reveal reporting only — no dedicated Torrent podcast found.",
+      "books": [],
+      "articles": [
+        {
+          "id": "torrent-name",
+          "title": "PWHL Seattle announces it will play as the Seattle Torrent",
+          "outlet": "The Seattle Times",
+          "date": "2025-11-06",
+          "href": "https://www.seattletimes.com/sports/other-sports/pwhl-seattle-announces-it-will-play-as-the-seattle-torrent/"
+        },
+        {
+          "id": "torrent-identity",
+          "title": "The Seattle Torrent: PWHL’s Newest Identity Flows into the Pacific Northwest",
+          "outlet": "The Ice Garden / The IX Hockey",
+          "date": "2025-11-10",
+          "href": "https://www.theixsports.com/the-ice-garden/pwhl/the-seattle-torrent-pwhls-newest-identity-flows-into-the-pacific-northwest/"
+        }
+      ],
+      "podcasts": []
+    },
+    {
+      "id": "seattle-u",
+      "team": "Seattle U Redhawks",
+      "short": "Redhawks",
+      "sport": "NCAA",
+      "coverage": "thin",
+      "coverageNote": "Thin shelf. The main long-form title is Elgin Baylor’s memoir (Seattle U, then the Lakers). No Redhawks-specific podcast found.",
+      "books": [
+        {
+          "id": "seattle-u-hang-time",
+          "title": "Hang Time: My Life in Basketball",
+          "author": "Elgin Baylor with Alan Eisenstock",
+          "year": 2018,
+          "blurb": "Houghton Mifflin Harcourt / Mariner autobiography. Baylor led Seattle University to the 1958 NCAA title game before the Minneapolis/L.A. Lakers.",
+          "href": "https://bookshop.org/search?keywords=9780544617056",
+          "hrefLabel": "Bookshop"
+        }
+      ],
+      "articles": [
+        {
+          "id": "seattle-u-baylor-times",
+          "title": "Seattle University and Lakers legend Elgin Baylor dies at 86",
+          "outlet": "The Seattle Times",
+          "date": "2021-03-22",
+          "href": "https://www.seattletimes.com/sports/nba/elgin-baylor-silky-smooth-lakers-hall-of-famer-dies-at-86/"
+        },
+        {
+          "id": "seattle-u-baylor-athletics",
+          "title": "Seattle U Legend Elgin Baylor Passes Away",
+          "outlet": "Seattle University Athletics",
+          "date": "2021-03-22",
+          "href": "https://goseattleu.com/news/2021/03/22/seattle-u-legend-elgin-baylor-passes-away"
+        }
+      ],
+      "podcasts": []
+    },
+    {
+      "id": "prep",
+      "team": "Prep sports",
+      "short": "Prep",
+      "sport": "HS",
+      "coverage": "thin",
+      "coverageNote": "No Seattle-specific high-school history books were added. This is a light desk for published prep coverage — not a fake Metro/KingCo bookshelf.",
+      "books": [],
+      "articles": [
+        {
+          "id": "prep-times-desk",
+          "title": "High school sports",
+          "outlet": "The Seattle Times",
+          "date": null,
+          "href": "https://www.seattletimes.com/sports/highschool/"
+        },
+        {
+          "id": "prep-wiaa",
+          "title": "WIAA — Washington Interscholastic Activities Association",
+          "outlet": "WIAA",
+          "date": null,
+          "href": "https://www.wiaa.com/"
+        }
+      ],
+      "podcasts": []
+    }
+  ]
+}

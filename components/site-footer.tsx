@@ -20,6 +20,9 @@ export function SiteFooter() {
             <Link href="/venues" className="text-accent hover:underline">
               Venues
             </Link>
+            <Link href="/library" className="text-accent hover:underline">
+              Library
+            </Link>
             <Link href="/contact" className="text-accent hover:underline">
               Contact
             </Link>

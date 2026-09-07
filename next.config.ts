@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/ticket-stats", destination: "/stats", permanent: false },
       { source: "/faq", destination: "/about", permanent: false },
+      { source: "/references", destination: "/library", permanent: false },
     ];
   },
 };

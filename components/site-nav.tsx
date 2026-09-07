@@ -7,7 +7,9 @@ import { createPortal } from "react-dom";
 import { HeaderRefreshButton } from "@/components/header-refresh-button";
 import { PRODUCT_NAME } from "@/lib/brand";
 import {
+  IconBack,
   IconBell,
+  IconBookmark,
   IconCalendar,
   IconChart,
   IconChevron,
@@ -21,7 +23,6 @@ import {
   IconStadium,
   IconTag,
   IconTrophy,
-  IconBack,
 } from "@/components/ui-icons";
 
 const PRIMARY = [
@@ -35,6 +36,7 @@ const MORE = [
   { href: "/stats", label: "Stats", icon: IconChart },
   { href: "/promotions", label: "Promotions", icon: IconTag },
   { href: "/venues", label: "Venues", icon: IconStadium },
+  { href: "/library", label: "Library", icon: IconBookmark },
   { href: "/alerts", label: "Alerts", icon: IconBell },
   { href: "/contact", label: "Contact", icon: IconMail },
   { href: "/about", label: "FAQ", icon: IconHelp },
