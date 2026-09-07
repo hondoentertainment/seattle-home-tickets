@@ -174,7 +174,7 @@ export function SiteNav() {
                 onProfile ? "pl-1 text-base lg:text-sm" : "text-base lg:text-sm lg:font-semibold"
               }`}
             >
-              {onProfile ? "Profile" : "Seattle Home"}
+              {onProfile ? "Profile" : "Seattle Home Games"}
             </Link>
           </div>
           <nav aria-label="Primary" className="hidden flex-wrap items-center justify-end gap-0.5 lg:flex">

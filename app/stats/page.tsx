@@ -5,7 +5,7 @@ import { catalogStats } from "@/lib/stats";
 import type { StatRow } from "@/lib/stats";
 
 export const metadata: Metadata = {
-  title: "Ticket Stats — Seattle Home Tickets",
+  title: "Ticket Stats — Seattle Home Games",
   description:
     "Catalog ticket counts and unofficial mid-tier estimate totals for published Seattle home games — not on-field W–L.",
 };

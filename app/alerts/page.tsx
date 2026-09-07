@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { AlertsClient } from "@/components/alerts-client";
 
 export const metadata: Metadata = {
-  title: "Alerts — Seattle Home Tickets",
+  title: "Alerts — Seattle Home Games",
   description:
     "In-app alert preferences for unofficial price caps, published promo nights, outdoor weather risk, and tomorrow’s Saved games.",
 };

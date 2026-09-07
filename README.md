@@ -1,4 +1,4 @@
-# Seattle Home Tickets
+# Seattle Home Games
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
@@ -115,7 +115,7 @@ Authorized redirect URIs:
 - `https://seattle-home-tickets.vercel.app/api/auth/callback/google`
 - each Vercel Preview origin you need, `https://<deployment>.vercel.app/api/auth/callback/google` (Google does not allow `*.vercel.app` wildcards)
 
-OAuth consent screen: External, app name **Seattle Home Tickets**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
+OAuth consent screen: External, app name **Seattle Home Games**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
 
 Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` to **Production**. Add `AUTH_URL=https://seattle-home-tickets.vercel.app` to **Production only**. Preview sign-in is optional (add the same Google pair to Preview, leave `AUTH_URL` unset, and register that preview callback in Google Cloud). The calendar still deploys if these are missing.
 

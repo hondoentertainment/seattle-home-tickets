@@ -6,7 +6,7 @@ import { HOLIDAY_TAG_BLURBS, allSpecialTags } from "@/lib/catalog";
 import { formatSpecialTag } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Holidays — Seattle Home Tickets",
+  title: "Holidays — Seattle Home Games",
   description:
     "Holiday and special Seattle home games: Christmas, Holiday Classic, Apple Cup, Thanksgiving week, and other tagged nights.",
 };

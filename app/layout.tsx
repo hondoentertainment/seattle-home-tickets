@@ -27,13 +27,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Seattle Home Tickets — Full-season price estimates",
+  title: "Seattle Home Games — Full-season price estimates",
   description:
     "Searchable, sortable calendar of Seattle home sporting events with unofficial mid-tier estimates for two seats.",
-  applicationName: "Seattle Home Tickets",
+  applicationName: "Seattle Home Games",
   appleWebApp: {
     capable: true,
-    title: "SEA Homes",
+    title: "SEA Games",
     statusBarStyle: "black-translucent",
   },
   icons: {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
   },
   openGraph: {
-    title: "Seattle Home Tickets",
+    title: "Seattle Home Games",
     description:
       "Every published Seattle home game with estimated mid-tier pair prices. Search, filter, and sort the slate.",
     type: "website",

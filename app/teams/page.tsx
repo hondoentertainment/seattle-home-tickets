@@ -6,7 +6,7 @@ import { catalog } from "@/lib/catalog";
 import { isSchoolTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
 
 export const metadata: Metadata = {
-  title: "Teams — Seattle Home Tickets",
+  title: "Teams — Seattle Home Games",
   description:
     "Seattle home teams as original color tiles. College and high-school tiles include the sport so football and basketball stay distinct.",
 };

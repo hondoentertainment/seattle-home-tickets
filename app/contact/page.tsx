@@ -3,7 +3,7 @@ import Link from "next/link";
 import { contactGroups } from "@/lib/contacts";
 
 export const metadata: Metadata = {
-  title: "Contact — Seattle Home Tickets",
+  title: "Contact — Seattle Home Games",
   description:
     "Official ticket-office and guest-services pages for Seattle clubs and schools on this calendar. This site is unofficial and does not sell tickets.",
 };

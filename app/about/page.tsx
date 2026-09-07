@@ -4,9 +4,9 @@ import Link from "next/link";
 import { catalog } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "FAQ — Seattle Home Tickets",
+  title: "FAQ — Seattle Home Games",
   description:
-    "FAQ for Seattle Home Tickets: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.",
+    "FAQ for Seattle Home Games: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.",
 };
 
 const faqs: { q: string; a: ReactNode }[] = [
@@ -14,10 +14,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "What is this site?",
     a: (
       <>
-        A planning board for published Seattle-area <span className="text-foreground">home</span>{" "}
-        sporting events. Scan the slate, save nights, and jump to official or
-        marketplace pages. It is unofficial: not a box office, not affiliated with
-        the clubs or schools, and it does not sell tickets.
+        Seattle Home Games is a planning board for published Seattle-area{" "}
+        <span className="text-foreground">home</span> sporting events. Scan the slate,
+        save nights, and jump to official or marketplace pages. It is unofficial: not
+        a box office, not affiliated with the clubs or schools, and it does not sell
+        tickets.
       </>
     ),
   },

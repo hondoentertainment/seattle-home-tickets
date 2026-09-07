@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ProfileClient } from "@/components/profile-client";
 
 export const metadata: Metadata = {
-  title: "Profile — Seattle Home Tickets",
+  title: "Profile — Seattle Home Games",
   description:
-    "Your Seattle Home Tickets profile: My teams, Saved, alert prefs, and optional Google sign-in.",
+    "Your Seattle Home Games profile: My teams, Saved, alert prefs, and optional Google sign-in.",
 };
 
 export default function ProfilePage() {

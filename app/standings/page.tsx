@@ -10,7 +10,7 @@ import {
 } from "@/lib/standings";
 
 export const metadata: Metadata = {
-  title: "Standings — Seattle Home Tickets",
+  title: "Standings — Seattle Home Games",
   description:
     "Published season standings for Seattle clubs and large high-school programs on this calendar. Upcoming sports are listed without invented records.",
 };

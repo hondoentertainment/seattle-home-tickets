@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Seattle Home Tickets",
-    short_name: "SEA Homes",
+    name: "Seattle Home Games",
+    short_name: "SEA Games",
     description:
       "Published Seattle home games with unofficial mid-tier estimates. Not a box office.",
     start_url: "/",

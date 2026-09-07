@@ -4,7 +4,7 @@ import { PromotionsCalendar } from "@/components/promotions-calendar";
 import { promotionsCatalog } from "@/lib/promotions";
 
 export const metadata: Metadata = {
-  title: "Promotions — Seattle Home Tickets",
+  title: "Promotions — Seattle Home Games",
   description:
     "Published promotional nights, theme matches, and giveaways for Seattle home games. Nothing invented.",
 };

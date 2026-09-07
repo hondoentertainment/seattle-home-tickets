@@ -4,7 +4,7 @@ import { catalog } from "@/lib/catalog";
 import { venueCards, venueHref } from "@/lib/venue-index";
 
 export const metadata: Metadata = {
-  title: "Venues — Seattle Home Tickets",
+  title: "Venues — Seattle Home Games",
   description:
     "Seattle-area venues on the published home calendar: address, transit, parking, indoor vs outdoor, and which teams play there.",
 };
