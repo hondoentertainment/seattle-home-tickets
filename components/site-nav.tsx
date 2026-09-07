@@ -9,13 +9,13 @@ import { requestShortlistOpen } from "@/lib/url-state";
 
 const PRIMARY = [
   { href: "/", label: "Home" },
-  { href: "/holidays", label: "Holidays" },
   { href: "/teams", label: "Teams" },
   { href: "/standings", label: "Standings" },
 ] as const;
 
 const MORE = [
   { href: "/profile", label: "Profile" },
+  { href: "/holidays", label: "Holidays" },
   { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
   { href: "/venues", label: "Venues" },
@@ -202,22 +202,6 @@ export function SiteNav() {
             >
               Profile
             </Link>
-            <button
-              ref={menuButtonRef}
-              type="button"
-              className={`inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl border px-3.5 text-sm font-semibold leading-5 ${
-                menuOpen || moreActive
-                  ? "border-accent bg-accent/10 text-accent"
-                  : "border-card-border bg-card text-accent"
-              }`}
-              aria-label="More pages"
-              aria-expanded={menuOpen}
-              aria-controls="site-menu"
-              aria-haspopup="dialog"
-              onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
-            >
-              More
-            </button>
           </div>
         </div>
 
@@ -237,6 +221,20 @@ export function SiteNav() {
               </Link>
             );
           })}
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className={`inline-flex min-h-11 min-w-0 items-center justify-center rounded-full px-1 text-center text-xs font-semibold leading-5 ${
+              menuOpen || moreActive ? "bg-accent text-background" : "bg-card text-muted"
+            }`}
+            aria-label="More pages"
+            aria-expanded={menuOpen}
+            aria-controls="site-menu"
+            aria-haspopup="dialog"
+            onClick={() => setMenuPath((open) => (open === pathname ? null : pathname))}
+          >
+            <span className="truncate">More</span>
+          </button>
         </nav>
       </div>
 
