@@ -67,7 +67,7 @@ Venue profiles live in [`data/venues.json`](data/venues.json): address, neighbor
 
 ## Shortlist and sharing
 
-Check **Interested** on any row. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same shortlist. **Copy summary** writes markdown with date, matchup, venue, pair estimate, weather blurb, travel one-liner, and ticket links. If the URL gets too long, share falls back to ids-only.
+Check **Interested** on any row. That builds a **Saved** list (count on the chip, Menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same shortlist. **Copy** writes markdown with date, matchup, venue, pair estimate, weather blurb, travel one-liner, and ticket links. If the URL gets too long, share falls back to ids-only.
 
 ## Filters
 
@@ -78,7 +78,7 @@ Combine freely (also persisted in the URL):
 - Ticket quantity is a styled 1–19 listbox (arrows + Enter; Enter opens when closed)
 - Category chips (Men / Women / Open — derived from sport: MLB/NFL/NHL/MLS/NCAA men’s / HS football → Men; NWSL/WNBA/NCAA women’s + volleyball / PWHL → Women; Exhibition / Touring → Open); arrows move between chips, Enter applies
 - Optional date range
-- Selected only
+- Saved only (`selected=1` in the URL, or **On calendar** from the Saved sheet)
 - Holiday / special browsing lives only on [`/holidays`](/holidays). Home does not have a holiday toggle.
 
 ## Holiday / special games

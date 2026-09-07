@@ -3,11 +3,14 @@
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  SHORTLIST_CHANGE_EVENT,
+  SHORTLIST_FILTER_EVENT,
   explorerStateKey,
   explorerStateToParams,
   parseExplorerState,
   readStoredIds,
   readStoredQty,
+  sameIds,
   writeStoredIds,
   writeStoredQty,
   type ExplorerState,
@@ -82,8 +85,28 @@ export function useExplorerState() {
       setState(parsed);
       setDraftQ(parsed.q);
     };
+    function onShortlist(event: Event) {
+      const ids = (event as CustomEvent<string[]>).detail;
+      if (!Array.isArray(ids)) return;
+      const next = ids.filter((item) => typeof item === "string");
+      setState((prev) => {
+        if (sameIds(prev.ids, next)) return prev;
+        return { ...prev, ids: next, selectedOnly: next.length ? prev.selectedOnly : false };
+      });
+    }
+    function onFilter(event: Event) {
+      const selectedOnly = (event as CustomEvent<boolean>).detail;
+      if (typeof selectedOnly !== "boolean") return;
+      setState((prev) => (prev.selectedOnly === selectedOnly ? prev : { ...prev, selectedOnly }));
+    }
     window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    window.addEventListener(SHORTLIST_CHANGE_EVENT, onShortlist);
+    window.addEventListener(SHORTLIST_FILTER_EVENT, onFilter);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener(SHORTLIST_CHANGE_EVENT, onShortlist);
+      window.removeEventListener(SHORTLIST_FILTER_EVENT, onFilter);
+    };
   }, []);
 
   useEffect(() => {

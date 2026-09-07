@@ -107,6 +107,11 @@ export function shareUrl(state: ExplorerState): string {
 const STORAGE_KEY = "seattle-home-tickets:shortlist";
 const QTY_STORAGE_KEY = "seattle-home-tickets:qty";
 
+export const SHORTLIST_CHANGE_EVENT = "sht:shortlist-change";
+export const QTY_CHANGE_EVENT = "sht:qty-change";
+export const SHORTLIST_OPEN_EVENT = "sht:shortlist-open";
+export const SHORTLIST_FILTER_EVENT = "sht:shortlist-filter";
+
 export function readStoredIds(): string[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -119,7 +124,14 @@ export function readStoredIds(): string[] {
 }
 
 export function writeStoredIds(ids: string[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  try {
+    const next = JSON.stringify(ids);
+    if (localStorage.getItem(STORAGE_KEY) === next) return;
+    localStorage.setItem(STORAGE_KEY, next);
+    window.dispatchEvent(new CustomEvent<string[]>(SHORTLIST_CHANGE_EVENT, { detail: ids }));
+  } catch {
+    // private mode / quota
+  }
 }
 
 export function readStoredQty(): number | null {
@@ -133,5 +145,34 @@ export function readStoredQty(): number | null {
 }
 
 export function writeStoredQty(qty: number) {
-  localStorage.setItem(QTY_STORAGE_KEY, String(clampQty(qty)));
+  try {
+    const next = String(clampQty(qty));
+    if (localStorage.getItem(QTY_STORAGE_KEY) === next) return;
+    localStorage.setItem(QTY_STORAGE_KEY, next);
+    window.dispatchEvent(new CustomEvent<number>(QTY_CHANGE_EVENT, { detail: clampQty(qty) }));
+  } catch {
+    // private mode / quota
+  }
+}
+
+export function sameIds(left: readonly string[], right: readonly string[]) {
+  return left.length === right.length && left.every((id, index) => id === right[index]);
+}
+
+export function shortlistShareUrl(ids: string[], qty: number): string {
+  const params = explorerStateToParams({
+    ...EMPTY_STATE,
+    ids,
+    selectedOnly: true,
+    qty,
+  });
+  return `${window.location.origin}/?${params.toString()}`;
+}
+
+export function requestShortlistOpen() {
+  window.dispatchEvent(new Event(SHORTLIST_OPEN_EVENT));
+}
+
+export function requestShowSavedOnCalendar() {
+  window.dispatchEvent(new CustomEvent<boolean>(SHORTLIST_FILTER_EVENT, { detail: true }));
 }
