@@ -12,7 +12,6 @@ const PRIMARY = [
 ] as const;
 
 const MORE = [
-  { href: "/profile", label: "Profile" },
   { href: "/holidays", label: "Holidays" },
   { href: "/stats", label: "Stats" },
   { href: "/promotions", label: "Promotions" },
@@ -22,7 +21,7 @@ const MORE = [
   { href: "/about", label: "FAQ" },
 ] as const;
 
-const DESKTOP_LINKS = [...PRIMARY, ...MORE.filter((link) => link.href !== "/profile")] as const;
+const DESKTOP_LINKS = [...PRIMARY, ...MORE] as const;
 
 function isActive(pathname: string, href: string) {
   return pathname === href;
@@ -36,7 +35,7 @@ export function SiteNav() {
   const panelRef = useRef<HTMLDivElement>(null);
   const menuTitleId = useId();
   const menuOpen = menuPath === pathname;
-  const moreActive = MORE.some((link) => link.href !== "/profile" && isActive(pathname, link.href));
+  const moreActive = MORE.some((link) => isActive(pathname, link.href));
 
   function closeMenu() {
     setMenuPath(null);

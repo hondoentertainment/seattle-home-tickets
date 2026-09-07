@@ -169,7 +169,7 @@ const faqs: { q: string; a: ReactNode }[] = [
         <Link href="/profile" className="text-accent hover:underline">
           Profile
         </Link>{" "}
-        is in the header, More menu, and desktop nav. Signed out, My teams, alerts, quantity,
+        is in the header and desktop nav. Signed out, My teams, alerts, quantity,
         and Saved still work on this device. Continue with Google only appears when OAuth
         secrets are configured. We do not send email or web-push.
       </>
