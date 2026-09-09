@@ -6,7 +6,7 @@ import { PRODUCT_NAME, pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: pageTitle("FAQ"),
-  description: `FAQ for ${PRODUCT_NAME}: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.`,
+  description: `FAQ for ${PRODUCT_NAME}: unofficial estimates, sources, weather, shortlist, quantity, holidays, library, refresh, and trademarks.`,
 };
 
 const faqs: { q: string; a: ReactNode }[] = [
@@ -232,6 +232,20 @@ const faqs: { q: string; a: ReactNode }[] = [
         <code className="text-foreground">data/games.json</code> differ, the stamp
         says seed review pending and the job opens a PR instead of silently changing
         the slate.
+      </>
+    ),
+  },
+  {
+    q: "What’s the Library?",
+    a: (
+      <>
+        <Link href="/library" className="text-accent hover:underline">
+          Library
+        </Link>{" "}
+        is an unofficial reading list — real books, articles, and podcasts for
+        Seattle home teams. Filter by club. Links leave the site. It is a fan and
+        editorial collection, not affiliated with leagues, clubs, or schools. Thin
+        shelves (Torrent, Reign books, prep sports) stay thin instead of padded.
       </>
     ),
   },

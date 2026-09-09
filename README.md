@@ -11,6 +11,7 @@ The GitHub repo and Vercel project stay `seattle-home-tickets`. User-facing name
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **Venues (`/venues`)** — neighborhood playbooks (arrive / rain / after) and a Home venue filter
+- **Library (`/library`)** — unofficial books, articles, and podcasts per Seattle home team (`/references` redirects here)
 - **Profile (`/profile`)** — identity, My teams pin sheet, Saved, Alerts, default qty stepper / Home default control. Guest prefs work without Google
 - **Alerts (`/alerts`)** — in-app prefs only (price chips + toggles; no email or web-push yet)
 - **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
