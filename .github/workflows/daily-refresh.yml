@@ -116,7 +116,7 @@ jobs:
 
       - name: Open PR if the catalog drifted
         if: steps.drift.outputs.changed == '1'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: chore/catalog-seed-drift
@@ -173,7 +173,7 @@ jobs:
 
       - name: Open stamp PR if main push was blocked
         if: steps.drift.outputs.changed != '1' && steps.stamp.outputs.unchanged != '1' && steps.stamp.outputs.pushed != '1'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: chore/daily-refresh-stamp
