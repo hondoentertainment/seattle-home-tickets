@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PinTeamButton } from "@/components/pin-team-button";
 import { TeamMark } from "@/components/team-mark";
-import { catalog } from "@/lib/catalog";
+import { TeamsEditBar } from "@/components/teams-edit-bar";
 import { pageTitle } from "@/lib/brand";
+import { allTeams, catalog } from "@/lib/catalog";
+import { TEAM_GROUP_LABELS, TEAM_GROUPS, teamGroup } from "@/lib/team-groups";
 import { isSchoolTeam, sportTileLabel, teamCards, teamHref, teamKey } from "@/lib/teams";
 
 export const metadata: Metadata = {
@@ -14,6 +16,10 @@ export const metadata: Metadata = {
 
 export default function TeamsPage() {
   const cards = teamCards();
+  const grouped = TEAM_GROUPS.map((group) => ({
+    group,
+    cards: cards.filter((card) => teamGroup(card.team) === group),
+  })).filter((section) => section.cards.length > 0);
 
   return (
     <div className="page-gutter mx-auto w-full max-w-7xl flex-1 py-8">
@@ -30,29 +36,40 @@ export default function TeamsPage() {
         .
       </p>
 
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card) => (
-          <li key={teamKey(card)} className="flex items-center gap-3 rounded-2xl border border-card-border bg-card/80 p-4">
-            <Link href={teamHref(card)} className="flex min-w-0 flex-1 items-center gap-4">
-              <TeamMark mark={card} />
-              <span className="min-w-0">
-                <span className="block font-semibold text-foreground">{card.team}</span>
-                {isSchoolTeam(card.team) && card.sport ? (
-                  <span className="mt-1 inline-flex rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
-                    {sportTileLabel(card.sport)}
+      <div className="mt-6">
+        <TeamsEditBar allTeams={allTeams} />
+      </div>
+
+      {grouped.map((section) => (
+        <section key={section.group} className="mt-8">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">
+            {TEAM_GROUP_LABELS[section.group]}
+          </h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {section.cards.map((card) => (
+              <li key={teamKey(card)} className="flex items-center gap-3 rounded-2xl border border-card-border bg-card/80 p-4">
+                <Link href={teamHref(card)} className="flex min-w-0 flex-1 items-center gap-4">
+                  <TeamMark mark={card} />
+                  <span className="min-w-0">
+                    <span className="block font-semibold text-foreground">{card.team}</span>
+                    {isSchoolTeam(card.team) && card.sport ? (
+                      <span className="mt-1 inline-flex rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+                        {sportTileLabel(card.sport)}
+                      </span>
+                    ) : (
+                      <span className="mt-1 block text-xs text-muted">{card.short}</span>
+                    )}
+                    <span className="mt-1 block text-xs text-muted">
+                      {card.gameCount} published home {card.gameCount === 1 ? "game" : "games"}
+                    </span>
                   </span>
-                ) : (
-                  <span className="mt-1 block text-xs text-muted">{card.short}</span>
-                )}
-                <span className="mt-1 block text-xs text-muted">
-                  {card.gameCount} published home {card.gameCount === 1 ? "game" : "games"}
-                </span>
-              </span>
-            </Link>
-            <PinTeamButton team={card.team} />
-          </li>
-        ))}
-      </ul>
+                </Link>
+                <PinTeamButton team={card.team} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
 
       <p className="mt-8 text-xs text-muted">as of {catalog.asOf}</p>
     </div>

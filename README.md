@@ -6,7 +6,7 @@ The GitHub repo and Vercel project stay `seattle-home-tickets`. User-facing name
 
 - **Home (`/`)** — Search + Filters, My teams chips + Home default control, game cards (date, monograms, price for qty, heart Save). First visit can pick teams in one short prompt. Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
-- **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
+- **Teams (`/teams`)** — grouped Pro / College / Other tiles, Edit my teams sheet, plus Pin (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
@@ -43,7 +43,7 @@ Away games are excluded. If a conference basketball slate, HS conference week, o
 
 ## My teams, bundles, and group Saved
 
-Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). A first-visit **Pick your teams** prompt can change that in one sheet. **All** clears the view without deleting pins. Pins are this-browser only.
+Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). A first-visit **Pick your teams** prompt can change that in one sheet. **Edit teams** (Home, Profile, Teams) groups the catalog by Pro / College / Other, supports select-all / clear for the current group, and reorders pins for Home chips. **All** clears the view without deleting pins. Pins are this-browser only.
 
 **Same-weekend slates** group two or more published homes on the same Fri–Sun window (holiday tags when present). Not a ticket package.
 

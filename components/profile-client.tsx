@@ -91,7 +91,7 @@ export function ProfileClient() {
           <div>
             <p className="text-sm font-semibold text-foreground">Home default</p>
             <p className="mt-0.5 text-xs leading-5 text-muted">
-              What Home opens to. Pins stay either way.
+              What Home opens to. Pin order stays either way.
             </p>
           </div>
           <SegmentedControl
