@@ -13,8 +13,10 @@ export function SegmentedControl<T extends string>({
   ariaLabel: string;
   size?: "default" | "compact";
 }) {
-  const cols = options.length === 2 ? "grid-cols-2" : "grid-cols-3";
+  const cols =
+    options.length === 4 ? "grid-cols-4" : options.length === 2 ? "grid-cols-2" : "grid-cols-3";
   const height = size === "compact" ? "min-h-10 text-xs" : "min-h-11 text-sm";
+  const pad = options.length >= 4 ? "px-1.5" : "px-3";
 
   return (
     <div
@@ -30,7 +32,7 @@ export function SegmentedControl<T extends string>({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
-            className={`inline-flex ${height} items-center justify-center rounded-full px-3 font-semibold transition ${
+            className={`inline-flex ${height} items-center justify-center rounded-full ${pad} font-semibold transition ${
               selected ? "bg-accent text-background" : "text-muted hover:text-foreground"
             }`}
           >

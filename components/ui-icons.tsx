@@ -83,6 +83,22 @@ export function IconChevron({ className = "size-4" }: { className?: string }) {
   );
 }
 
+export function IconChevronUp({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <path fill="currentColor" d="M6.2 14.8 12 8.4l5.8 6.4-1.4 1.2L12 11.2l-4.4 4.8-1.4-1.2Z" />
+    </svg>
+  );
+}
+
+export function IconChevronDown({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <path fill="currentColor" d="m6.2 9.2 1.4-1.2L12 12.8l4.4-4.8 1.4 1.2L12 15.6 6.2 9.2Z" />
+    </svg>
+  );
+}
+
 export function IconBack({ className = "size-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
