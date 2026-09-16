@@ -75,4 +75,42 @@ export function togglePinnedTeam(team: string): string[] {
   return next;
 }
 
+/** Append missing teams, keeping the current pin order. */
+export function pinTeams(teams: readonly string[]): string[] {
+  const current = readPinnedTeams();
+  const have = new Set(current);
+  const next = [...current];
+  for (const team of teams) {
+    if (!team || have.has(team)) continue;
+    next.push(team);
+    have.add(team);
+  }
+  if (next.length === current.length) return current;
+  writePinnedTeams(next);
+  return next;
+}
+
+export function unpinTeams(teams: readonly string[]): string[] {
+  const remove = new Set(teams.filter(Boolean));
+  if (remove.size === 0) return readPinnedTeams();
+  const current = readPinnedTeams();
+  const next = current.filter((team) => !remove.has(team));
+  if (next.length === current.length) return current;
+  writePinnedTeams(next);
+  return next;
+}
+
+export function movePinnedTeam(team: string, direction: -1 | 1): string[] {
+  const current = readPinnedTeams();
+  const index = current.indexOf(team);
+  if (index < 0) return current;
+  const nextIndex = index + direction;
+  if (nextIndex < 0 || nextIndex >= current.length) return current;
+  const next = [...current];
+  const [item] = next.splice(index, 1);
+  next.splice(nextIndex, 0, item);
+  writePinnedTeams(next);
+  return next;
+}
+
 export const DEFAULT_PINNED_LIST = [...DEFAULT_PINNED_TEAMS];

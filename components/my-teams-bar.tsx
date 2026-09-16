@@ -68,7 +68,7 @@ export function MyTeamsBar({
             className="inline-flex min-h-11 items-center gap-1 text-xs font-semibold text-accent"
           >
             <IconPlus className="size-4" />
-            {pinned.length ? "Edit" : "Add"}
+            {pinned.length ? "Edit teams" : "Add"}
           </button>
         </div>
         <SegmentedControl
@@ -124,9 +124,12 @@ export function MyTeamsBar({
           className="inline-flex min-h-11 items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-3 text-xs font-semibold text-accent"
         >
           <IconPlus className="size-4" />
-          Add
+          {pinned.length ? "Edit" : "Add"}
         </button>
       </div>
+      <p className="text-xs leading-5 text-muted">
+        Pin, group, and reorder clubs for Home chips.
+      </p>
       {showPrompt ? <PickTeamsPrompt onChoose={() => setOpen(true)} onSkip={skipPrompt} /> : null}
       {pinned.length ? (
         <div className="flex flex-wrap gap-2" role="group" aria-label="Pinned teams">
