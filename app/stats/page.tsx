@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatGameDate, formatUsd } from "@/lib/format";
+import { pageTitle } from "@/lib/brand";
 import { catalogStats } from "@/lib/stats";
 import type { StatRow } from "@/lib/stats";
 
 export const metadata: Metadata = {
-  title: "Ticket Stats — Seattle Home Tickets",
+  title: pageTitle("Ticket Stats"),
   description:
     "Catalog ticket counts and unofficial mid-tier estimate totals for published Seattle home games — not on-field W–L.",
 };

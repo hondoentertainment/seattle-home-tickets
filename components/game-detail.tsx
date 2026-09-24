@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { SaveToggle } from "@/components/save-toggle";
+import { TeamMark } from "@/components/team-mark";
+import {
+  IconCar,
+  IconCloudSun,
+  IconMap,
+  IconPin,
+  IconStore,
+  IconTag,
+  IconCalendar,
+} from "@/components/ui-icons";
 import { venueFor } from "@/lib/catalog";
-import { toast } from "@/lib/feedback";
 import { formatGameDate, formatSpecialTag, formatUsd } from "@/lib/format";
 import { estimateSpreadLabel, priceBandId, PRICE_BAND_LABELS } from "@/lib/price-band";
 import { DEFAULT_QTY, estimateForQty, qtyEstimateLabel } from "@/lib/quantity";
-import { formatLastCheckedShort, refreshStamp } from "@/lib/refresh";
-import { gameSummary } from "@/lib/share";
+import { displayMark } from "@/lib/teams";
 import { ticketLinks } from "@/lib/tickets";
 import { arrivalSuggestion } from "@/lib/trip-kit";
 import type { Game, WeatherBlurb } from "@/lib/types";
@@ -38,6 +46,7 @@ export function GameDetail({
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
+  const home = displayMark(game.team, game.sport);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -76,15 +85,27 @@ export function GameDetail({
         style={{ backgroundColor: "#0c1c18" }}
         className="absolute inset-x-0 bottom-0 z-10 isolate flex h-[min(92dvh,100svh)] max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-card-border bg-[#0c1c18] shadow-2xl md:inset-y-0 md:right-0 md:left-auto md:h-dvh md:max-h-dvh md:w-[min(28rem,100%)] md:rounded-none md:border-l"
       >
-        <div className="flex min-h-14 shrink-0 items-start justify-between gap-3 border-b border-card-border px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
-          <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent">{game.sport}</p>
-            <h2 id={titleId} className="text-lg font-semibold text-foreground">
-              {game.team} vs {game.opponent}
-            </h2>
-            <p className="mt-1 text-sm text-muted">
-              {formatGameDate(game.date)} · {game.timePt} · {game.venue}
-            </p>
+        <div className="flex justify-center pt-2 md:hidden">
+          <span className="h-1 w-10 rounded-full bg-card-border" />
+        </div>
+        <div className="flex min-h-14 shrink-0 items-start justify-between gap-3 px-4 pb-3">
+          <div className="flex min-w-0 items-start gap-3">
+            <TeamMark mark={home} size="card" />
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold tracking-[0.16em] text-muted">GAME TRIP-KIT</p>
+              <h2 id={titleId} className="text-lg font-semibold text-foreground">
+                {game.team.replace("Seattle ", "").replace(" FC", "")} vs {game.opponent}
+              </h2>
+              <p className="mt-1 flex items-center gap-1.5 text-sm text-muted">
+                <IconCalendar className="size-3.5" />
+                {formatGameDate(game.date)} · {game.timePt}
+              </p>
+              <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted">
+                <IconPin className="size-3.5" />
+                {game.venue}
+                {venue?.neighborhood ? ` · ${venue.neighborhood}` : ""}
+              </p>
+            </div>
           </div>
           <button
             ref={closeRef}
@@ -96,20 +117,9 @@ export function GameDetail({
           </button>
         </div>
 
-        <div className="sheet-scroll min-h-0 flex-1 px-4 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted">Trip kit</p>
-          <p className="mt-1 flex flex-wrap items-baseline gap-2">
-            <span className="text-2xl font-bold tabular-nums text-accent">{formatUsd(group)}</span>
-            <span className="text-sm text-muted">{qtyEstimateLabel(qty)}</span>
-            <span className="text-sm text-muted">{formatUsd(game.estPriceEachUsd)} each</span>
-          </p>
-          <p className="mt-1 text-xs leading-5 text-muted">
-            Unofficial {PRICE_BAND_LABELS[priceBandId(game.estPriceEachUsd)].toLowerCase()} · typical
-            band {estimateSpreadLabel(game.estPriceEachUsd, qty)} · last checked{" "}
-            {formatLastCheckedShort(refreshStamp.lastChecked)}. Not live inventory.
-          </p>
+        <div className="sheet-scroll min-h-0 flex-1 space-y-2 px-4 py-2">
           {game.specialTags.length ? (
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               {game.specialTags.map((tag) => (
                 <span key={tag} className="rounded-full bg-gold/15 px-2 py-0.5 text-xs text-gold">
                   {formatSpecialTag(tag)}
@@ -118,44 +128,50 @@ export function GameDetail({
             </div>
           ) : null}
 
-          <div className="mt-4 space-y-3 text-sm text-muted">
-            <p>
-              <span className="font-medium text-foreground">Arrive. </span>
-              {arrivalSuggestion(game, venue)}
-            </p>
+          <KitRow icon={<IconCloudSun />} label="Weather">
             {weather ? (
               <p>
-                <span className="font-medium text-foreground">Weather. </span>
                 {weather.label}. {weather.detail}
                 {venue ? ` ${venue.indoor ? "Indoor — travel-day note." : "Outdoor."}` : ""}
               </p>
             ) : (
               <p>Loading Seattle weather…</p>
             )}
+          </KitRow>
+
+          <KitRow icon={<IconCar />} label="Getting there">
+            <p>{arrivalSuggestion(game, venue)}</p>
             {venue ? (
-              <p>
-                <span className="font-medium text-foreground">Transit. </span>
-                {venue.transit}
+              <p className="mt-2">
+                Transit. {venue.transit}
               </p>
             ) : null}
-          </div>
+          </KitRow>
 
-          <button
-            type="button"
-            onClick={async () => {
-              const extra = `\nArrive: ${arrivalSuggestion(game, venue)}`;
-              await navigator.clipboard.writeText(`${gameSummary(game, weather, qty)}${extra}`);
-              toast("Trip kit copied");
-            }}
-            className="mt-4 inline-flex min-h-11 items-center rounded-full border border-card-border px-3 text-xs font-semibold text-foreground"
-          >
-            Share trip kit
-          </button>
+          {venue ? (
+            <KitRow icon={<IconMap />} label="Neighborhood playbook">
+              <p>{venue.neighborhood}</p>
+              <p className="mt-2">{venue.address}</p>
+              {venue.arriveBy ? (
+                <p className="mt-2">
+                  Door time. {venue.arriveBy}
+                </p>
+              ) : null}
+              <p className="mt-2">Parking. {venue.parking}</p>
+              <p className="mt-2">Rideshare. {venue.rideshare}</p>
+              <p className="mt-2">Traffic. {venue.traffic}</p>
+              {venue.rainPlan ? <p className="mt-2">Rain. {venue.rainPlan}</p> : null}
+              {venue.eatWalk || venue.after ? (
+                <p className="mt-2">
+                  After. {venue.eatWalk ?? ""} {venue.after ?? ""}
+                </p>
+              ) : null}
+            </KitRow>
+          ) : null}
 
           {market.length ? (
-            <details className="mt-4 rounded-2xl border border-card-border px-3 py-2">
-              <summary className="cursor-pointer text-sm font-medium text-foreground">Other sellers</summary>
-              <p className="mt-2 text-xs leading-5 text-muted">
+            <KitRow icon={<IconStore />} label="Other sellers including Facebook Marketplace">
+              <p>
                 Search links only — including Facebook Marketplace peer listings. Finish any
                 purchase on that site. We do not sell tickets or show Marketplace inventory.
               </p>
@@ -183,83 +199,78 @@ export function GameDetail({
                   </a>
                 ))}
               </div>
-            </details>
+            </KitRow>
           ) : null}
 
-          {game.priceNotes ? (
-            <details className="mt-3 rounded-2xl border border-card-border px-3 py-2 text-sm text-muted">
-              <summary className="cursor-pointer font-medium text-foreground">Estimate note</summary>
-              <p className="mt-2 text-xs leading-5">{game.priceNotes}</p>
-            </details>
-          ) : null}
-
-          {venue ? (
-            <details className="mt-3 rounded-2xl border border-card-border px-3 py-2 text-sm text-muted">
-              <summary className="cursor-pointer font-medium text-foreground">
-                Neighborhood playbook · {venue.neighborhood}
-              </summary>
-              <div className="mt-2 space-y-2 text-xs leading-5">
-                <p>{venue.address}</p>
-                {venue.arriveBy ? (
-                  <p>
-                    <span className="text-foreground">Door time.</span> {venue.arriveBy}
-                  </p>
-                ) : null}
-                <p>
-                  <span className="text-foreground">Parking.</span> {venue.parking}
-                </p>
-                <p>
-                  <span className="text-foreground">Rideshare.</span> {venue.rideshare}
-                </p>
-                <p>
-                  <span className="text-foreground">Traffic.</span> {venue.traffic}
-                </p>
-                {venue.rainPlan ? (
-                  <p>
-                    <span className="text-foreground">Rain.</span> {venue.rainPlan}
-                  </p>
-                ) : null}
-                {venue.eatWalk ? (
-                  <p>
-                    <span className="text-foreground">After.</span> {venue.eatWalk}
-                    {venue.after ? ` ${venue.after}` : ""}
-                  </p>
-                ) : venue.after ? (
-                  <p>
-                    <span className="text-foreground">After.</span> {venue.after}
-                  </p>
-                ) : null}
-              </div>
-            </details>
-          ) : null}
+          <KitRow
+            icon={<IconTag />}
+            label="Unofficial price band"
+            trailing={estimateSpreadLabel(game.estPriceEachUsd, qty)}
+          >
+            <p>
+              {formatUsd(group)} {qtyEstimateLabel(qty)} · {formatUsd(game.estPriceEachUsd)} each.
+              Unofficial {PRICE_BAND_LABELS[priceBandId(game.estPriceEachUsd)].toLowerCase()}. Not
+              live inventory.
+            </p>
+            {game.priceNotes ? <p className="mt-2">{game.priceNotes}</p> : null}
+          </KitRow>
         </div>
 
         <div className="shrink-0 space-y-2 border-t border-card-border px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
-          <div className="flex gap-2">
-            {onToggleSave ? (
+          {primary ? (
+            <a
+              href={primary.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-accent px-4 text-base font-semibold text-background"
+            >
+              Get tickets
+            </a>
+          ) : null}
+          {onToggleSave ? (
+            <div className="flex justify-center">
               <SaveToggle
                 saved={saved}
                 onToggle={onToggleSave}
                 matchup={`${game.team} vs ${game.opponent}`}
               />
-            ) : null}
-            {primary ? (
-              <a
-                href={primary.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center rounded-2xl bg-accent px-4 text-base font-semibold text-background"
-              >
-                Get tickets
-              </a>
-            ) : null}
-          </div>
-          <p className="text-center text-[11px] leading-4 text-muted">
-            We don’t sell tickets. Estimates are unofficial.
-          </p>
+            </div>
+          ) : null}
         </div>
       </aside>
     </div>,
     document.body,
+  );
+}
+
+function KitRow({
+  icon,
+  label,
+  trailing,
+  children,
+}: {
+  icon: ReactNode;
+  label: string;
+  trailing?: string;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-card-border bg-background/40">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+        className="flex min-h-14 w-full items-center gap-3 px-3 text-left"
+      >
+        <span className="text-muted">{icon}</span>
+        <span className="min-w-0 flex-1 text-sm font-medium text-foreground">{label}</span>
+        {trailing ? <span className="text-sm font-semibold tabular-nums text-foreground">{trailing}</span> : null}
+        <span className={`text-muted transition ${open ? "rotate-90" : ""}`} aria-hidden>
+          ›
+        </span>
+      </button>
+      {open ? <div className="px-3 pb-3 text-sm leading-6 text-muted">{children}</div> : null}
+    </div>
   );
 }

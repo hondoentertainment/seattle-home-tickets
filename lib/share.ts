@@ -40,7 +40,7 @@ export function shortlistMarkdown(
   if (!games.length) return "No games selected.";
   const total = games.reduce((sum, game) => sum + estimateForQty(game.estPriceEachUsd, qty), 0);
   const header = [
-    "# Seattle home tickets shortlist",
+    "# Seattle Home Games shortlist",
     "",
     `Planning for ${qty} ${qtyNoun(qty)}. ${SHARE_DISCLAIMER}`,
     `Shortlist total ${qtyEstimateLabel(qty)}: ${formatUsd(total)}`,
