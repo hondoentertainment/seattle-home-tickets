@@ -75,7 +75,10 @@ function staticProMark(team: string): Omit<TeamMark, "gameCount"> | undefined {
   return PRO_MARKS.find((mark) => mark.team === team);
 }
 
+let cardsCache: TeamMark[] | null = null;
+
 export function teamCards(): TeamMark[] {
+  if (cardsCache) return cardsCache;
   const cards: TeamMark[] = [];
   for (const mark of PRO_MARKS) {
     const gameCount = catalog.games.filter((game) => game.team === mark.team).length;
@@ -99,6 +102,7 @@ export function teamCards(): TeamMark[] {
       (a, b) => a.team.localeCompare(b.team) || (a.sport ?? "").localeCompare(b.sport ?? ""),
     ),
   );
+  cardsCache = cards;
   return cards;
 }
 
@@ -107,6 +111,50 @@ export function teamHref(card: TeamMark): string {
   params.set("teams", card.team);
   if (card.sport) params.set("sports", card.sport);
   return `/?${params.toString()}`;
+}
+
+const SKIP_WORDS = new Set(["fc", "the", "of", "and", "at"]);
+
+function initialsFromName(name: string): string {
+  if (name.startsWith("Los Angeles")) return "LA";
+  if (name.startsWith("New York")) return "NY";
+  if (name.startsWith("San Francisco")) return "SF";
+  if (name.startsWith("Kansas City")) return "KC";
+  const words = name
+    .replace(/'/g, "")
+    .split(/\s+/)
+    .filter((word) => word && !SKIP_WORDS.has(word.toLowerCase()));
+  if (words.length === 0) return "?";
+  if (words.length === 1) return words[0].slice(0, Math.min(3, words[0].length)).toUpperCase();
+  if (words.length === 2) return `${words[0][0]}${words[1][0]}`.toUpperCase();
+  return words
+    .slice(0, 3)
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
+}
+
+function hashBg(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i += 1) hash = (hash * 31 + name.charCodeAt(i)) | 0;
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue} 28% 20%)`;
+}
+
+/** Visual monogram for a home club or opponent. Does not invent catalog rows. */
+export function displayMark(name: string, sport?: string): TeamMark {
+  const known = markFor(name, sport);
+  if (known) return known;
+  return {
+    team: name,
+    sport,
+    initials: initialsFromName(name),
+    short: name.replace(/^(Seattle|Washington)\s+/, ""),
+    bg: hashBg(name),
+    fg: "#e8f4ef",
+    ring: "#1d3d34",
+    gameCount: 0,
+  };
 }
 
 export function markFor(team: string, sport?: string): TeamMark | undefined {

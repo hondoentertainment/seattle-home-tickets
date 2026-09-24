@@ -65,6 +65,11 @@ export function getForecast(): Promise<DailyForecast | null> {
   return forecastPromise;
 }
 
+export function refreshForecast(): Promise<DailyForecast | null> {
+  forecastPromise = loadForecast().catch(() => null);
+  return forecastPromise;
+}
+
 export function climatologyFor(iso: string): WeatherBlurb {
   const month = iso.slice(5, 7);
   const climate = CLIMATE[month] ?? CLIMATE["09"];

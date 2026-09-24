@@ -21,12 +21,17 @@ PT = ZoneInfo("America/Los_Angeles")
 
 
 def main() -> None:
+    if not CATALOG.is_file():
+        raise SystemExit(f"missing catalog: {CATALOG}")
     catalog = json.loads(CATALOG.read_text())
+    catalog_as_of = catalog.get("asOf")
+    if not isinstance(catalog_as_of, str) or not catalog_as_of.strip():
+        raise SystemExit("data/games.json asOf is required (published seed date, not the clock)")
     matches = os.environ.get("CATALOG_MATCHES_SEED", "1") == "1"
     payload = {
         "lastChecked": datetime.now(PT).isoformat(timespec="seconds"),
         "timezone": "America/Los_Angeles",
-        "catalogAsOf": catalog.get("asOf", ""),
+        "catalogAsOf": catalog_as_of,
         "catalogMatchesSeed": matches,
         "priceRefresh": "not-scraped",
         "notes": (
