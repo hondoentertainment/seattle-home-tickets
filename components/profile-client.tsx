@@ -3,16 +3,23 @@
 import Link from "next/link";
 import { AuthControls } from "@/components/auth-controls";
 import { MyTeamsBar } from "@/components/my-teams-bar";
-import { QuantityPicker } from "@/components/quantity-picker";
+import { QuantityStepper } from "@/components/quantity-picker";
+import { SegmentedControl } from "@/components/segmented-control";
+import { IconBell, IconBookmark, IconChevron, IconShield } from "@/components/ui-icons";
 import { allTeams } from "@/lib/catalog";
-import { FIELD_CHIP } from "@/lib/field-control";
 import { writeHomeMine } from "@/lib/home-prefs";
 import { NO_TICKET_SALES_LINE, UNOFFICIAL_ESTIMATE_LINE } from "@/lib/legal";
 import { togglePinnedTeam } from "@/lib/my-teams";
+import { qtyNoun } from "@/lib/quantity";
 import { useHomeMine } from "@/lib/use-home-prefs";
 import { usePinnedTeams } from "@/lib/use-my-teams";
 import { useStoredShortlist } from "@/lib/shortlist";
 import { requestShortlistOpen, writeStoredQty } from "@/lib/url-state";
+
+const HOME_DEFAULT = [
+  { value: "mine", label: "My teams" },
+  { value: "all", label: "All" },
+] as const;
 
 export function ProfileClient() {
   const pinned = usePinnedTeams();
@@ -20,12 +27,9 @@ export function ProfileClient() {
   const { ids, qty } = useStoredShortlist();
 
   return (
-    <div className="space-y-4">
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted">You</p>
-        <div className="mt-3">
-          <AuthControls variant="profile" />
-        </div>
+    <div className="space-y-6">
+      <section className="text-center">
+        <AuthControls variant="profile" />
       </section>
 
       <MyTeamsBar
@@ -40,70 +44,70 @@ export function ProfileClient() {
         onShowAll={() => writeHomeMine(false)}
       />
 
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted">Home default</p>
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Home default view">
-          <button
-            type="button"
-            aria-pressed={homeMine}
-            onClick={() => writeHomeMine(true)}
-            className={`${FIELD_CHIP} ${
-              homeMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-            }`}
-          >
-            My teams
-          </button>
-          <button
-            type="button"
-            aria-pressed={!homeMine}
-            onClick={() => writeHomeMine(false)}
-            className={`${FIELD_CHIP} ${
-              !homeMine ? "border-accent/50 bg-accent/10 text-accent" : "border-card-border bg-card text-muted"
-            }`}
-          >
-            All teams
-          </button>
+      <section className="overflow-hidden rounded-2xl border border-card-border bg-card/80">
+        <button
+          type="button"
+          onClick={() => requestShortlistOpen()}
+          aria-label={ids.length ? `Open Saved, ${ids.length} games` : "Open Saved"}
+          className="flex min-h-14 w-full items-center gap-3 px-4 text-left"
+        >
+          <IconBookmark />
+          <span className="flex-1 text-sm font-medium text-foreground">Open Saved</span>
+          {ids.length ? (
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-semibold text-accent">
+              {ids.length}
+            </span>
+          ) : null}
+          <span className="text-muted">
+            <IconChevron />
+          </span>
+        </button>
+        <div className="mx-4 border-t border-card-border" />
+        <Link href="/alerts" className="flex min-h-14 items-center gap-3 px-4">
+          <IconBell />
+          <span className="flex-1 text-sm font-medium text-foreground">Alerts</span>
+          <span className="text-muted">
+            <IconChevron />
+          </span>
+        </Link>
+      </section>
+
+      <section className="space-y-5 rounded-2xl border border-card-border bg-card/80 p-4">
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Default ticket quantity</p>
+            <p className="mt-0.5 text-xs leading-5 text-muted">
+              Scales unofficial estimates on Home and Saved.
+            </p>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm text-muted">
+              {qty} {qtyNoun(qty)}
+            </p>
+            <QuantityStepper value={qty} onChange={writeStoredQty} />
+          </div>
         </div>
-        <p className="mt-2 text-xs leading-5 text-muted">
-          Used when Home has no <code className="text-foreground">mine=</code> in the URL.
-        </p>
-      </section>
-
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">Ticket quantity</p>
-        <QuantityPicker value={qty} onChange={writeStoredQty} />
-      </section>
-
-      <section className="rounded-2xl border border-card-border bg-card/80 p-4">
-        <div className="flex flex-col gap-2">
-          <button
-            type="button"
-            onClick={() => requestShortlistOpen()}
-            aria-label={ids.length ? `Open Saved, ${ids.length} games` : "Open Saved"}
-            className="inline-flex min-h-11 items-center justify-between rounded-xl px-1 text-left text-sm font-medium text-foreground"
-          >
-            <span>Saved</span>
-            <span className="text-xs text-muted">{ids.length ? `${ids.length} · Open` : "Open"}</span>
-          </button>
-          <Link
-            href="/alerts"
-            className="inline-flex min-h-11 items-center justify-between rounded-xl px-1 text-sm font-medium text-foreground"
-          >
-            <span>Alerts</span>
-            <span className="text-xs text-muted">In-app prefs</span>
-          </Link>
-          <Link
-            href="/teams"
-            className="inline-flex min-h-11 items-center rounded-xl px-1 text-sm font-medium text-accent"
-          >
-            All team tiles
-          </Link>
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Home default</p>
+            <p className="mt-0.5 text-xs leading-5 text-muted">
+              What Home opens to. Pin order stays either way.
+            </p>
+          </div>
+          <SegmentedControl
+            ariaLabel="Home default view"
+            value={homeMine ? "mine" : "all"}
+            options={HOME_DEFAULT}
+            onChange={(value) => writeHomeMine(value === "mine")}
+          />
         </div>
       </section>
 
-      <p className="text-xs leading-5 text-muted">
-        {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE} Alerts do not send email or
-        web-push.
+      <p className="flex items-start gap-2 text-xs leading-5 text-muted">
+        <span className="mt-0.5 text-muted">
+          <IconShield />
+        </span>
+        {UNOFFICIAL_ESTIMATE_LINE} {NO_TICKET_SALES_LINE}
       </p>
     </div>
   );

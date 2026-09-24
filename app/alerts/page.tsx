@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { AlertsClient } from "@/components/alerts-client";
+import { pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Alerts — Seattle Home Tickets",
+  title: pageTitle("Alerts"),
   description:
     "In-app alert preferences for unofficial price caps, published promo nights, outdoor weather risk, and tomorrow’s Saved games.",
 };

@@ -1,16 +1,18 @@
-# Seattle Home Tickets
+# Seattle Home Games
 
 A Next.js (App Router) site that lists **published Seattle HOME sporting events** with unofficial mid-tier ticket estimates. Search, filter, sort, save nights, and share the slate. Optional **Sign in with Google** syncs Saved to an account. The site is unofficial, does **not** sell tickets, and has **no live ticket API**.
 
-- **Home (`/`)** — My teams, Refresh, discovery chips (Pro / College / HS / Rivalry), same-weekend slates, filters, trip-kit sheet
+The GitHub repo and Vercel project stay `seattle-home-tickets`. User-facing name is **Seattle Home Games**.
+
+- **Home (`/`)** — Search + Filters, My teams chips + Home default control, game cards (date, monograms, price for qty, heart Save). First visit can pick teams in one short prompt. Header **Refresh** icon plus Profile. Mobile bottom nav: Home · Teams · Standings · More
 - **Holidays (`/holidays`)** — holiday showcase, badge key, and holiday-only browsing
-- **Teams (`/teams`)** — color monogram tiles plus Pin for My teams (college/HS tiles print the sport)
+- **Teams (`/teams`)** — grouped Pro / College / Other tiles, Edit my teams sheet, plus Pin (college/HS tiles print the sport)
 - **Standings (`/standings`)** — published W–L / points tables per Seattle club; upcoming sports are listed without invented records
 - **Ticket Stats (`/stats`)** — published-catalog counts and unofficial qty-2 totals (not on-field W–L). `/ticket-stats` redirects here
 - **Promotions (`/promotions`)** — published theme nights / giveaways from `data/promotions.json` (incomplete calendars marked; nothing invented)
 - **Venues (`/venues`)** — neighborhood playbooks (arrive / rain / after) and a Home venue filter
-- **Profile (`/profile`)** — identity, My teams pins, Saved, Alerts, default qty / Home view. Guest prefs work without Google
-- **Alerts (`/alerts`)** — in-app prefs only (no email or web-push yet)
+- **Profile (`/profile`)** — identity, My teams pin sheet, Saved, Alerts, default qty stepper / Home default control. Guest prefs work without Google
+- **Alerts (`/alerts`)** — in-app prefs only (price chips + toggles; no email or web-push yet)
 - **Contact (`/contact`)** — official ticket-office / guest-services pages (this site does not sell tickets)
 - **FAQ (`/about`)** — short Q&A. `/faq` redirects here
 - **PWA** — installable; offline shell can reopen Home after a first visit
@@ -41,7 +43,7 @@ Away games are excluded. If a conference basketball slate, HS conference week, o
 
 ## My teams, bundles, and group Saved
 
-Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). **All teams** clears the view without deleting pins. Pins are this-browser only.
+Home defaults to **My teams** (Mariners, Seahawks, Kraken, Sounders, Reign, Storm, Huskies until you edit). A first-visit **Pick your teams** prompt can change that in one sheet. **Edit teams** (Home, Profile, Teams) groups the catalog by Pro / College / Other, supports select-all / clear for the current group, and reorders pins for Home chips. **All** clears the view without deleting pins. Pins are this-browser only.
 
 **Same-weekend slates** group two or more published homes on the same Fri–Sun window (holiday tags when present). Not a ticket package.
 
@@ -82,7 +84,7 @@ Venue profiles live in [`data/venues.json`](data/venues.json): address, neighbor
 
 ## Saved list and sharing
 
-Tap **Save** on any row (the control reads **Saved** when it is on). That builds a **Saved** list (count on the header, More menu, and desktop nav). Open the sheet to review, remove nights, share the URL, or copy a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same slate without signing in. **Copy** writes markdown with date, matchup, venue, unofficial quantity estimate, weather blurb, travel one-liner, ticket search links, and a no-sales disclaimer. If the URL gets too long, share falls back to ids-only.
+Tap **Save** on any row (the control reads **Saved** when it is on). That builds a **Saved** list. Open it from **Profile**. The sheet reviews, removes nights, shares the URL, or copies a priced summary. Selection is stored in `localStorage` and in the URL (`ids=`). Share the link so a friend opens the same slate without signing in. **Copy** writes markdown with date, matchup, venue, unofficial quantity estimate, weather blurb, travel one-liner, ticket search links, and a no-sales disclaimer. If the URL gets too long, share falls back to ids-only.
 
 Signed out, Saved stays in this browser. After **Sign in with Google**, the client unions local + server once per login session, writes the union to the account, then treats the server copy as source of truth. Toggles PUT `/api/saved`. If Redis/Neon secrets are missing, Google login can still work and Saved stays on-device.
 
@@ -99,7 +101,7 @@ Copy [`.env.example`](.env.example) to `.env.local` and paste real values. Do no
 | `AUTH_URL` | **Production only** | `https://seattle-home-tickets.vercel.app` on the Vercel Production environment. Optional locally (`http://localhost:3000`). **Do not set on Preview** — Auth.js uses `trustHost` and the request host |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Account Saved sync | Preferred store |
 | `DATABASE_URL` or `POSTGRES_URL` | Account Saved sync | Neon fallback; creates `saved_events` on first write |
-| `GH_REFRESH_TOKEN` | Home **Refresh** → Action | Optional. Fine-grained PAT with Actions read/write. Cron still runs without it |
+| `GH_REFRESH_TOKEN` | Header **Refresh** → Action | Optional. Fine-grained PAT with Actions read/write. Cron still runs without it |
 
 ### Google Cloud Console
 
@@ -115,7 +117,7 @@ Authorized redirect URIs:
 - `https://seattle-home-tickets.vercel.app/api/auth/callback/google`
 - each Vercel Preview origin you need, `https://<deployment>.vercel.app/api/auth/callback/google` (Google does not allow `*.vercel.app` wildcards)
 
-OAuth consent screen: External, app name **Seattle Home Tickets**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
+OAuth consent screen: External, app name **Seattle Home Games**, support email, developer contact. Scopes: email, profile, openid (Auth.js default).
 
 Vercel → Project → Settings → Environment Variables. Add `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` to **Production**. Add `AUTH_URL=https://seattle-home-tickets.vercel.app` to **Production only**. Preview sign-in is optional (add the same Google pair to Preview, leave `AUTH_URL` unset, and register that preview callback in Google Cloud). The calendar still deploys if these are missing.
 
@@ -137,9 +139,9 @@ Rows are tagged in data (`specialTags`) for Labor Day weekend, Thanksgiving week
 
 ## Daily refresh
 
-A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles**, on `workflow_dispatch` (Actions tab or the Home **Refresh** button), and on `repository_dispatch` type `catalog-refresh`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
+A GitHub Action (`.github/workflows/daily-refresh.yml`) runs at **7:00 AM America/Los_Angeles**, on `workflow_dispatch` (Actions tab or the header **Refresh** icon), and on `repository_dispatch` type `catalog-refresh`. Vercel Cron is not used: only a git commit can update the last-checked stamp and trigger a production redeploy.
 
-GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick). Manual / Home-button runs skip that gate.
+GitHub cron is UTC-only, so the workflow fires at `0 14 * * *` (7:00 PDT) and `0 15 * * *` (7:00 PST). A gate step checks `TZ=America/Los_Angeles` and **no-ops unless the local hour is 07 or 08** (08 covers a late cron tick). Manual / header-icon runs skip that gate.
 
 What it **does**:
 
@@ -160,9 +162,9 @@ What it **does not**:
 - Bump `games.json` `asOf` just because the clock moved
 - Pull standings or invent promo calendars (edit [`data/standings.json`](data/standings.json) when league tables move; edit [`data/promotions.json`](data/promotions.json) when clubs publish new nights)
 
-### Home Refresh button
+### Header Refresh icon
 
-Home (`/`) has a **Refresh** control at the top (44px tap target, both viewports). It:
+The site header has an icon-only **Refresh** control (circular arrows, 44px tap target, `aria-label="Refresh"`) next to Profile on mobile and desktop. It:
 
 1. Reloads this page (`router.refresh()`) and refetches the Open-Meteo travel forecast
 2. Calls `POST /api/refresh`, which does **not** invent a new catalog
@@ -175,9 +177,9 @@ Optional Production secret:
 
 | Variable | Required for | Notes |
 | --- | --- | --- |
-| `GH_REFRESH_TOKEN` | Home button → Action | Fine-grained PAT with **Actions: Read and write** on this repo. Classic: `public_repo` + `workflow` (or `repo` if private). Not needed for the 7am cron. |
+| `GH_REFRESH_TOKEN` | Header icon → Action | Fine-grained PAT with **Actions: Read and write** on this repo. Classic: `public_repo` + `workflow` (or `repo` if private). Not needed for the 7am cron. |
 
-The site shows **last checked** (Pacific date and time) on Home under the nav and **catalog as of** + last checked in the footer. If `main` has a newer stamp than this deploy, Home says a newer check is waiting for deploy. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
+The site shows **catalog as of** + last checked in the footer. If the seed and `data/games.json` differ, the stamp says **seed review pending**. Prices remain unofficial mid-tier estimates.
 
 ## Local development
 
@@ -222,7 +224,7 @@ This is a standard Next.js app. No `vercel.json` is required. Preview deploys ar
 4. Add env vars from the table above when you are ready for Google sign-in / Saved sync.
 5. Deploy. Subsequent pushes to `main` rebuild automatically if the project is git-linked.
 
-**GitHub Actions permissions (required for the 7am stamp commit):** Repo → Settings → Actions → General → Workflow permissions → **Read and write**. Enable **Allow GitHub Actions to create and approve pull requests** so a seed-drift or blocked-push stamp PR can open. The Home button token (`GH_REFRESH_TOKEN`) is separate and only needed to queue that workflow from production.
+**GitHub Actions permissions (required for the 7am stamp commit):** Repo → Settings → Actions → General → Workflow permissions → **Read and write**. Enable **Allow GitHub Actions to create and approve pull requests** so a seed-drift or blocked-push stamp PR can open. The header Refresh token (`GH_REFRESH_TOKEN`) is separate and only needed to queue that workflow from production.
 
 **Custom domain (optional, not done in this repo):** in Vercel → Project → Settings → Domains, add the hostname you control, then create the DNS records Vercel shows (usually `A` / `CNAME`). Add that origin and `/api/auth/callback/google` in Google Cloud. Do not buy a domain from this codebase.
 

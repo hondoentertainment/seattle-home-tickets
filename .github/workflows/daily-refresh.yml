@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       reason:
-        description: Why this refresh was triggered (schedule, Actions tab, or Home button)
+        description: Why this refresh was triggered (schedule, Actions tab, or header Refresh icon)
         required: false
         default: manual
   repository_dispatch:

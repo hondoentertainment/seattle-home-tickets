@@ -31,6 +31,16 @@ export function formatGameDateShort(iso: string): string {
   return shortDate.format(new Date(`${iso}T12:00:00Z`));
 }
 
+export function formatCardDateParts(iso: string): { dow: string; monthDay: string } {
+  const date = new Date(`${iso}T12:00:00Z`);
+  return {
+    dow: date.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }).toUpperCase(),
+    monthDay: date
+      .toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })
+      .toUpperCase(),
+  };
+}
+
 export function parseIsoDate(iso: string): number {
   return Date.parse(`${iso}T12:00:00Z`);
 }

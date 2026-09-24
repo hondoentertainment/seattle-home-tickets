@@ -1,7 +1,12 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { DEFAULT_PINNED_LIST, MY_TEAMS_CHANGE_EVENT, readPinnedTeams } from "@/lib/my-teams";
+import {
+  DEFAULT_PINNED_LIST,
+  MY_TEAMS_CHANGE_EVENT,
+  hasStoredPinnedTeams,
+  readPinnedTeams,
+} from "@/lib/my-teams";
 
 function subscribe(onChange: () => void) {
   window.addEventListener(MY_TEAMS_CHANGE_EVENT, onChange);
@@ -10,4 +15,8 @@ function subscribe(onChange: () => void) {
 
 export function usePinnedTeams() {
   return useSyncExternalStore(subscribe, readPinnedTeams, () => DEFAULT_PINNED_LIST);
+}
+
+export function useHasStoredPinnedTeams() {
+  return useSyncExternalStore(subscribe, hasStoredPinnedTeams, () => true);
 }
