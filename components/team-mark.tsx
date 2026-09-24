@@ -5,8 +5,25 @@ export function TeamMark({
   size = "lg",
 }: {
   mark: TeamMarkData;
-  size?: "sm" | "lg";
+  size?: "sm" | "lg" | "chip" | "card";
 }) {
+  if (size === "chip" || size === "card") {
+    const box = size === "card" ? "size-11 text-xs" : "size-8 text-[10px]";
+    return (
+      <span
+        className={`grid shrink-0 place-items-center rounded-full font-black tracking-tight ${box}`}
+        style={{
+          background: mark.bg,
+          color: mark.fg,
+          boxShadow: `inset 0 0 0 2px ${mark.ring}55`,
+        }}
+        aria-hidden
+      >
+        {mark.initials}
+      </span>
+    );
+  }
+
   const box = size === "lg" ? "h-[4.5rem] w-[4.5rem] px-1.5" : "h-11 w-11 px-1";
   const initials = size === "lg" ? "text-lg" : "text-[11px]";
   const sport = size === "lg" ? "text-[8px] leading-tight" : "text-[7px] leading-tight";

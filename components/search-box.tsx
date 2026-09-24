@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { IconSearch } from "@/components/ui-icons";
 import { FIELD_ACTION, FIELD_INPUT, FIELD_LIST, FIELD_ROW } from "@/lib/field-control";
 import { composingKey } from "@/lib/listbox-keys";
 import { searchSuggestions, type SearchSuggestion } from "@/lib/suggestions";
@@ -99,8 +100,11 @@ export function SearchBox({
   return (
     <div ref={rootRef} className="relative min-w-0 flex-1" onKeyDown={onKeyDown}>
       <div className={FIELD_ROW}>
-        <label className="min-w-0 flex-1">
+        <label className="relative min-w-0 flex-1">
           <span className="sr-only">Search games</span>
+          <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-muted">
+            <IconSearch />
+          </span>
           <input
             ref={inputRef}
             type="search"
@@ -117,7 +121,7 @@ export function SearchBox({
             }}
             onFocus={() => setOpen(true)}
             placeholder="Search games"
-            className={`${FIELD_INPUT} truncate placeholder:truncate`}
+            className={`${FIELD_INPUT} truncate pl-10 placeholder:truncate`}
           />
         </label>
         <button
@@ -132,7 +136,7 @@ export function SearchBox({
             apply();
             inputRef.current?.focus();
           }}
-          className={FIELD_ACTION}
+          className={`${FIELD_ACTION} hidden sm:inline-flex`}
         >
           Search
         </button>

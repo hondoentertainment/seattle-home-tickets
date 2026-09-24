@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PromotionsCalendar } from "@/components/promotions-calendar";
+import { pageTitle } from "@/lib/brand";
 import { promotionsCatalog } from "@/lib/promotions";
 
 export const metadata: Metadata = {
-  title: "Promotions — Seattle Home Tickets",
+  title: pageTitle("Promotions"),
   description:
     "Published promotional nights, theme matches, and giveaways for Seattle home games. Nothing invented.",
 };

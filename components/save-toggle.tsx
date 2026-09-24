@@ -1,33 +1,32 @@
-function BookmarkIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4 shrink-0" aria-hidden>
-      {filled ? (
-        <path
-          fill="currentColor"
-          d="M6 3.25h12A1.75 1.75 0 0 1 19.75 5v16.2a.75.75 0 0 1-1.12.65L12 17.7l-6.63 4.15A.75.75 0 0 1 4.25 21.2V5A1.75 1.75 0 0 1 6 3.25Z"
-        />
-      ) : (
-        <path
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-          d="M6.4 4.1h11.2A1.1 1.1 0 0 1 18.7 5.2v15.1L12 16.3l-6.7 4V5.2A1.1 1.1 0 0 1 6.4 4.1Z"
-        />
-      )}
-    </svg>
-  );
-}
+import { IconHeart } from "@/components/ui-icons";
 
 export function SaveToggle({
   saved,
   onToggle,
   matchup,
+  variant = "button",
 }: {
   saved: boolean;
   onToggle: () => void;
   matchup: string;
+  variant?: "button" | "heart";
 }) {
+  const heart = (
+    <button
+      type="button"
+      aria-pressed={saved}
+      aria-label={saved ? `Remove ${matchup} from Saved` : `Save ${matchup} to Saved`}
+      onClick={onToggle}
+      className={`inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full ${
+        saved ? "text-gold" : "text-muted hover:text-foreground"
+      }`}
+    >
+      <IconHeart filled={saved} />
+    </button>
+  );
+
+  if (variant === "heart") return heart;
+
   return (
     <button
       type="button"
@@ -40,7 +39,7 @@ export function SaveToggle({
           : "border-card-border bg-card text-muted hover:border-accent/50 hover:text-foreground"
       }`}
     >
-      <BookmarkIcon filled={saved} />
+      <IconHeart filled={saved} className="size-4" />
       <span>{saved ? "Saved" : "Save"}</span>
     </button>
   );

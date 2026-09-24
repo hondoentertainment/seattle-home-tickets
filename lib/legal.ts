@@ -8,4 +8,4 @@ export const TRADEMARK_LINE =
   "Club and school names are trademarks of their owners. Marks here are original monograms, not licensed logos.";
 
 export const SHARE_DISCLAIMER =
-  "Unofficial mid-tier estimates, not quotes. Seattle Home Tickets does not sell tickets — confirm on official club/school or marketplace pages. Team names are trademarks of their owners; monograms are not licensed logos.";
+  "Unofficial mid-tier estimates, not quotes. Seattle Home Games does not sell tickets — confirm on official club/school or marketplace pages. Team names are trademarks of their owners; monograms are not licensed logos.";

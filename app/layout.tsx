@@ -2,10 +2,12 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthSessionProvider } from "@/components/auth-session-provider";
+import { PwaRegister } from "@/components/pwa-register";
 import { ShortlistHost } from "@/components/shortlist-host";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { ToastHost } from "@/components/toast-host";
+import { PRODUCT_NAME, PRODUCT_SHORT_NAME } from "@/lib/brand";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,11 +28,21 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Seattle Home Tickets — Full-season price estimates",
+  title: `${PRODUCT_NAME} — Full-season price estimates`,
   description:
     "Searchable, sortable calendar of Seattle home sporting events with unofficial mid-tier estimates for two seats.",
+  applicationName: PRODUCT_NAME,
+  appleWebApp: {
+    capable: true,
+    title: PRODUCT_SHORT_NAME,
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+  },
   openGraph: {
-    title: "Seattle Home Tickets",
+    title: PRODUCT_NAME,
     description:
       "Every published Seattle home game with estimated mid-tier pair prices. Search, filter, and sort the slate.",
     type: "website",
@@ -46,10 +58,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <AuthSessionProvider>
           <SiteNav />
-          <div className="flex flex-1 flex-col">{children}</div>
+          <div className="flex flex-1 flex-col pb-20 lg:pb-0">{children}</div>
           <SiteFooter />
           <ShortlistHost />
           <ToastHost />
+          <PwaRegister />
           <Analytics />
         </AuthSessionProvider>
       </body>

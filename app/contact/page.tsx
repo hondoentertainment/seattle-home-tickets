@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageTitle } from "@/lib/brand";
 import { contactGroups } from "@/lib/contacts";
 
 export const metadata: Metadata = {
-  title: "Contact — Seattle Home Tickets",
+  title: pageTitle("Contact"),
   description:
     "Official ticket-office and guest-services pages for Seattle clubs and schools on this calendar. This site is unofficial and does not sell tickets.",
 };

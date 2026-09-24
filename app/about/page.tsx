@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { catalog } from "@/lib/catalog";
+import { PRODUCT_NAME, pageTitle } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "FAQ — Seattle Home Tickets",
-  description:
-    "FAQ for Seattle Home Tickets: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.",
+  title: pageTitle("FAQ"),
+  description: `FAQ for ${PRODUCT_NAME}: unofficial estimates, sources, weather, shortlist, quantity, holidays, refresh, and trademarks.`,
 };
 
 const faqs: { q: string; a: ReactNode }[] = [
@@ -14,10 +14,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     q: "What is this site?",
     a: (
       <>
-        A planning board for published Seattle-area <span className="text-foreground">home</span>{" "}
-        sporting events. Scan the slate, save nights, and jump to official or
-        marketplace pages. It is unofficial: not a box office, not affiliated with
-        the clubs or schools, and it does not sell tickets.
+        {PRODUCT_NAME} is a planning board for published Seattle-area{" "}
+        <span className="text-foreground">home</span> sporting events. Scan the slate,
+        save nights, and jump to official or marketplace pages. It is unofficial: not
+        a box office, not affiliated with the clubs or schools, and it does not sell
+        tickets.
       </>
     ),
   },
@@ -26,11 +27,11 @@ const faqs: { q: string; a: ReactNode }[] = [
     a: (
       <>
         No. Each row is an unofficial mid-tier estimate per seat (not cheapest upper
-        deck, not club). Group totals are{" "}
+        deck, not club). We also show a typical band around that seed (~75–135%) and
+        the last-checked stamp — not live marketplace ranges. Group totals are{" "}
         <span className="text-foreground">est. each × quantity</span>. They are not
-        quotes, face values, or reserved inventory, and they will be wrong the
-        moment listings move. Always confirm on the official club or school site
-        before you buy. {catalog.priceDisclaimer}
+        quotes, face values, or reserved inventory. Confirm on official or
+        marketplace search links. {catalog.priceDisclaimer}
       </>
     ),
   },
@@ -87,8 +88,11 @@ const faqs: { q: string; a: ReactNode }[] = [
       <>
         Tap <span className="text-foreground">Save</span> on a row (it switches to{" "}
         <span className="text-foreground">Saved</span>) to add it to the Saved list.
-        Open that list from <span className="text-foreground">Saved</span> in the
-        header, More, or the desktop nav. Signed out, the list stays in this
+        Open that list from <span className="text-foreground">Saved</span> on{" "}
+        <Link href="/profile" className="text-accent hover:underline">
+          Profile
+        </Link>
+        . Signed out, the list stays in this
         browser&apos;s localStorage. Sign in with Google to merge that list onto your
         account (union on first login this session, then the server copy wins). Share
         URLs still use <code className="text-foreground">ids=</code> so a friend can
@@ -160,13 +164,71 @@ const faqs: { q: string; a: ReactNode }[] = [
     ),
   },
   {
+    q: "Where is my profile?",
+    a: (
+      <>
+        <Link href="/profile" className="text-accent hover:underline">
+          Profile
+        </Link>{" "}
+        is in the header and desktop nav. Signed out, My teams, alerts, quantity,
+        and Saved still work on this device. Continue with Google only appears when OAuth
+        secrets are configured. We do not send email or web-push.
+      </>
+    ),
+  },
+  {
+    q: "What are My teams?",
+    a: (
+      <>
+        Pin Seattle clubs on Home, Teams, or{" "}
+        <Link href="/profile" className="text-accent hover:underline">
+          Profile
+        </Link>
+        . First visit offers a short <strong>Pick your teams</strong> prompt (not a
+        wizard). Home defaults to those pins (big clubs + Huskies until you edit).{" "}
+        <strong>All</strong> shows the full published slate without deleting pins.
+        Pins live in this browser.
+      </>
+    ),
+  },
+  {
+    q: "Do you send price or weather alerts?",
+    a: (
+      <>
+        <Link href="/alerts" className="text-accent hover:underline">
+          Alerts
+        </Link>{" "}
+        stores in-app preferences (price cap, published promo nights, outdoor weather
+        risk, tomorrow’s Saved). Matching games are listed on that page. We do{" "}
+        <span className="text-foreground">not</span> send email or web-push yet — do
+        not expect a notification on your lock screen.
+      </>
+    ),
+  },
+  {
+    q: "Can I share a group shortlist?",
+    a: (
+      <>
+        Saved → <strong>Copy invite</strong> makes a link with{" "}
+        <code className="text-foreground">ids=</code> and{" "}
+        <code className="text-foreground">invite=1</code>. Friends can add those
+        published games to their Saved. That is a shared list, not RSVP.
+      </>
+    ),
+  },
+  {
     q: "When does the catalog refresh?",
     a: (
       <>
         A GitHub Action re-validates the published seed every day at 7:00 AM Pacific
-        and writes a real last-checked timestamp under the nav and in the footer. It
-        does not scrape live prices, invent unpublished dates, or pull standings.
-        Catalog “as of” comes from the seed file, not from the clock. If the seed and{" "}
+        (and when someone runs it from the Actions tab or the header{" "}
+        <strong>Refresh</strong> icon, if a dispatch token is configured). It
+        writes a real last-checked timestamp in the footer, then commits
+        so Vercel redeploys. It does not scrape live prices, invent unpublished
+        dates, or pull standings. Catalog “as of” comes from the seed file, not from
+        the clock. Header <strong>Refresh</strong> reloads this page and, when{" "}
+        <code className="text-foreground">GH_REFRESH_TOKEN</code> is set, queues that
+        Action — it will not claim a live rebuild. If the seed and{" "}
         <code className="text-foreground">data/games.json</code> differ, the stamp
         says seed review pending and the job opens a PR instead of silently changing
         the slate.

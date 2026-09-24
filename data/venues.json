@@ -5,10 +5,14 @@
     "neighborhood": "SoDo",
     "indoor": false,
     "transit": "Link 1 Line to Stadium Station; short walk north. Many 7/124 buses on 1st Ave S.",
-    "parking": "Official lots south and west of the park fill early and run $30–60 on weekends. Street parking in SoDo is scarce after first pitch.",
+    "parking": "Official lots south and west of the park fill early and run $30\u201360 on weekends. Street parking in SoDo is scarce after first pitch.",
     "rideshare": "Preferred pickup is usually Occidental Ave S / Edgar Martinez Dr. Expect surge after extras innings.",
-    "traffic": "I-5/I-90 downtown exits back up 45–75 minutes before first pitch on Friday/Saturday nights. Leave extra time from the Eastside.",
-    "officialTickets": "https://www.mlb.com/mariners/tickets"
+    "traffic": "I-5/I-90 downtown exits back up 45\u201375 minutes before first pitch on Friday/Saturday nights. Leave extra time from the Eastside.",
+    "officialTickets": "https://www.mlb.com/mariners/tickets",
+    "arriveBy": "Aim for Stadium Station 45\u201360 minutes before first pitch on weeknights, 60\u201375 on Friday/Saturday. Retractable roof does not remove SoDo traffic.",
+    "rainPlan": "Outdoor. Roof is usually open in fair weather; showers still make the walk from Link slick. Bring a layer even when the forecast is dry.",
+    "after": "Pioneer Square and Occidental fill after wins. For a quieter exit, walk to International District/Chinatown Station instead of waiting on Edgar Martinez Dr.",
+    "eatWalk": "SoDo / Pioneer Square: brewpubs and casual spots on 1st Ave S and Occidental. Typical gameday walk, not reservations we book."
   },
   "Lumen Field": {
     "name": "Lumen Field",
@@ -19,7 +23,11 @@
     "parking": "Event lots around Occidental and the train yard are expensive and sell out for Seahawks. Soccer is easier but still pricey.",
     "rideshare": "Drop-off on Occidental Ave S or 1st Ave S. After NFL games, walk a block north before requesting a car.",
     "traffic": "Seahawks Sundays: treat I-5, SR-99, and the West Seattle Bridge as delayed. Sounders/Reign nights are lighter but still congested in SoDo.",
-    "officialTickets": "https://www.ticketmaster.com/lumen-field-tickets-seattle/venue/328429"
+    "officialTickets": "https://www.ticketmaster.com/lumen-field-tickets-seattle/venue/328429",
+    "arriveBy": "NFL: 90 minutes before kickoff. MLS/NWSL: 45\u201360 minutes is usually enough. Stadium Station for south gates; ID/Chinatown for the north end.",
+    "rainPlan": "Open-air. Sounders/Reign nights get wet often in fall \u2014 poncho over an umbrella in packed concourses. Seahawks Sundays: treat rain as a standing-in-line problem.",
+    "after": "After NFL, walk a block north of Occidental before requesting a car. Soccer crowds clear faster; Pioneer Square is the usual post-match walk.",
+    "eatWalk": "SoDo / Pioneer Square / International District are the walkable food clusters. No in-app reservations."
   },
   "Climate Pledge Arena": {
     "name": "Climate Pledge Arena",
@@ -29,8 +37,12 @@
     "transit": "Link 1 Line to Seattle Center Station (via the Monorail from Westlake) or RapidRide D / several Metro routes to Seattle Center.",
     "parking": "Seattle Center garages (5th Ave N, Mercer) are closest; they fill for Kraken weekend games. Uptown street parking is timed and enforced.",
     "rideshare": "Mercer St and 1st Ave N are the usual zones. After games, walk toward Queen Anne Ave to avoid the Mercer jam.",
-    "traffic": "Indoor venue — weather is a travel-day issue. Mercer St is the bottleneck. From the Eastside, SR-520 + I-5 can add 20+ minutes at 5–7 p.m.",
-    "officialTickets": "https://climatepledgearena.com/tickets/"
+    "traffic": "Indoor venue \u2014 weather is a travel-day issue. Mercer St is the bottleneck. From the Eastside, SR-520 + I-5 can add 20+ minutes at 5\u20137 p.m.",
+    "officialTickets": "https://climatepledgearena.com/tickets/",
+    "arriveBy": "30\u201345 minutes before puck/tip. Monorail from Westlake plus the Seattle Center walk is the simple downtown path.",
+    "rainPlan": "Indoor bowl. Weather is a travel-day issue: Mercer St and the monorail queue get messy in heavy rain.",
+    "after": "Walk toward Queen Anne Ave or the monorail rather than standing on Mercer. Uptown bars are the usual after-Kraken stop.",
+    "eatWalk": "Uptown / Queen Anne Ave and Seattle Center campus food. Typical walk-up, not a booking service."
   },
   "Husky Stadium": {
     "name": "Husky Stadium",
@@ -41,7 +53,11 @@
     "parking": "Campus lots and E-12/E-1 require pre-paid gameday permits. Neighborhood parking in Montlake is restricted.",
     "rideshare": "Montlake Blvd NE and Walla Walla Rd NE. After the game, walk toward the Link station rather than waiting at the curb.",
     "traffic": "Montlake Blvd and the SR-520 ramps jam 90 minutes before kickoff. Light rail is usually faster than driving from downtown.",
-    "officialTickets": "https://gohuskies.com/sports/football/tickets"
+    "officialTickets": "https://gohuskies.com/sports/football/tickets",
+    "arriveBy": "75\u201390 minutes before kickoff. Link to UW Station and the pedestrian bridge beats Montlake traffic from downtown.",
+    "rainPlan": "Open bowl. Wind off the lake is the surprise; a rain shell matters more than a big umbrella in packed rows.",
+    "after": "Walk back to UW Station instead of waiting on Montlake Blvd. The SR-520 ramps stay jammed 30\u201345 minutes after the final whistle.",
+    "eatWalk": "The Ave (University Way) is the post-game walk. Campus concessions are the in-stadium default."
   },
   "Alaska Airlines Arena": {
     "name": "Alaska Airlines Arena at Hec Edmundson Pavilion",
@@ -50,31 +66,43 @@
     "indoor": true,
     "transit": "Link 1 Line to University of Washington Station; short campus walk to Hec Ed.",
     "parking": "Padelford and Central campus garages. Evening enforcement is real on weeknights.",
-    "rideshare": "Montlake Blvd NE or Pend Oreille Rd NE. Indoor venue — plan for rain on the walk from Link.",
+    "rideshare": "Montlake Blvd NE or Pend Oreille Rd NE. Indoor venue \u2014 plan for rain on the walk from Link.",
     "traffic": "Campus evening classes plus a hoops game can clog Montlake. Link avoids most of it.",
-    "officialTickets": "https://gohuskies.com/sports/mens-basketball/tickets"
+    "officialTickets": "https://gohuskies.com/sports/mens-basketball/tickets",
+    "arriveBy": "30\u201340 minutes before tip. Same Link stop as football; much shorter campus walk.",
+    "rainPlan": "Indoor. The walk from UW Station is uncovered \u2014 a jacket for wet weeknights.",
+    "after": "Link is still the clean exit. Padelford garage exits queue after popular games.",
+    "eatWalk": "The Ave or campus spots. Weeknight tips overlap with student dinner rush."
   },
   "Husky Soccer Stadium": {
     "name": "Husky Soccer Stadium",
     "address": "University of Washington, Seattle, WA 98195",
     "neighborhood": "University of Washington",
     "indoor": false,
-    "transit": "Link 1 Line to University of Washington Station; 10–15 minute campus walk.",
+    "transit": "Link 1 Line to University of Washington Station; 10\u201315 minute campus walk.",
     "parking": "Limited lots near the IMA / soccer complex. Overflow uses general campus garages.",
     "rideshare": "Walla Walla Rd NE or near the IMA building.",
     "traffic": "Weeknight 7:30 starts overlap with campus traffic. Easier than football Saturdays.",
-    "officialTickets": "https://gohuskies.com/sports/mens-soccer/tickets"
+    "officialTickets": "https://gohuskies.com/sports/mens-soccer/tickets",
+    "arriveBy": "25\u201335 minutes before kickoff. 10\u201315 minute walk from UW Station.",
+    "rainPlan": "Outdoor. Sidelines get soggy; the walk from Link is the wet part.",
+    "after": "Easier than football. Same Link exit.",
+    "eatWalk": "Campus / The Ave. Smaller crowds than football Saturdays."
   },
   "Redhawk Center": {
     "name": "Redhawk Center",
     "address": "12th Ave & E Columbia St, Seattle, WA 98122",
     "neighborhood": "First Hill / Seattle University",
     "indoor": true,
-    "transit": "Many Metro routes on Madison, Broadway, and 12th Ave. No Link station at the door — closest is Capitol Hill or Pioneer Square plus a bus/walk.",
+    "transit": "Many Metro routes on Madison, Broadway, and 12th Ave. No Link station at the door \u2014 closest is Capitol Hill or Pioneer Square plus a bus/walk.",
     "parking": "Campus garage on 12th Ave / Columbia is the reliable option. Street parking on First Hill is short-term.",
     "rideshare": "12th Ave or E Columbia St.",
     "traffic": "First Hill is dense but games rarely gridlock like SoDo. Allow extra time for Madison St construction detours.",
-    "officialTickets": "https://goseattleu.com/tickets"
+    "officialTickets": "https://goseattleu.com/tickets",
+    "arriveBy": "25\u201335 minutes before tip. Bus on Madison, Broadway, or 12th; no Link at the door.",
+    "rainPlan": "Indoor. First Hill sidewalks are steep and slick \u2014 wear shoes you trust.",
+    "after": "Capitol Hill is the usual walk. Pioneer Square Link is a downhill plus a bus.",
+    "eatWalk": "First Hill / 12th Ave and nearby Capitol Hill. Neighborhood walk-up, not a list we book."
   },
   "Royal Brougham Pavilion": {
     "name": "Royal Brougham Pavilion",
@@ -85,7 +113,11 @@
     "parking": "Campus lots around 3rd Ave W. Neighborhood streets are permit-heavy at night.",
     "rideshare": "3rd Ave W at W Dravus St or W Nickerson St.",
     "traffic": "Nickerson / Fremont Bridge backups at rush hour. Leave extra time from the Eastside via 99 or I-5 + 45th.",
-    "officialTickets": "https://spufalcons.com/sports/2026/8/6/spu-athletics-ticket-page.aspx"
+    "officialTickets": "https://spufalcons.com/sports/2026/8/6/spu-athletics-ticket-page.aspx",
+    "arriveBy": "25\u201335 minutes before tip. RapidRide D to Uptown plus a walk; no Link.",
+    "rainPlan": "Indoor. Queen Anne hills are the weather problem.",
+    "after": "Uptown or Fremont if you want food; D line back downtown.",
+    "eatWalk": "Uptown / lower Queen Anne. Typical after-game walk."
   },
   "West Seattle Stadium": {
     "name": "West Seattle Stadium",
@@ -93,21 +125,29 @@
     "neighborhood": "West Seattle",
     "indoor": false,
     "transit": "Metro C Line / 21 / 55 to the West Seattle Junction, then a short walk or local bus to Genesee. No Link station.",
-    "parking": "Stadium lot fills for O’Dea and Metro Friday nights. Neighborhood streets around Genesee are time-limited.",
+    "parking": "Stadium lot fills for O\u2019Dea and Metro Friday nights. Neighborhood streets around Genesee are time-limited.",
     "rideshare": "SW Genesee St or 35th Ave SW. After games, walk a block west before requesting.",
     "traffic": "West Seattle Bridge / Fauntleroy backups on Friday nights. Leave extra time from downtown or the Eastside.",
-    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/",
+    "arriveBy": "30\u201340 minutes before Friday kickoff. C Line to the Junction, then a short walk or local bus.",
+    "rainPlan": "Outdoor high-school field. Wind off the bluff; a hood beats an umbrella on metal bleachers.",
+    "after": "West Seattle Junction for food. Bridge backups linger after 9 p.m. Friday games.",
+    "eatWalk": "The Junction (California Ave SW) is the walkable cluster."
   },
   "Northwest Athletic Complex": {
     "name": "Northwest Athletic Complex",
     "address": "1819 N 135th St, Seattle, WA 98133",
     "neighborhood": "Broadview / Ingraham",
     "indoor": false,
-    "transit": "Metro 28 / 40 / 345 to N 135th. No Link station — plan a bus or car.",
+    "transit": "Metro 28 / 40 / 345 to N 135th. No Link station \u2014 plan a bus or car.",
     "parking": "Ingraham / NWAC lots. Overflow spills onto N 135th; arrive early for Homecoming.",
     "rideshare": "N 135th St at Greenwood Ave N or the Ingraham lot curb.",
     "traffic": "I-5 Northgate exits jam on Friday kickoffs. Aurora (SR-99) is the usual backup.",
-    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/",
+    "arriveBy": "30 minutes before kickoff. Bus or car \u2014 no Link.",
+    "rainPlan": "Outdoor. North-end rain is common on Friday nights; lots get muddy.",
+    "after": "Greenwood / Aurora for a bite. I-5 Northgate stays slow.",
+    "eatWalk": "Limited at the gate; Greenwood Ave N is the usual drive."
   },
   "Southeast Athletic Complex": {
     "name": "Southeast Athletic Complex",
@@ -118,7 +158,11 @@
     "parking": "SEAC / Rainier Beach HS lots. Street parking on Seward Park Ave S is limited on Friday nights.",
     "rideshare": "Seward Park Ave S at the complex entrance.",
     "traffic": "Rainier Ave S backs up before 7 p.m. kickoffs. Link is usually faster from downtown.",
-    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/"
+    "officialTickets": "https://www.seattleschools.org/news/digital-athletic-tickets/",
+    "arriveBy": "30 minutes before kickoff. Link to Rainier Beach plus a short walk.",
+    "rainPlan": "Outdoor. Field lights and wet bleachers; Link still beats Rainier Ave traffic.",
+    "after": "Rainier Beach Station is the clean exit.",
+    "eatWalk": "Rainier Ave S / Rainier Beach. No on-site restaurant row."
   },
   "Eastside Catholic School": {
     "name": "Eastside Catholic School",
@@ -126,10 +170,14 @@
     "neighborhood": "Sammamish",
     "indoor": false,
     "transit": "No Link. King County Metro / Sound Transit to Issaquah or Redmond, then a local bus or car. Most fans drive.",
-    "parking": "Campus lots at 228th Ave SE. Homecoming fills them — follow event-staff directions.",
+    "parking": "Campus lots at 228th Ave SE. Homecoming fills them \u2014 follow event-staff directions.",
     "rideshare": "228th Ave SE at the campus loop.",
     "traffic": "I-90 + 228th Ave SE is the typical approach. Friday 7 p.m. starts overlap with Eastside commute.",
-    "officialTickets": "https://www.eastsidecatholic.org/athletics/teams/football"
+    "officialTickets": "https://www.eastsidecatholic.org/athletics/teams/football",
+    "arriveBy": "35\u201345 minutes before Friday kickoff. Most fans drive; no Link to Sammamish.",
+    "rainPlan": "Outdoor Eastside field. Bring a layer \u2014 evenings cool off fast.",
+    "after": "Issaquah or Sammamish commons for food. I-90 westbound queues after Homecoming.",
+    "eatWalk": "Campus concessions plus a short drive to Issaquah. Not a walkable Seattle neighborhood."
   },
   "Bellevue High School Stadium": {
     "name": "Bellevue High School Stadium",
@@ -140,6 +188,10 @@
     "parking": "Campus lots off Wolverine Way. Neighborhood overflow is limited on Friday nights.",
     "rideshare": "Wolverine Way SE at the stadium entrance.",
     "traffic": "I-405 Bellevue exits clog before 7 p.m. kickoffs. Leave extra time from Seattle via 520 or I-90.",
-    "officialTickets": "https://www.maxpreps.com/wa/bellevue/bellevue-wolverines/football/"
+    "officialTickets": "https://www.maxpreps.com/wa/bellevue/bellevue-wolverines/football/",
+    "arriveBy": "30\u201340 minutes before kickoff. East Link to Bellevue Downtown, then a short bus or rideshare.",
+    "rainPlan": "Outdoor. Eastside rain plus I-405 is the delay, not the field roof (there isn\u2019t one).",
+    "after": "Downtown Bellevue for food. 405 north/south stays slow after 9 p.m. Fridays.",
+    "eatWalk": "Downtown Bellevue is a short hop, not a stadium-gate walk."
   }
 }

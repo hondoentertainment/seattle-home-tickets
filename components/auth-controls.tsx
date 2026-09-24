@@ -29,15 +29,16 @@ function GoogleMark({ className }: { className?: string }) {
   );
 }
 
-function Avatar({ src, alt }: { src?: string | null; alt: string }) {
+function Avatar({ src, alt, large }: { src?: string | null; alt: string; large?: boolean }) {
+  const px = large ? 72 : 36;
   if (src) {
     return (
       <Image
         src={src}
         alt={alt}
-        width={36}
-        height={36}
-        className="size-9 rounded-full bg-card object-cover"
+        width={px}
+        height={px}
+        className={`${large ? "size-[4.5rem]" : "size-9"} rounded-full bg-card object-cover`}
         referrerPolicy="no-referrer"
       />
     );
@@ -45,7 +46,7 @@ function Avatar({ src, alt }: { src?: string | null; alt: string }) {
   return (
     <span
       aria-hidden
-      className="inline-flex size-9 items-center justify-center rounded-full bg-accent/15 text-xs font-semibold text-accent"
+      className={`inline-flex ${large ? "size-[4.5rem] text-2xl" : "size-9 text-xs"} items-center justify-center rounded-full bg-accent/15 font-semibold text-accent`}
     >
       {alt.slice(0, 1).toUpperCase() || "?"}
     </span>
@@ -56,7 +57,7 @@ const outlineButton =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm font-medium leading-5 text-foreground hover:border-accent/50";
 
 const primaryButton =
-  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 text-sm font-semibold leading-5 text-background";
+  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-foreground px-3 text-sm font-semibold leading-5 text-background";
 
 function RedirectField() {
   const pathname = usePathname();
@@ -89,13 +90,27 @@ function SignInButton({ compact, prominent }: { compact: boolean; prominent: boo
 export function AuthControls({
   variant,
 }: {
-  variant: "header" | "nav" | "menu" | "sheet";
+  variant: "header" | "nav" | "menu" | "sheet" | "profile";
 }) {
   const enabled = useGoogleAuthEnabled();
   const { data, status } = useSession();
   const compact = variant === "header";
 
   if (status === "loading" || (enabled === null && !data?.user)) {
+    if (variant === "profile") {
+      return (
+        <div className="flex flex-col items-center gap-2">
+          <span
+            aria-hidden
+            className="inline-flex size-16 items-center justify-center rounded-full bg-card text-sm font-semibold text-muted"
+          >
+            ·
+          </span>
+          <p className="text-xl font-semibold text-muted">Checking sign-in…</p>
+          <p className="text-sm text-muted">Local prefs still work.</p>
+        </div>
+      );
+    }
     return null;
   }
 
@@ -117,6 +132,18 @@ export function AuthControls({
         </div>
       );
     }
+    if (variant === "profile") {
+      return (
+        <div className="flex flex-col items-center gap-3">
+          <Avatar src={data.user.image} alt={data.user.name || label} large />
+          <div className="min-w-0">
+            <p className="truncate text-2xl font-bold text-foreground">{data.user.name || "Signed in"}</p>
+            {data.user.email ? <p className="truncate text-sm text-muted">{data.user.email}</p> : null}
+          </div>
+          <SignOutButton />
+        </div>
+      );
+    }
     return (
       <div className="flex items-center gap-3">
         <Avatar src={data.user.image} alt={data.user.name || label} />
@@ -129,7 +156,34 @@ export function AuthControls({
     );
   }
 
-  if (!enabled) return null;
+  if (!enabled) {
+    if (variant === "profile") {
+      return (
+        <div className="flex flex-col items-center gap-2">
+          <Avatar alt="Guest" large />
+          <p className="text-2xl font-bold text-foreground">Guest</p>
+          <p className="text-sm text-muted">Sign in for a better experience</p>
+          <p className="max-w-sm text-xs leading-5 text-muted">
+            Google sign-in is not configured on this deploy. Prefs stay on this device.
+          </p>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  if (variant === "profile") {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-col items-center gap-2">
+          <Avatar alt="Guest" large />
+          <p className="text-2xl font-bold text-foreground">Guest</p>
+          <p className="text-sm text-muted">Sign in for a better experience</p>
+        </div>
+        <SignInButton compact={false} prominent />
+      </div>
+    );
+  }
 
   return <SignInButton compact={compact} prominent={variant === "menu" || variant === "sheet"} />;
 }
