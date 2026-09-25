@@ -37,7 +37,7 @@ import { togglePinnedTeam } from "@/lib/my-teams";
 import { usePinnedTeams } from "@/lib/use-my-teams";
 import { CATALOG_REFRESH_EVENT } from "@/lib/refresh";
 import { FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
-import { filterGames } from "@/lib/filter-games";
+import { filterGames, rangeStart } from "@/lib/filter-games";
 import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
 import { estimateForQty } from "@/lib/quantity";
 import { readStoredIds, writeStoredIds } from "@/lib/url-state";
@@ -311,7 +311,7 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
             <input
               type="date"
-              value={state.from}
+              value={rangeStart(state.from)}
               onChange={(event) => patch({ from: event.target.value })}
               className={FIELD_INPUT}
             />

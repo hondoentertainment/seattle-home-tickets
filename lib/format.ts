@@ -45,6 +45,11 @@ export function parseIsoDate(iso: string): number {
   return Date.parse(`${iso}T12:00:00Z`);
 }
 
+/** Calendar day in America/Los_Angeles as YYYY-MM-DD. */
+export function pacificTodayIso(now = new Date()): string {
+  return now.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+}
+
 const SPECIAL_TAG_LABELS: Record<string, string> = {
   Christmas: "🎄 Christmas",
   "Holiday Classic": "Holiday Classic",
