@@ -45,6 +45,13 @@ export function parseIsoDate(iso: string): number {
   return Date.parse(`${iso}T12:00:00Z`);
 }
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+export function isIsoDate(value: string): boolean {
+  if (!ISO_DATE.test(value)) return false;
+  return !Number.isNaN(parseIsoDate(value));
+}
+
 /** Calendar day in America/Los_Angeles as YYYY-MM-DD. */
 export function pacificTodayIso(now = new Date()): string {
   return now.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });

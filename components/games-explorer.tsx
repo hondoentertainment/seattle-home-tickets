@@ -37,8 +37,8 @@ import { togglePinnedTeam } from "@/lib/my-teams";
 import { usePinnedTeams } from "@/lib/use-my-teams";
 import { CATALOG_REFRESH_EVENT } from "@/lib/refresh";
 import { FIELD_INPUT, FIELD_ROW, FIELD_SHELL } from "@/lib/field-control";
-import { filterGames, rangeStart } from "@/lib/filter-games";
-import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, parseIsoDate } from "@/lib/format";
+import { filterGames } from "@/lib/filter-games";
+import { formatGameDate, formatGameDateShort, formatSpecialTag, formatUsd, isIsoDate, pacificTodayIso, parseIsoDate } from "@/lib/format";
 import { estimateForQty } from "@/lib/quantity";
 import { readStoredIds, writeStoredIds } from "@/lib/url-state";
 import { unionSavedIds } from "@/lib/saved-ids";
@@ -174,8 +174,8 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
     state.venues.length +
     state.months.length +
     state.genders.length +
-    (state.from ? 1 : 0) +
-    (state.to ? 1 : 0) +
+    (isIsoDate(state.from) ? 1 : 0) +
+    (isIsoDate(state.to) ? 1 : 0) +
     state.levels.length +
     state.focusTags.length;
 
@@ -311,8 +311,13 @@ export function GamesExplorer({ variant = "home" }: { variant?: "home" | "holida
             <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted">From</span>
             <input
               type="date"
-              value={rangeStart(state.from)}
-              onChange={(event) => patch({ from: event.target.value })}
+              key={isIsoDate(state.from) ? state.from : "today"}
+              defaultValue={isIsoDate(state.from) ? state.from : pacificTodayIso()}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (value !== "" && !isIsoDate(value)) return;
+                patch({ from: value });
+              }}
               className={FIELD_INPUT}
             />
           </label>
@@ -635,8 +640,12 @@ function ActiveFilterChips({
   for (const value of state.focusTags) {
     chips.push({ key: `tg-${value}`, label: value, onClear: () => onClearTag(value) });
   }
-  if (state.from) chips.push({ key: "from", label: `From ${formatGameDateShort(state.from)}`, onClear: onClearFrom });
-  if (state.to) chips.push({ key: "to", label: `To ${formatGameDateShort(state.to)}`, onClear: onClearTo });
+  if (isIsoDate(state.from)) {
+    chips.push({ key: "from", label: `From ${formatGameDateShort(state.from)}`, onClear: onClearFrom });
+  }
+  if (isIsoDate(state.to)) {
+    chips.push({ key: "to", label: `To ${formatGameDateShort(state.to)}`, onClear: onClearTo });
+  }
   for (const value of state.genders) {
     chips.push({ key: `g-${value}`, label: GENDER_LABELS[value], onClear: () => onClearGender(value) });
   }

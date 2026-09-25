@@ -1,11 +1,11 @@
-import { pacificTodayIso } from "@/lib/format";
+import { isIsoDate, pacificTodayIso } from "@/lib/format";
 import { gameLevel } from "@/lib/game-level";
 import type { Game } from "@/lib/types";
 import type { ExplorerState } from "@/lib/url-state";
 
 /** Empty From means the window starts on today's Pacific calendar day. */
 export function rangeStart(from: string, now = new Date()): string {
-  return from || pacificTodayIso(now);
+  return isIsoDate(from) ? from : pacificTodayIso(now);
 }
 
 export function matchesSearch(game: Game, query: string): boolean {
