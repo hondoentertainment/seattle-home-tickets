@@ -1,6 +1,12 @@
+import { isIsoDate, pacificTodayIso } from "@/lib/format";
 import { gameLevel } from "@/lib/game-level";
 import type { Game } from "@/lib/types";
 import type { ExplorerState } from "@/lib/url-state";
+
+/** Empty From means the window starts on today's Pacific calendar day. */
+export function rangeStart(from: string, now = new Date()): string {
+  return isIsoDate(from) ? from : pacificTodayIso(now);
+}
 
 export function matchesSearch(game: Game, query: string): boolean {
   if (!query) return true;
@@ -27,6 +33,7 @@ export function filterGames(
   const normalized = query.trim().toLowerCase();
   const selected = new Set(state.ids);
   const usePins = state.mine && pinnedTeams.length > 0 && state.teams.length === 0;
+  const start = rangeStart(state.from);
   return games.filter((game) => {
     if (!matchesSearch(game, normalized)) return false;
     if (state.sports.length && !state.sports.includes(game.sport)) return false;
@@ -42,7 +49,7 @@ export function filterGames(
     if (state.focusTags.length && !state.focusTags.some((tag) => game.specialTags.includes(tag))) {
       return false;
     }
-    if (state.from && game.date < state.from) return false;
+    if (game.date < start) return false;
     if (state.to && game.date > state.to) return false;
     if (state.holidayOnly && game.specialTags.length === 0) return false;
     if (state.selectedOnly && !selected.has(game.id)) return false;
