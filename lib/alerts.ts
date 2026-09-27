@@ -2,6 +2,8 @@ import { catalog, venueFor } from "@/lib/catalog";
 import { promotionsCatalog } from "@/lib/promotions";
 import type { Game, WeatherBlurb } from "@/lib/types";
 
+export { pacificTodayIso } from "@/lib/format";
+
 export type AlertPrefs = {
   priceUnder: number | null;
   promoNight: boolean;
@@ -62,10 +64,6 @@ export function writeAlertPrefs(prefs: AlertPrefs) {
   } catch {
     // private mode / quota
   }
-}
-
-export function pacificTodayIso(now = new Date()): string {
-  return now.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
 }
 
 export function pacificTomorrowIso(now = new Date()): string {
