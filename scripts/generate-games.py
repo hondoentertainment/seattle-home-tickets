@@ -320,7 +320,7 @@ for iso, opp, t, tv, each, extra in [
     ("2026-09-19", "Eastern Washington", "4:15 PM", "BTN", 35, ""),
     ("2026-09-26", "Minnesota", "TBD", "TBD", 70, " Kickoff window announced ~12 days prior."),
     ("2026-10-09", "Iowa", "6:00 PM", "FOX or FS1", 85, ""),
-    ("2026-11-07", "Penn State", "TBD", "TBD", 110, " Homecoming / Purple Reign. Kickoff TBA."),
+    ("2026-11-07", "Penn State", "12:30 PM", "FS1", 110, " Homecoming / Purple Reign."),
     ("2026-11-21", "Indiana", "TBD", "TBD", 130, " Salute to Service / Senior Day. Kickoff TBA."),
 ]:
     games.append(

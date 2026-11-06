@@ -1713,6 +1713,26 @@
       "specialTags": []
     },
     {
+      "id": "huskies-ncaa-football-20261107",
+      "date": "2026-11-07",
+      "day": "Sat",
+      "team": "Washington Huskies",
+      "sport": "NCAA Football",
+      "opponent": "Penn State",
+      "venue": "Husky Stadium",
+      "timePt": "12:30 PM",
+      "tv": "FS1",
+      "estPriceEachUsd": 110,
+      "estPricePairUsd": 220,
+      "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Homecoming / Purple Reign.",
+      "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
+      "season": "2026 FBS regular season (all published homes)",
+      "gender": "men",
+      "specialTags": [
+        "Homecoming"
+      ]
+    },
+    {
       "id": "kraken-nhl-20261107",
       "date": "2026-11-07",
       "day": "Sat",
@@ -1766,26 +1786,6 @@
       "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Homecoming.",
       "source": "GoSeattleU.com 2026-27 MBB non-conference schedule (Aug 27, 2026). WCC dates not yet published \u2014 omitted.",
       "season": "2026-27 NCAA men's basketball (published non-conference homes + Holiday Classic)",
-      "gender": "men",
-      "specialTags": [
-        "Homecoming"
-      ]
-    },
-    {
-      "id": "huskies-ncaa-football-20261107",
-      "date": "2026-11-07",
-      "day": "Sat",
-      "team": "Washington Huskies",
-      "sport": "NCAA Football",
-      "opponent": "Penn State",
-      "venue": "Husky Stadium",
-      "timePt": "TBD",
-      "tv": "TBD",
-      "estPriceEachUsd": 110,
-      "estPricePairUsd": 220,
-      "priceNotes": "Estimated mid-tier pair (two seats). Not a live quote \u2014 secondary and official prices move daily. Campus reserved seating, not student or premium club. Homecoming / Purple Reign. Kickoff TBA.",
-      "source": "GoHuskies.com 2026 football schedule / kickoff announcements",
-      "season": "2026 FBS regular season (all published homes)",
       "gender": "men",
       "specialTags": [
         "Homecoming"
